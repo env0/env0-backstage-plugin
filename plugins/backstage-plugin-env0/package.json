@@ -11,7 +11,11 @@
     "types": "dist/index.d.ts"
   },
   "backstage": {
-    "role": "frontend-plugin"
+    "role": "frontend-plugin",
+    "pluginId": "env0",
+    "pluginPackages": [
+      "@env0/backstage-plugin-env0"
+    ]
   },
   "sideEffects": false,
   "scripts": {

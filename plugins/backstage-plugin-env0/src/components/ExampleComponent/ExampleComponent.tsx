@@ -13,7 +13,7 @@ import { ExampleFetchComponent } from '../ExampleFetchComponent';
 
 export const ExampleComponent = () => (
   <Page themeId="tool">
-    <Header title="Welcome to backstage-plugin-env0!" subtitle="Optional subtitle">
+    <Header title="Welcome to env0!" subtitle="Optional subtitle">
       <HeaderLabel label="Owner" value="Team X" />
       <HeaderLabel label="Lifecycle" value="Alpha" />
     </Header>

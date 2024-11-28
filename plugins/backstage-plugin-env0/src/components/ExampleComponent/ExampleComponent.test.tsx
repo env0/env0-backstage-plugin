@@ -23,7 +23,7 @@ describe('ExampleComponent', () => {
   it('should render', async () => {
     await renderInTestApp(<ExampleComponent />);
     expect(
-      screen.getByText('Welcome to backstage-plugin-env0!'),
+      screen.getByText('Welcome to env0!'),
     ).toBeInTheDocument();
   });
 });
