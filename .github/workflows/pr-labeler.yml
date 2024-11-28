@@ -1,0 +1,21 @@
+name: PR Labeler
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-labeler:
+    runs-on: ${{ vars.SMALL_RUNNER_LABEL }}
+    timeout-minutes: 2
+    steps:
+      - name: Labeler
+        uses: actions/labeler@v5.0.0 # Reads from .github/labeler.yml
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          sync-labels: true
+      - name: Work in progress
+        # Only for PR open action, and only if label "pending final review" is not present
+        if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'pending final review')
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: work in progress

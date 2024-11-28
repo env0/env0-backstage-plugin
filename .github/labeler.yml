@@ -1,0 +1,19 @@
+# Branch-based labels
+feature:
+  - head-branch: ['^feat']
+fix:
+  - head-branch: ['^fix']
+chore:
+  - head-branch: ['^chore']
+release:
+  - head-branch: ['^release']
+# Folder-based labels
+backstage-plugin-env0:
+  - changed-files:
+      - any-glob-to-any-file: ["backstage-plugin-env0/**/*"]
+backstage-scaffolder-backend-env0:
+  - changed-files:
+      - any-glob-to-any-file: ["backstage-scaffolder-backend-env0/**/*"]
+github-actions:
+  - changed-files:
+      - any-glob-to-any-file: [".github/**/*"]
