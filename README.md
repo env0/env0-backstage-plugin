@@ -1,14 +1,10 @@
-# env0-backstage-plugin
-This repository contains plugins and modules for Backstage to support [env0](https://www.env0.com/).
+# [Backstage](https://backstage.io)
 
+This is your newly scaffolded Backstage App, Good Luck!
 
+To start the app, run:
 
-Note
-This is a work in progress and happy to receive feedback and contributions.
-
-
-## env0 Plugin
-...
-
-## env0 Scaffolder Backend Module
-...
+```sh
+yarn install
+yarn dev
+```
