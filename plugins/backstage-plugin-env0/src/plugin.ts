@@ -6,7 +6,7 @@ import {
 import { rootRouteRef } from './routes';
 
 export const backstagePluginEnv0Plugin = createPlugin({
-  id: 'backstage-plugin-env0',
+  id: 'env0',
   routes: {
     root: rootRouteRef,
   },
