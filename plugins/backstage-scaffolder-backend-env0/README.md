@@ -4,11 +4,11 @@ This plugin backend was templated using the Backstage CLI. You should replace th
 
 ## Installation
 
-This plugin is installed via the `backstage-plugin-backstage-scaffolder-backend-env0-backend` package. To install it to your backend package, run the following command:
+This plugin is installed via the `backstage-scaffolder-backend-env0` package. To install it to your backend package, run the following command:
 
 ```bash
 # From your root directory
-yarn --cwd packages/backend add backstage-plugin-backstage-scaffolder-backend-env0-backend
+yarn --cwd packages/backend add backstage-scaffolder-backend-env0
 ```
 
 Then add the plugin to your backend in `packages/backend/src/index.ts`:
@@ -16,7 +16,7 @@ Then add the plugin to your backend in `packages/backend/src/index.ts`:
 ```ts
 const backend = createBackend();
 // ...
-backend.add(import('backstage-plugin-backstage-scaffolder-backend-env0-backend'));
+backend.add(import('backstage-scaffolder-backend-env0'));
 ```
 
 ## Development
