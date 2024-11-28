@@ -96,7 +96,7 @@ const routes = (
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
-    <Route path="/backstage-plugin-env0" element={<BackstagePluginEnv0Page />} />
+    <Route path="/env0" element={<BackstagePluginEnv0Page />} />
   </FlatRoutes>
 );
 
