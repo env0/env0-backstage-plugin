@@ -7,6 +7,6 @@ createDevApp()
   .addPage({
     element: <BackstagePluginEnv0Page />,
     title: 'Root Page',
-    path: '/backstage-plugin-env0',
+    path: '/env0',
   })
   .render();

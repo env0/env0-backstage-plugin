@@ -16,7 +16,7 @@ Then add the plugin to your backend in `packages/backend/src/index.ts`:
 ```ts
 const backend = createBackend();
 // ...
-backend.add(import('backstage-scaffolder-backend-env0'));
+backend.add(import('@env0/backstage-scaffolder-backend-env0'));
 ```
 
 ## Development
