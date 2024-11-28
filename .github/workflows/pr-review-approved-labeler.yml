@@ -1,0 +1,20 @@
+name: PR Review Approved Labeler
+on:
+  pull_request_review:
+    types: [submitted]
+jobs:
+  WhenApproved:
+    name: When Approved
+    if: github.event.review.state == 'approved'
+    timeout-minutes: 5
+    steps:
+      - name: Add labels
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: ready to merge
+      - name: Remove labels
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: |
+            pending final review
+            work in progress
