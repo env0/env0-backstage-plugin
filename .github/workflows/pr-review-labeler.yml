@@ -1,0 +1,19 @@
+name: PR Review Request Labeler
+on:
+  pull_request:
+    types: [review_requested]
+jobs:
+  label:
+    name: Update Labels
+    timeout-minutes: 5
+    steps:
+      - name: Add labels
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: pending final review
+      - name: Remove labels
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: |
+            work in progress
+            reviewed - await author
