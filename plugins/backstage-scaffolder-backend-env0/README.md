@@ -8,7 +8,7 @@ This plugin is installed via the `backstage-scaffolder-backend-env0` package. To
 
 ```bash
 # From your root directory
-yarn --cwd packages/backend add backstage-scaffolder-backend-env0
+yarn --cwd packages/backend add @env0/backstage-scaffolder-backend-env0
 ```
 
 Then add the plugin to your backend in `packages/backend/src/index.ts`:
