@@ -6,6 +6,7 @@ on:
 jobs:
   pr-labeler:
     timeout-minutes: 2
+    runs-on: ubuntu-latest
     steps:
       - name: Labeler
         uses: actions/labeler@v5.0.0 # Reads from .github/labeler.yml

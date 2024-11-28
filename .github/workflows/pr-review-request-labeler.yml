@@ -6,6 +6,7 @@ jobs:
   label:
     name: Update Labels
     timeout-minutes: 5
+    runs-on: ubuntu-latest
     steps:
       - name: Add labels
         uses: actions-ecosystem/action-add-labels@v1

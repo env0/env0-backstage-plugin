@@ -7,6 +7,7 @@ jobs:
     name: When Approved
     if: github.event.review.state == 'approved'
     timeout-minutes: 5
+    runs-on: ubuntu-latest
     steps:
       - name: Add labels
         uses: actions-ecosystem/action-add-labels@v1
