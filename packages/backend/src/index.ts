@@ -51,4 +51,5 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
 
+backend.add(import('backstage-plugin-backstage-scaffolder-backend-env0-backend'));
 backend.start();
