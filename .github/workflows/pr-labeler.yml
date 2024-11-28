@@ -5,7 +5,6 @@ on:
 
 jobs:
   pr-labeler:
-    runs-on: ${{ vars.SMALL_RUNNER_LABEL }}
     timeout-minutes: 2
     steps:
       - name: Labeler
