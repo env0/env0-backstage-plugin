@@ -13,9 +13,3 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           sync-labels: true
-      - name: Work in progress
-        # Only for PR open action, and only if label "pending final review" is not present
-        if: github.event.action == 'opened' && !contains(github.event.pull_request.labels.*.name, 'pending final review')
-        uses: actions-ecosystem/action-add-labels@v1
-        with:
-          labels: work in progress
