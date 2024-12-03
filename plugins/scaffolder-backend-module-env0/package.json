@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@backstage/backend-plugin-api": "^1.0.2",
-    "@backstage/plugin-scaffolder-node": "^0.6.1"
+    "@backstage/plugin-scaffolder-node": "0.6.1"
   },
   "devDependencies": {
     "@backstage/cli": "^0.29.0",
