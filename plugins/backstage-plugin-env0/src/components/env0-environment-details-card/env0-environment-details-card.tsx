@@ -11,6 +11,9 @@ import {
 } from '@backstage/core-components';
 import {env0ApiRef} from "../../api";
 import {CardHeader} from "@material-ui/core";
+import {useEntity} from '@backstage/plugin-catalog-react';
+
+import {ENV0_ENVIRONMENT_ANNOTATION} from "../common/is-plugin-available";
 
 type CardProps = {
     children: React.ReactNode;
@@ -28,6 +31,8 @@ const Env0Card = ({children, ...rest}: CardProps) => (
 
 export const Env0EnvironmentDetailsCard = () => {
     const api = useApi<Env0Api>(env0ApiRef);
+    const {entity} = useEntity();
+    const environmentId = entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
 
     const {
         value: environment,
@@ -36,7 +41,7 @@ export const Env0EnvironmentDetailsCard = () => {
 
     } = useAsync(async () => {
 
-        const environment = await api.getEnvironmentByID('ce265dd1-874f-44fb-99bd-4206460ba4ca');
+        const environment = await api.getEnvironmentByID(environmentId ?? '');
         return {
             environment
         };
