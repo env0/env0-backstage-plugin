@@ -44,13 +44,13 @@ integrations:
     #   token: ${GHE_TOKEN}
 
 proxy:
-  ### Example for how to add a proxy endpoint for the frontend.
-  ### A typical reason to do this is to handle HTTPS and CORS for internal services.
-  # endpoints:
-  #   '/test':
-  #     target: 'https://example.com'
-  #     changeOrigin: true
-
+  '/env0':
+    target: 'https://api.env0.com/'
+    changeOrigin: true
+    headers:
+      Authorization: bearer ${ENV0_ACCESS_TOKEN}
+      Accept: application/json
+      Content-Type: application/json
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
 # and an external cloud storage when deploying TechDocs for production use-case.
