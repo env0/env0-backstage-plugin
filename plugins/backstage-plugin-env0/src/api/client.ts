@@ -23,15 +23,15 @@ export class Env0Client implements Env0Api {
     constructor(private readonly config: Env0ClientApiConfig) {
     }
 
-    // https://docs.env0.com/reference/environments-find-all
-    async listEnvironments(projectId:string): Promise<Environment[]> {
+    // https://docs.env0.com/reference/environments-find-by-id
+    async getEnvironmentByID(environmentId:string): Promise<Environment> {
         const url = `${await this.config.discoveryApi.getBaseUrl(
             'proxy',
-        )}/env0/environments?projectId=${projectId}&isActive=true`;
-        const project = await this.request(url, {
+        )}/env0/environments/${environmentId}`;
+        const environment = await this.request(url, {
             method: 'GET',
         })
-        return project.json();
+        return environment.json();
     }
 
     private async request(

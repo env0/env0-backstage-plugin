@@ -10,24 +10,7 @@ import {
     SupportButton,
 } from '@backstage/core-components';
 import {ExampleFetchComponent} from '../ExampleFetchComponent';
-import {useApi} from "@backstage/core-plugin-api";
-import {env0ApiRef} from "../../api";
-import useAsync from "react-use/lib/useAsync";
-import {Env0Api} from "../../api/types";
-
 export const ExampleComponent = () => {
-    const api = useApi<Env0Api>(env0ApiRef);
-
-    const {
-        value: environments,
-    } = useAsync(async () => {
-
-        const environments = await api.listEnvironments('1a433171-217e-4f58-9b4e-308d4d77902f');
-        return {
-            environments
-        };
-    });
-    console.log(environments);
     return (
         <Page themeId="tool">
             <Header title="Welcome to env0!" subtitle="Optional subtitle">
