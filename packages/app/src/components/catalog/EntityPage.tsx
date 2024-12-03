@@ -59,7 +59,7 @@ import {
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
 
-import { Env0TabComponent } from '@env0/backstage-plugin-env0';
+import { Env0TabComponent, isEnv0Available } from '@env0/backstage-plugin-env0';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -193,7 +193,11 @@ const serviceEntityPage = (
       {techdocsContent}
     </EntityLayout.Route>
 
-    <EntityLayout.Route if={() => true} path="/env0" title="env0">
+    <EntityLayout.Route
+      if={entity => isEnv0Available(entity)}
+      path="/env0"
+      title="env0"
+    >
       {env0Content}
     </EntityLayout.Route>
   </EntityLayout>
