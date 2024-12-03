@@ -1,5 +1,5 @@
 import {createApiRef, ConfigApi} from '@backstage/core-plugin-api';
-import {NotFoundError, NotAllowedError} from '@backstage/errors';
+import {NotFoundError, NotAllowedError, ServiceUnavailableError} from '@backstage/errors';
 import {Env0Api, Env0ClientApiConfig, Env0ClientApiDependencies, Environment} from "./types";
 
 
@@ -41,18 +41,18 @@ export class Env0Client implements Env0Api {
         const response = await this.config.fetchApi.fetch(url, options);
 
         if (response.status === 401) {
-            throw new NotAllowedError();
+            throw new NotAllowedError(await response.text());
         }
 
-        if (response.status === 404) {
-            throw new NotFoundError();
+        else if (response.status === 404) {
+            throw new NotFoundError(await response.text());
+        }
+        else if (response.status === 504) {
+            throw new ServiceUnavailableError(await response.text());
         }
 
         if (!response.ok) {
-            const payload = await response.json();
-            const errors = payload.errors.map((error: string) => error).join(' ');
-            const message = `Request failed with ${response.status}, ${errors}`;
-            throw new Error(message);
+            throw new Error(await response.text());
         }
         return response;
     }
