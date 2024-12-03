@@ -35,7 +35,7 @@ export type Environment = {
     driftStatus: 'ERROR' | 'DRIFTED' | 'OK' | 'NEVER_RUN' | 'DISABLED';
     latestDeploymentLog: DeploymentLog;
     workspaceName: string;
-    resources: Resource[];
+    resources?: Resource[];
     user: User;
 }
 

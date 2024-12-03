@@ -20,7 +20,7 @@ export const Env0EnvironmentDetailsCard = () => {
 
     } = useAsync(async () => {
 
-        const environment = await api.getEnvironmentByID('1a433171-217e-4f58-9b4e-308d4d77902f');
+        const environment = await api.getEnvironmentByID('ce265dd1-874f-44fb-99bd-4206460ba4ca');
         return {
             environment
         };
@@ -45,7 +45,7 @@ export const Env0EnvironmentDetailsCard = () => {
                 vcsRepo: environment?.environment.latestDeploymentLog.blueprintRepository,
                 revision: environment?.environment.latestDeploymentLog.blueprintRevision,
                 workspaceName: environment?.environment.workspaceName,
-                resources: environment?.environment.resources.length,
+                resources: environment?.environment.resources?.length,
                 createdBy: environment?.environment.user.name,
             }
             }/>
