@@ -48,7 +48,7 @@ export const getInitialGitProvider = ({
     if (isBitbucketServer) return 'BitBucketServer';
     if (isGitLabEnterprise) return 'GitLabEnterprise';
     if (isGitHubEnterprise) return 'GitHubEnterprise';
-        return 'Other';
+    return 'Other';
 };
 
 export const getShortenRepo = (repoUrl: string, template: Template) => {
