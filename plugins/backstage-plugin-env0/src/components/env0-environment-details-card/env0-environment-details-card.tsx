@@ -49,7 +49,7 @@ export const Env0EnvironmentDetailsCard = () => {
     if (error) {
         return <Env0Card><ErrorContainer error={error}/></Env0Card>;
     }
-    if (loading) {
+    if (loading || !environment) {
         return (
             <Env0Card><Progress/></Env0Card>
 
@@ -61,14 +61,14 @@ export const Env0EnvironmentDetailsCard = () => {
             <StructuredMetadataTable
                 dense
                 metadata={{
-                    name: environment?.environment.name,
-                    status: environment?.environment.status,
-                    driftStatus: environment?.environment.driftStatus,
-                    vcsRepo: environment?.environment.latestDeploymentLog.blueprintRepository,
-                    revision: environment?.environment.latestDeploymentLog.blueprintRevision,
-                    workspaceName: environment?.environment.workspaceName,
-                    resources: environment?.environment.resources?.length,
-                    createdBy: environment?.environment.user.name,
+                    name: environment.environment.name,
+                    status: environment.environment.status,
+                    driftStatus: environment.environment.driftStatus,
+                    vcsRepo: environment.environment.latestDeploymentLog.blueprintRepository,
+                    revision: environment.environment.latestDeploymentLog.blueprintRevision,
+                    workspaceName: environment.environment.workspaceName,
+                    resources: environment.environment.resources?.length,
+                    createdBy: environment.environment.user.name,
                 }
                 }/>
         </Env0Card>
