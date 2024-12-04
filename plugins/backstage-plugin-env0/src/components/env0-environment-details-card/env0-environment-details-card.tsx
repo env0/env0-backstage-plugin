@@ -59,7 +59,7 @@ export const Env0EnvironmentDetailsCard = () => {
     if (error) {
         return <Env0Card><ErrorContainer error={error}/></Env0Card>;
     }
-    if (loading || !environment) {
+    if (loading || !environment || !template) {
         return (
             <Env0Card><Progress/></Env0Card>
 
@@ -75,7 +75,7 @@ export const Env0EnvironmentDetailsCard = () => {
                     status: environment.status,
                     driftStatus: environment.driftStatus,
                     vcsRepo: <Link
-                        to={environment.latestDeploymentLog.blueprintRepository}>{environment.latestDeploymentLog.blueprintRepository}</Link>,
+                        to={environment.latestDeploymentLog.blueprintRepository}>{getShortenRepo(environment.latestDeploymentLog.blueprintRepository, template)}</Link>,
                     revision: environment.latestDeploymentLog.blueprintRevision,
                     workspaceName: environment.workspaceName,
                     resources: environment.resources?.length,
