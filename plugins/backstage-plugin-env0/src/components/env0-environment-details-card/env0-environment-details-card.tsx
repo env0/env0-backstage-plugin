@@ -15,6 +15,7 @@ import {CardHeader} from "@material-ui/core";
 import {useEntity} from '@backstage/plugin-catalog-react';
 import isEmpty from 'lodash/isEmpty'
 import {ENV0_ENVIRONMENT_ANNOTATION} from "../common/is-plugin-available";
+import {Env0Icon} from "../env0-icon";
 
 type CardProps = {
     children: React.ReactNode;
@@ -22,6 +23,9 @@ type CardProps = {
 const Env0Card = ({children, ...rest}: CardProps) => (
     <InfoCard {...rest}>
         <CardHeader title="env0"
+                    avatar={
+                        <Env0Icon style={{fontSize: 40}}/>
+                    }
                     titleTypographyProps={
                         {variant: 'h5'}
                     }

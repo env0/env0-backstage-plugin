@@ -1,0 +1,1 @@
+export {Env0EnvironmentDetailsCard} from "./env0-environment-details-card";
