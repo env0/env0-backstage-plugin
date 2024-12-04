@@ -1,6 +1,6 @@
 import { createBackendModule } from "@backstage/backend-plugin-api";
 import { scaffolderActionsExtensionPoint  } from '@backstage/plugin-scaffolder-node/alpha';
-import { createExampleAction } from "./actions/deployAction";
+import { createExampleAction } from "./actions/deploy";
 
 export const scaffolderModule = createBackendModule({
   moduleId: 'example-action',

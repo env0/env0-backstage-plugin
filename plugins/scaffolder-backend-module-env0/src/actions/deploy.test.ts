@@ -1,4 +1,4 @@
-import { createExampleAction } from './deployAction';
+import { createExampleAction } from './deploy';
 import {createMockActionContext} from '@backstage/plugin-scaffolder-node-test-utils'
 
 describe('createExampleAction', () => {
