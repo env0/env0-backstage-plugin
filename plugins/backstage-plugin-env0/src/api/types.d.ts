@@ -29,10 +29,28 @@ export type DeploymentLog = {
 
 }
 
+type EnvironmentStatus =
+    'CREATED'
+    | 'INACTIVE'
+    | 'ACTIVE'
+    | 'FAILED'
+    | 'TIMEOUT'
+    | 'WAITING_FOR_USER'
+    | 'DEPLOY_IN_PROGRESS'
+    | 'DESTROY_IN_PROGRESS'
+    | 'PR_PLAN_IN_PROGRESS'
+    | 'REMOTE_PLAN_IN_PROGRESS'
+    | 'DRIFT_DETECTION_IN_PROGRESS'
+    | 'TASK_IN_PROGRESS'
+    | 'ABORTING'
+    | 'ABORTED'
+    | 'NEVER_DEPLOYED'
+    | 'DRIFTED';
+type EnvironmentDriftStatus = 'ERROR' | 'DRIFTED' | 'OK' | 'NEVER_RUN' | 'DISABLED';
 export type Environment = {
     name: string;
-    status: 'CREATED' | 'INACTIVE' | 'ACTIVE' | 'FAILED' | 'TIMEOUT' | 'WAITING_FOR_USER' | 'DEPLOY_IN_PROGRESS' | 'DESTROY_IN_PROGRESS' | 'PR_PLAN_IN_PROGRESS' | 'REMOTE_PLAN_IN_PROGRESS' | 'DRIFT_DETECTION_IN_PROGRESS' | 'TASK_IN_PROGRESS' | 'ABORTING' | 'ABORTED' | 'NEVER_DEPLOYED' | 'DRIFTED';
-    driftStatus: 'ERROR' | 'DRIFTED' | 'OK' | 'NEVER_RUN' | 'DISABLED';
+    status: EnvironmentStatus;
+    driftStatus: EnvironmentDriftStatus;
     latestDeploymentLog: DeploymentLog;
     workspaceName: string;
     resources?: Resource[];
