@@ -8,6 +8,7 @@ import {
     InfoCard,
     Progress,
     StructuredMetadataTable,
+    Link
 } from '@backstage/core-components';
 import {env0ApiRef} from "../../api";
 import {CardHeader} from "@material-ui/core";
@@ -67,7 +68,8 @@ export const Env0EnvironmentDetailsCard = () => {
                     name: environment.name,
                     status: environment.status,
                     driftStatus: environment.driftStatus,
-                    vcsRepo: environment.latestDeploymentLog.blueprintRepository,
+                    vcsRepo: <Link
+                        to={environment.latestDeploymentLog.blueprintRepository}>{environment.latestDeploymentLog.blueprintRepository}</Link>,
                     revision: environment.latestDeploymentLog.blueprintRevision,
                     workspaceName: environment.workspaceName,
                     resources: environment.resources?.length,
