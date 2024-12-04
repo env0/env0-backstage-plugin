@@ -12,7 +12,7 @@ import {
 import {env0ApiRef} from "../../api";
 import {CardHeader} from "@material-ui/core";
 import {useEntity} from '@backstage/plugin-catalog-react';
-
+import isEmpty from 'lodash/isEmpty'
 import {ENV0_ENVIRONMENT_ANNOTATION} from "../common/is-plugin-available";
 
 type CardProps = {
@@ -40,8 +40,10 @@ export const Env0EnvironmentDetailsCard = () => {
         error
 
     } = useAsync(async () => {
-
-        const environment = await api.getEnvironmentByID(environmentId ?? '');
+        if (isEmpty(environmentId)) {
+            throw new Error("Entity's Environment ID is empty");
+        }
+        const environment = await api.getEnvironmentByID(environmentId!);
         return {
             environment
         };
