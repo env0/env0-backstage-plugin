@@ -17,7 +17,7 @@ const getRepositoryUrl = (repository: string) => {
     return url.endsWith(suffix) ? url.substring(0, url.length - suffix.length) : url;
 };
 
-export const getInitialGitProvider = ({
+export const getGitProvider = ({
                                           repository,
                                           githubInstallationId,
                                           isGitLab,
@@ -53,7 +53,7 @@ export const getInitialGitProvider = ({
 
 export const getShortenRepo = (repoUrl: string, template: Template) => {
     const fixedRepoUrl = getRepositoryUrl(repoUrl);
-    const providerName = getInitialGitProvider(template)
+    const providerName = getGitProvider(template)
     if (providerName === 'HelmRepository') {
         return fixedRepoUrl.split('/').slice(-2)[0];
     } else {

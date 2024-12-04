@@ -12,10 +12,10 @@ import {
 } from '@backstage/core-components';
 import { env0ApiRef } from '../../api';
 import { CardHeader } from '@material-ui/core';
-import { useEntity } from '@backstage/plugin-catalog-react';
 import isEmpty from 'lodash/isEmpty';
+import { useEntity } from '@backstage/plugin-catalog-react';
 import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
-import { getShortenRepo } from './get-shorten-repo';
+import {getGitProvider, getShortenRepo} from './get-shorten-repo';
 import { Env0Icon } from '../env0-icon';
 import { VcsIcon } from './vcs-icon';
 
@@ -36,8 +36,8 @@ const Env0Card = ({ children, ...rest }: CardProps) => (
 
 export const Env0EnvironmentDetailsCard = () => {
   const api = useApi<Env0Api>(env0ApiRef);
-  // const {entity} = useEntity();
-  const environmentId = 'ce265dd1-874f-44fb-99bd-4206460ba4ca'; // entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
+  const {entity} = useEntity();
+  const environmentId = entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
 
   const { value, loading, error } = useAsync(async () => {
     if (isEmpty(environmentId)) {
@@ -71,7 +71,7 @@ export const Env0EnvironmentDetailsCard = () => {
   }
   const vcsRepo = (
     <>
-      <VcsIcon providerName={'AzureDevOps'} />
+      <VcsIcon providerName={getGitProvider(template)} />
       <Link to={environment.latestDeploymentLog.blueprintRepository}>
         {getShortenRepo(
           environment.latestDeploymentLog.blueprintRepository,
