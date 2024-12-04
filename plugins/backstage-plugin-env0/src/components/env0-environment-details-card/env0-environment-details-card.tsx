@@ -12,10 +12,10 @@ import {
 } from '@backstage/core-components';
 import {env0ApiRef} from "../../api";
 import {CardHeader} from "@material-ui/core";
+import {useEntity} from '@backstage/plugin-catalog-react';
+import isEmpty from 'lodash/isEmpty'
+import {ENV0_ENVIRONMENT_ANNOTATION} from "../common/is-plugin-available";
 import {getShortenRepo} from "./get-shorten-repo";
-// import {useEntity} from '@backstage/plugin-catalog-react';
-//
-// import {ENV0_ENVIRONMENT_ANNOTATION} from "../common/is-plugin-available";
 
 type CardProps = {
     children: React.ReactNode;
@@ -34,8 +34,8 @@ const Env0Card = ({children, ...rest}: CardProps) => (
 
 export const Env0EnvironmentDetailsCard = () => {
     const api = useApi<Env0Api>(env0ApiRef);
-    // const {entity} = useEntity();
-    // const environmentId = entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
+    const {entity} = useEntity();
+    const environmentId = entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
 
     const {
         value,
@@ -43,14 +43,19 @@ export const Env0EnvironmentDetailsCard = () => {
         error
 
     } = useAsync(async () => {
-        const environment = await api.getEnvironmentByID('ce265dd1-874f-44fb-99bd-4206460ba4ca');
+        if (isEmpty(environmentId)) {
+            throw new Error("Entity's Environment ID is empty");
+        }
+        const environment = await api.getEnvironmentByID(environmentId!); // 'ce265dd1-874f-44fb-99bd-4206460ba4ca'
         const template = await api.getTemplateById(environment.latestDeploymentLog.blueprintId);
+
         return {
             environment,
             template
         };
     });
-    const {environment, template} = value || {environment: undefined, template: undefined};
+    const {environment, template} = value ?? {};
+
     if (error) {
         return <Env0Card><ErrorContainer error={error}/></Env0Card>;
     }
@@ -70,7 +75,7 @@ export const Env0EnvironmentDetailsCard = () => {
                     status: environment.status,
                     driftStatus: environment.driftStatus,
                     vcsRepo: <Link
-                        to={environment.latestDeploymentLog.blueprintRepository}>{getShortenRepo(environment.latestDeploymentLog.blueprintRepository, template)}</Link>,
+                        to={environment.latestDeploymentLog.blueprintRepository}>{environment.latestDeploymentLog.blueprintRepository}</Link>,
                     revision: environment.latestDeploymentLog.blueprintRevision,
                     workspaceName: environment.workspaceName,
                     resources: environment.resources?.length,

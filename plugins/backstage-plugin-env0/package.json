@@ -35,6 +35,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.61",
     "git-url-parse": "16.0.0",
+    "lodash": "4.17.21",
     "react-use": "^17.2.4"
   },
   "peerDependencies": {
@@ -49,6 +50,7 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.0.0",
     "@types/git-url-parse": "9.0.1",
+    "@types/lodash": "4.17.13",
     "msw": "^1.0.0",
     "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
   },
