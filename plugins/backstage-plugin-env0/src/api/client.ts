@@ -1,6 +1,6 @@
 import {createApiRef, ConfigApi} from '@backstage/core-plugin-api';
 import {NotFoundError, NotAllowedError, ServiceUnavailableError} from '@backstage/errors';
-import {Env0Api, Env0ClientApiConfig, Env0ClientApiDependencies, Environment} from "./types";
+import {Env0Api, Env0ClientApiConfig, Env0ClientApiDependencies, Environment, Template} from "./types";
 
 
 export const env0ApiRef = createApiRef<Env0Api>({
@@ -32,6 +32,17 @@ export class Env0Client implements Env0Api {
             method: 'GET',
         })
         return environment.json();
+    }
+
+    // https://docs.env0.com/reference/templates-get-blueprint-by-id
+    async getTemplateById(templateId:string): Promise<Template> {
+        const url = `${await this.config.discoveryApi.getBaseUrl(
+            'proxy',
+        )}/env0/blueprints/${templateId}`;
+        const template = await this.request(url, {
+            method: 'GET',
+        })
+        return template.json();
     }
 
     private async request(

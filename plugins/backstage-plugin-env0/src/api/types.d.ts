@@ -26,7 +26,22 @@ export type DeploymentLog = {
     id: string;
     blueprintRevision: string;
     blueprintRepository: string
+    blueprintId: string;
 
+}
+
+export type GitProviders = 'Other' | 'GitHub' | 'GitLab' | 'AzureDevOps' | 'HelmRepository' | 'BitBucket' | 'BitBucketServer' | 'GitLabEnterprise' | 'GitHubEnterprise';
+
+export type Template = {
+    repository: string
+    githubInstallationId?: number
+    isGitLab?: boolean
+    isAzureDevOps?: boolean
+    isHelmRepository?: boolean
+    bitbucketClientKey?: boolean
+    isBitbucketServer?: boolean
+    isGitLabEnterprise?: boolean
+    isGitHubEnterprise?: boolean
 }
 
 export type Environment = {
@@ -41,4 +56,5 @@ export type Environment = {
 
 export type Env0Api = {
     getEnvironmentByID(environmentId: string): Promise<Environment>;
+    getTemplateById(templateId: string): Promise<Template>;
 }

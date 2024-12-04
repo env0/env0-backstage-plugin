@@ -10,7 +10,10 @@ import {
     SupportButton,
 } from '@backstage/core-components';
 import {ExampleFetchComponent} from '../ExampleFetchComponent';
+import {Env0EnvironmentDetailsCard} from "../env0-environment-details-card/env0-environment-details-card";
+
 export const ExampleComponent = () => {
+    return <Env0EnvironmentDetailsCard/>
     return (
         <Page themeId="tool">
             <Header title="Welcome to env0!" subtitle="Optional subtitle">
