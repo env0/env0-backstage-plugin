@@ -16,5 +16,5 @@ export interface Environment {
 }
 
 export type Env0Api = {
-    listEnvironments(projectId: string): Promise<Environment[]>;
+    getEnvironmentByID(environmentId: string): Promise<Environment>;
 }
