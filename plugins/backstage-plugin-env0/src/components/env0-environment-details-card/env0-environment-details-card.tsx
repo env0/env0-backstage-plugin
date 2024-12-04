@@ -35,7 +35,7 @@ export const Env0EnvironmentDetailsCard = () => {
     const environmentId = entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
 
     const {
-        value: environment,
+        value,
         loading,
         error
 
@@ -46,6 +46,7 @@ export const Env0EnvironmentDetailsCard = () => {
             environment
         };
     });
+    const {environment} = value ?? {};
     if (error) {
         return <Env0Card><ErrorContainer error={error}/></Env0Card>;
     }
@@ -61,14 +62,14 @@ export const Env0EnvironmentDetailsCard = () => {
             <StructuredMetadataTable
                 dense
                 metadata={{
-                    name: environment.environment.name,
-                    status: environment.environment.status,
-                    driftStatus: environment.environment.driftStatus,
-                    vcsRepo: environment.environment.latestDeploymentLog.blueprintRepository,
-                    revision: environment.environment.latestDeploymentLog.blueprintRevision,
-                    workspaceName: environment.environment.workspaceName,
-                    resources: environment.environment.resources?.length,
-                    createdBy: environment.environment.user.name,
+                    name: environment.name,
+                    status: environment.status,
+                    driftStatus: environment.driftStatus,
+                    vcsRepo: environment.latestDeploymentLog.blueprintRepository,
+                    revision: environment.latestDeploymentLog.blueprintRevision,
+                    workspaceName: environment.workspaceName,
+                    resources: environment.resources?.length,
+                    createdBy: environment.user.name,
                 }
                 }/>
         </Env0Card>
