@@ -1,6 +1,8 @@
 import React from 'react';
 import { styled } from '@material-ui/core';
-import { EditOutlined, AddOutlined, RemoveOutlined } from '@material-ui/icons';
+import EditOutlined from '@material-ui/icons/EditOutlined';
+import AddOutlined from '@material-ui/icons/AddOutlined';
+import RemoveOutlined from '@material-ui/icons/RemoveOutlined';
 
 const addedColor = '#00bb00';
 const changedColor = '#bbbb00';
@@ -10,11 +12,19 @@ type PlanSummaryProps = {
   summary: { added: number; changed: number; destroyed: number };
 };
 
+const SummaryItemContainer = styled('span')(({ color }: { color: string }) => ({
+  display: 'inline-block',
+  color: color,
+  '&:not(:first-child)': {
+    marginLeft: '10px',
+  },
+}));
+
 export const PlanSummary: React.FunctionComponent<PlanSummaryProps> = ({
   summary: { added, changed, destroyed },
 }) => {
   return (
-    <span data-e2e="deployment-step-summary">
+    <span>
       <SummaryItemContainer color={addedColor}>
         <AddOutlined /> {added}
       </SummaryItemContainer>
@@ -27,11 +37,3 @@ export const PlanSummary: React.FunctionComponent<PlanSummaryProps> = ({
     </span>
   );
 };
-
-const SummaryItemContainer = styled('span')(({ color }: { color: string }) => ({
-  display: 'inline-block',
-  color: color,
-  '&:not(:first-child)': {
-    marginLeft: '10px',
-  },
-}));
