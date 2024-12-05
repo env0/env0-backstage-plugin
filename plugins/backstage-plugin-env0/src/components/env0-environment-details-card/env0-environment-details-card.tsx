@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useApi } from '@backstage/core-plugin-api';
-import { Env0Api } from '../../api/types';
 import useAsync from 'react-use/lib/useAsync';
 import { ErrorContainer } from '../common/error-container';
 import {
@@ -13,7 +12,7 @@ import {
 import isEmpty from 'lodash/isEmpty';
 import { getGitProvider, getShortenRepo } from './get-shorten-repo';
 import { VcsIcon } from './vcs-icon';
-import { env0ApiRef } from '../../api';
+import { Env0Api, env0ApiRef } from '../../api';
 import { CardHeader, styled } from '@material-ui/core';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
@@ -24,14 +23,14 @@ type CardProps = {
 };
 
 const VcsLinkContainer = styled('div')(() => ({
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center'
-}))
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+}));
 
 const StyledLink = styled(Link)(() => ({
-    paddingLeft: '5px'
-}))
+  paddingLeft: '5px',
+}));
 
 const Env0Card = ({ children, ...rest }: CardProps) => (
   <InfoCard {...rest}>

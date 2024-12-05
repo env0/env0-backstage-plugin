@@ -1,16 +1,25 @@
 import { createApiRef, ConfigApi } from '@backstage/core-plugin-api';
-import  {
+import {
   NotFoundError,
   NotAllowedError,
   ServiceUnavailableError,
 } from '@backstage/errors';
-import {
-  Env0Api,
-  Env0ClientApiConfig,
-  Env0ClientApiDependencies,
-  Environment,
-  Template,
-} from './types';
+import { Deployment, Template, Environment } from './types';
+
+import { DiscoveryApi, FetchApi } from '@backstage/core-plugin-api';
+
+export type Env0ClientApiDependencies = {
+  discoveryApi: DiscoveryApi;
+  fetchApi: FetchApi;
+};
+
+export type Env0ClientApiConfig = Env0ClientApiDependencies & {};
+
+export type Env0Api = {
+  getEnvironmentByID(environmentId: string): Promise<Environment>;
+  listDeployments(environmentId: string): Promise<Deployment[]>;
+  getTemplateById(templateId: string): Promise<Template>;
+};
 
 export const env0ApiRef = createApiRef<Env0Api>({
   id: 'plugin.env0.api',
@@ -51,6 +60,16 @@ export class Env0Client implements Env0Api {
       method: 'GET',
     });
     return template.json();
+  }
+  // https://docs.env0.com/reference/deployments-find-all
+  async listDeployments(environmentId: string): Promise<Deployment[]> {
+    const url = `${await this.config.discoveryApi.getBaseUrl(
+      'proxy',
+    )}/env0/environments/${environmentId}/deployments`;
+    const deployments = await this.request(url, {
+      method: 'GET',
+    });
+    return deployments.json();
   }
 
   private async request(url: string, options: RequestInit): Promise<Response> {
