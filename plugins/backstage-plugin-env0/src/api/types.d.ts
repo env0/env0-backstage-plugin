@@ -106,3 +106,9 @@ export interface Deployment {
   blueprintRepository: string;
   blueprintId: string;
 }
+
+export type Env0Api = {
+  getEnvironmentByID(environmentId: string): Promise<Environment>;
+  listDeployments(environmentId: string): Promise<Deployment[]>;
+  getTemplateById(templateId: string): Promise<Template>;
+};

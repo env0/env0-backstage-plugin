@@ -4,7 +4,7 @@ import {
   NotAllowedError,
   ServiceUnavailableError,
 } from '@backstage/errors';
-import { Deployment, Template, Environment } from './types';
+import { Deployment, Template, Environment, Env0Api } from './types';
 
 import { DiscoveryApi, FetchApi } from '@backstage/core-plugin-api';
 
@@ -14,12 +14,6 @@ export type Env0ClientApiDependencies = {
 };
 
 export type Env0ClientApiConfig = Env0ClientApiDependencies & {};
-
-export type Env0Api = {
-  getEnvironmentByID(environmentId: string): Promise<Environment>;
-  listDeployments(environmentId: string): Promise<Deployment[]>;
-  getTemplateById(templateId: string): Promise<Template>;
-};
 
 export const env0ApiRef = createApiRef<Env0Api>({
   id: 'plugin.env0.api',
