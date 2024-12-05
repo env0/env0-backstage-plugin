@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { useGetDeployments } from '../hooks/use-deployments-history';
 import { Table, TableColumn } from '@backstage/core-components';
 import { Deployment } from '../api/types';
@@ -63,8 +63,8 @@ export const Env0DeploymentTable: React.FunctionComponent<{
   environmentId: string;
 }> = ({ environmentId }) => {
   const {
-    data: deployments,
-    isLoading,
+    value: deployments,
+    loading: isLoading,
     error,
   } = useGetDeployments(environmentId);
 

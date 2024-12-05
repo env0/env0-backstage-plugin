@@ -1,12 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, env0ApiRef } from '../api';
+import useAsync from 'react-use/lib/useAsync';
 
 export const useGetDeployments = (environmentId: string) => {
   const apiClient = useApi<Env0Api>(env0ApiRef);
 
-  return useQuery({
-    queryKey: ['deployments', environmentId],
-    queryFn: () => apiClient.listDeployments(environmentId),
-  });
+  return useAsync(async () => {
+    return apiClient.listDeployments(environmentId);
+  }, [environmentId]);
 };
