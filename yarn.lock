@@ -5893,6 +5893,7 @@ __metadata:
     "@backstage/core-plugin-api": "npm:^1.10.1"
     "@backstage/dev-utils": "npm:^1.1.4"
     "@backstage/errors": "npm:^1.2.5"
+    "@backstage/plugin-catalog-react": "npm:^1.14.2"
     "@backstage/test-utils": "npm:^1.7.2"
     "@backstage/theme": "npm:^0.6.2"
     "@material-ui/core": "npm:^4.9.13"

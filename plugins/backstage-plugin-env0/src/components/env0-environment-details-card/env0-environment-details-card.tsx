@@ -23,6 +23,16 @@ type CardProps = {
   children: React.ReactNode;
 };
 
+const VcsLinkContainer = styled('div')(() => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+}))
+
+const StyledLink = styled(Link)(() => ({
+    paddingLeft: '5px'
+}))
+
 const Env0Card = ({ children, ...rest }: CardProps) => (
   <InfoCard {...rest}>
     <CardHeader
@@ -99,13 +109,3 @@ export const Env0EnvironmentDetailsCard = () => {
     </Env0Card>
   );
 };
-
-const VcsLinkContainer = styled('div')(() => ({
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center'
-}))
-
-const StyledLink = styled(Link)(() => ({
-    paddingLeft: '5px'
-}))
