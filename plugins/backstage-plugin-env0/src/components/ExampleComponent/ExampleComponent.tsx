@@ -10,6 +10,7 @@ import {
     SupportButton,
 } from '@backstage/core-components';
 import {ExampleFetchComponent} from '../ExampleFetchComponent';
+
 export const ExampleComponent = () => {
     return (
         <Page themeId="tool">
