@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useApi } from '@backstage/core-plugin-api';
-import useAsync from 'react-use/lib/useAsync';
+import useAsync from 'react-use/lib/useAsyncRetry';
 import { ErrorContainer } from '../common/error-container';
 import {
   InfoCard,
@@ -12,14 +12,16 @@ import {
 import isEmpty from 'lodash/isEmpty';
 import { getGitProvider, getShortenRepo } from './get-shorten-repo';
 import { VcsIcon } from './vcs-icon';
+import { CardHeader, styled, Button } from '@material-ui/core';
+import Cached from '@material-ui/icons/Cached';
 import { Env0Api, env0ApiRef } from '../../api';
-import { CardHeader, styled } from '@material-ui/core';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
 import { Env0Icon } from '../env0-icon';
 
 type CardProps = {
   children: React.ReactNode;
+  retryAction?: () => void;
 };
 
 const VcsLinkContainer = styled('div')(() => ({
@@ -32,12 +34,17 @@ const StyledLink = styled(Link)(() => ({
   paddingLeft: '5px',
 }));
 
-const Env0Card = ({ children, ...rest }: CardProps) => (
+const Env0Card = ({ children, retryAction, ...rest }: CardProps) => (
   <InfoCard {...rest}>
     <CardHeader
       title="env0"
       avatar={<Env0Icon style={{ fontSize: 40 }} />}
       titleTypographyProps={{ variant: 'h5' }}
+      action={
+        <Button onClick={retryAction}>
+          <Cached />
+        </Button>
+      }
     />
     {children}
   </InfoCard>
@@ -49,7 +56,7 @@ export const Env0EnvironmentDetailsCard = () => {
   const environmentId =
     entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
 
-  const { value, loading, error } = useAsync(async () => {
+  const { value, loading, error, retry } = useAsync(async () => {
     if (isEmpty(environmentId)) {
       throw new Error("Entity's Environment ID is empty");
     }
@@ -65,14 +72,14 @@ export const Env0EnvironmentDetailsCard = () => {
   const { environment, template } = value ?? {};
   if (error) {
     return (
-      <Env0Card>
+      <Env0Card retryAction={retry}>
         <ErrorContainer error={error} />
       </Env0Card>
     );
   }
   if (loading || !environment || !template) {
     return (
-      <Env0Card>
+      <Env0Card retryAction={retry}>
         <Progress />
       </Env0Card>
     );
@@ -91,7 +98,7 @@ export const Env0EnvironmentDetailsCard = () => {
   );
 
   return (
-    <Env0Card>
+    <Env0Card retryAction={() => retry()}>
       <StructuredMetadataTable
         dense
         metadata={{
