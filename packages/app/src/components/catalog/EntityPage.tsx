@@ -235,10 +235,6 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
-
-    <EntityLayout.Route if={() => true} path="/env0" title="env0">
-      {env0Content}
-    </EntityLayout.Route>
   </EntityLayout>
 );
 
