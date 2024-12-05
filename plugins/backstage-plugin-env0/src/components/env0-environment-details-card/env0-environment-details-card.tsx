@@ -14,7 +14,7 @@ import isEmpty from 'lodash/isEmpty';
 import { getGitProvider, getShortenRepo } from './get-shorten-repo';
 import { VcsIcon } from './vcs-icon';
 import { env0ApiRef } from '../../api';
-import { CardHeader } from '@material-ui/core';
+import { CardHeader, styled } from '@material-ui/core';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
 import { Env0Icon } from '../env0-icon';
@@ -70,15 +70,15 @@ export const Env0EnvironmentDetailsCard = () => {
   }
 
   const vcsRepo = (
-    <>
+    <VcsLinkContainer>
       <VcsIcon providerName={getGitProvider(template)} />
-      <Link to={environment.latestDeploymentLog.blueprintRepository}>
+      <StyledLink to={environment.latestDeploymentLog.blueprintRepository}>
         {getShortenRepo(
           environment.latestDeploymentLog.blueprintRepository,
           template,
         )}
-      </Link>
-    </>
+      </StyledLink>
+    </VcsLinkContainer>
   );
 
   return (
@@ -99,3 +99,13 @@ export const Env0EnvironmentDetailsCard = () => {
     </Env0Card>
   );
 };
+
+const VcsLinkContainer = styled('div')(() => ({
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
+}))
+
+const StyledLink = styled(Link)(() => ({
+    paddingLeft: '5px'
+}))
