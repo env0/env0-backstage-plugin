@@ -22,7 +22,7 @@ import { Env0Icon } from '../env0-icon';
 
 type CardProps = {
   children: React.ReactNode;
-  onAction?: () => void;
+  retryAction?: () => void;
 };
 
 const VcsLinkContainer = styled('div')(() => ({
@@ -35,14 +35,14 @@ const StyledLink = styled(Link)(() => ({
   paddingLeft: '5px',
 }));
 
-const Env0Card = ({ children, onAction, ...rest }: CardProps) => (
+const Env0Card = ({ children, retryAction, ...rest }: CardProps) => (
   <InfoCard {...rest}>
     <CardHeader
       title="env0"
       avatar={<Env0Icon style={{ fontSize: 40 }} />}
       titleTypographyProps={{ variant: 'h5' }}
       action={
-        <Button onClick={onAction}>
+        <Button onClick={retryAction}>
           <Cached />
         </Button>
       }
@@ -57,7 +57,7 @@ export const Env0EnvironmentDetailsCard = () => {
   const environmentId =
     entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
 
-  const { value, loading, error } = useAsync(async () => {
+  const { value, loading, error, retry } = useAsync(async () => {
     if (isEmpty(environmentId)) {
       throw new Error("Entity's Environment ID is empty");
     }
@@ -73,14 +73,14 @@ export const Env0EnvironmentDetailsCard = () => {
   const { environment, template } = value ?? {};
   if (error) {
     return (
-      <Env0Card>
+      <Env0Card retryAction={retry}>
         <ErrorContainer error={error} />
       </Env0Card>
     );
   }
   if (loading || !environment || !template) {
     return (
-      <Env0Card>
+      <Env0Card retryAction={retry}>
         <Progress />
       </Env0Card>
     );
@@ -99,7 +99,7 @@ export const Env0EnvironmentDetailsCard = () => {
   );
 
   return (
-    <Env0Card onAction={() => retry()}>
+    <Env0Card retryAction={() => retry()}>
       <StructuredMetadataTable
         dense
         metadata={{
