@@ -45,10 +45,10 @@ integrations:
 
 proxy:
   '/env0':
-    target: 'https://api-dev.dev.env0.com/'
+    target: 'https://api.env0.com/'
     changeOrigin: true
     headers:
-      Authorization: Bearer a3h3b3J6YWx5OXd4ZXJyMzpPNktxOGotNTJxbFN6Mnd0bVJCTzctMll5WG10ZXItdg==
+      Authorization: Bearer ${ENV0_ACCESS_TOKEN}
       Accept: application/json
       Content-Type: application/json
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
