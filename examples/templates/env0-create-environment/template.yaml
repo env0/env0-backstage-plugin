@@ -56,7 +56,7 @@ spec:
           type: string # we will need to implement a new type of component here
           description: TF / Environment Variables
   steps: # the pipeline deploy steps, using our custom actions
-    - id: deployEnv0Template # see custom deploy later in TD
+    - id: deployEnv0Environment
       name: Deploy via env0
       action: env0:environment:create
       input:
@@ -78,7 +78,7 @@ spec:
           environmentId: ${{ steps['deployEnv0Template'].output.environmentId }}
           # owner: ${{ parameters.owner }}
           # system: ${{ parameters.system }}
-    - id: registerEnv0Environment # see register process later in TD
+    - id: registerEnv0Environment
       name: Register Catalog
       action: catalog:register
       input:
