@@ -23,4 +23,4 @@ Now in the API Key creation form:
 2. Make sure the role is set to Organization Admin, and click Add Key
 3. And copy the API Access Token
 
-<!-- video here>i
+https://github.com/user-attachments/assets/fa6595c2-48b3-4968-a42d-619b6f8f0fc3
