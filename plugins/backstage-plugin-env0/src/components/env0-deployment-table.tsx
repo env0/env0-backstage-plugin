@@ -7,6 +7,7 @@ import { DeploymentType } from './deployment-type';
 import { formatDatetime, parseTimerElapsedTime } from './common/time.utils';
 import dayjs from './common/dayjs.types';
 import { DeploymentTableHeader } from './DeploymentTableHeader';
+import { ErrorContainer } from './common/error-container';
 
 const columnHeaderStyle = {
   color: '#3636D8',
@@ -69,7 +70,7 @@ export const Env0DeploymentTable: React.FunctionComponent<{
   } = useGetDeployments(environmentId);
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <ErrorContainer error={error} />;
   }
 
   return (
