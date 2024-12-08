@@ -38,7 +38,7 @@ spec:
           type: string
           description: Give your component a name
         deploy_comment:
-          title: First deployment comment
+          title: Deployment comment
           type: string
           description: comment to be shown on your deployment
         target_env0_project:
