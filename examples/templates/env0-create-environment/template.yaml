@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: env0-environment-from-template
-  title: Deploy env0 Environment
+  title: Deploy an env0 Environment
   description: |
     A template to deploy an env0 environment.
     This template will create an env0 environment as a backstage component.
