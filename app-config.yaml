@@ -45,7 +45,7 @@ integrations:
 
 proxy:
   '/env0':
-    target: 'https://${ENV0_API_ENDPOINT:api.env0.com}/'
+    target: 'https://${ENV0_API_ENDPOINT:-api.env0.com}/'
     changeOrigin: true
     headers:
       Authorization: Bearer ${ENV0_ACCESS_TOKEN}
