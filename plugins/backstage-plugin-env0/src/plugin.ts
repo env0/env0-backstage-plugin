@@ -6,6 +6,12 @@ import {
 
 import {rootRouteRef} from './routes';
 import {env0ApiRef, Env0Client} from "./api";
+import {
+    ValidateKebabCase,
+    validateKebabCaseValidation
+} from "./components/env0-step-template-selector/env0-step-template-selector";
+import {createScaffolderFieldExtension} from "@backstage/plugin-scaffolder-react";
+import {scaffolderPlugin} from "@backstage/plugin-scaffolder";
 
 export const backstagePluginEnv0Plugin = createPlugin({
     id: 'env0',
@@ -25,5 +31,13 @@ export const BackstagePluginEnv0Page = backstagePluginEnv0Plugin.provide(
         component: () =>
             import('./components/ExampleComponent').then(m => m.ExampleComponent),
         mountPoint: rootRouteRef,
+    }),
+);
+
+export const ValidateKebabCaseFieldExtension = scaffolderPlugin.provide(
+    createScaffolderFieldExtension({
+        name: 'ValidateKebabCase',
+        component: ValidateKebabCase,
+        validation: validateKebabCaseValidation,
     }),
 );

@@ -1,5 +1,5 @@
 import { createApiRef, ConfigApi } from '@backstage/core-plugin-api';
-import  {
+import {
   NotFoundError,
   NotAllowedError,
   ServiceUnavailableError,
@@ -51,6 +51,10 @@ export class Env0Client implements Env0Api {
       method: 'GET',
     });
     return template.json();
+  }
+
+  async getStepOptions(): Promise<string[]> {
+    return ['option1', 'option2', 'option3'];
   }
 
   private async request(url: string, options: RequestInit): Promise<Response> {

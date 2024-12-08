@@ -74,5 +74,6 @@ export type Environment = {
 
 export type Env0Api = {
     getEnvironmentByID(environmentId: string): Promise<Environment>;
+    getStepOptions(): Promise<string[]>;
     getTemplateById(templateId: string): Promise<Template>;
 }
