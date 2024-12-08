@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { useApi } from '@backstage/core-plugin-api';
-import { Env0Api } from '../../api/types';
 import useAsync from 'react-use/lib/useAsyncRetry';
 import { ErrorContainer } from '../common/error-container';
 import {
@@ -13,9 +12,9 @@ import {
 import isEmpty from 'lodash/isEmpty';
 import { getGitProvider, getShortenRepo } from './get-shorten-repo';
 import { VcsIcon } from './vcs-icon';
-import { env0ApiRef } from '../../api';
 import { CardHeader, styled, Button } from '@material-ui/core';
 import Cached from '@material-ui/icons/Cached';
+import { Env0Api, env0ApiRef } from '../../api';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
 import { Env0Icon } from '../env0-icon';
