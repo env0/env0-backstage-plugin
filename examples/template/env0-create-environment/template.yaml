@@ -16,7 +16,6 @@ metadata:
 spec:
   type: infrastructure
   parameters:
-    # covers bullets 1-2 from the PRD.
     - title: Basic Information Step
       required:
         - env0_template_id
