@@ -10,11 +10,8 @@ import {
   CatalogImportPage,
   catalogImportPlugin,
 } from '@backstage/plugin-catalog-import';
-import {
-    ScaffolderFieldExtensions,
-    ScaffolderPage,
-    scaffolderPlugin
-} from '@backstage/plugin-scaffolder';
+import { ScaffolderFieldExtensions } from '@backstage/plugin-scaffolder-react';
+import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { orgPlugin } from '@backstage/plugin-org';
 import { SearchPage } from '@backstage/plugin-search';
 import {
@@ -41,8 +38,8 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import {
-    BackstagePluginEnv0Page,
-    Env0StepTemplateSelectorExtension
+  BackstagePluginEnv0Page,
+  Env0StepTemplateSelectorExtension,
 } from '@env0/backstage-plugin-env0';
 
 const app = createApp({
@@ -88,10 +85,10 @@ const routes = (
         <ReportIssue />
       </TechDocsAddons>
     </Route>
-    <Route path="/create" element={<ScaffolderPage />} >
-        <ScaffolderFieldExtensions>
-            <Env0StepTemplateSelectorExtension />
-        </ScaffolderFieldExtensions>
+    <Route path="/create" element={<ScaffolderPage />}>
+      <ScaffolderFieldExtensions>
+        <Env0StepTemplateSelectorExtension />
+      </ScaffolderFieldExtensions>
     </Route>
     <Route path="/api-docs" element={<ApiExplorerPage />} />
     <Route
