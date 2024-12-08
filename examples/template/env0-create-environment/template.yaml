@@ -53,7 +53,7 @@ spec:
   steps: # the pipeline deploy steps, using our custom actions
     - id: deployEnv0Template # see custom deploy later in TD
       name: Deploy via env0
-      action: env0:deploy
+      action: env0:environment:create
       input:
         blueprintId: ${{ parameters.env0_template_id }}
         envName: ${{ parameters.env0_environment_name }}
