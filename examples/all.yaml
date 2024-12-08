@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: env0-demo
+  description: A collection of all Backstage entities for a demo env0
+spec:
+  targets:
+    - ./entities.yaml
+    - ./org.yaml
+    - ./templates/env0-create-environment/template.yaml
