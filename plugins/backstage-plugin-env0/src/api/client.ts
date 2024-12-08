@@ -56,18 +56,42 @@ export class Env0Client implements Env0Api {
     return template.json();
   }
   // https://docs.env0.com/reference/deployments-find-all
-  async listDeployments(environmentId: string): Promise<Deployment[]> {
+  async listDeployments(
+    environmentId: string,
+    paging = { limit: '50', offset: '0' },
+  ): Promise<Deployment[]> {
     const url = `${await this.config.discoveryApi.getBaseUrl(
       'proxy',
     )}/env0/environments/${environmentId}/deployments`;
-    const deployments = await this.request(url, {
-      method: 'GET',
-    });
+    const deployments = await this.request(
+      url,
+      {
+        method: 'GET',
+      },
+      paging,
+    );
     return deployments.json();
   }
 
-  private async request(url: string, options: RequestInit): Promise<Response> {
-    const response = await this.config.fetchApi.fetch(url, options);
+  private getUrlWithParams(
+    url: string,
+    queryParams?: Record<string, string>,
+  ): string {
+    if (!queryParams) {
+      return url;
+    }
+    return `${url}?${new URLSearchParams(queryParams).toString()}`;
+  }
+
+  private async request(
+    url: string,
+    options: RequestInit,
+    queryParams?: Record<string, string>,
+  ): Promise<Response> {
+    const response = await this.config.fetchApi.fetch(
+      this.getUrlWithParams(url, queryParams),
+      options,
+    );
 
     if (response.status === 401) {
       throw new NotAllowedError(await response.text());
