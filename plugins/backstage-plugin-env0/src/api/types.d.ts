@@ -32,7 +32,10 @@ export type DeploymentLog = {
 
 export type GitProviders = 'Other' | 'GitHub' | 'GitLab' | 'AzureDevOps' | 'HelmRepository' | 'BitBucket' | 'BitBucketServer' | 'GitLabEnterprise' | 'GitHubEnterprise';
 
+export type TemplateType = 'opentofu' | 'terraform' | 'terragrunt' | 'pulumi' | 'k8s' | 'cloudformation' | 'helm' | 'ansible' | 'workflow' | 'module' | 'approval-policy' | 'custom-flow' | 'environment-discovery';
 export type Template = {
+    name: string;
+    id: string;
     repository: string
     githubInstallationId?: number
     isGitLab?: boolean
@@ -42,6 +45,7 @@ export type Template = {
     isBitbucketServer?: boolean
     isGitLabEnterprise?: boolean
     isGitHubEnterprise?: boolean
+    type: TemplateType;
 }
 
 type EnvironmentStatus =
@@ -74,6 +78,6 @@ export type Environment = {
 
 export type Env0Api = {
     getEnvironmentByID(environmentId: string): Promise<Environment>;
-    getStepOptions(): Promise<string[]>;
+    getTemplatesByOrganizationId(organizationId): Promise<Template[]>;
     getTemplateById(templateId: string): Promise<Template>;
 }
