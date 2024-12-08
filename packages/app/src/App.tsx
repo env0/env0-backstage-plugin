@@ -42,7 +42,7 @@ import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import {
     BackstagePluginEnv0Page,
-    ValidateKebabCaseFieldExtension
+    Env0StepTemplateSelectorExtension
 } from '@env0/backstage-plugin-env0';
 
 const app = createApp({
@@ -90,7 +90,7 @@ const routes = (
     </Route>
     <Route path="/create" element={<ScaffolderPage />} >
         <ScaffolderFieldExtensions>
-            <ValidateKebabCaseFieldExtension />
+            <Env0StepTemplateSelectorExtension />
         </ScaffolderFieldExtensions>
     </Route>
     <Route path="/api-docs" element={<ApiExplorerPage />} />

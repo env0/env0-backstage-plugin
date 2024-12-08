@@ -25,7 +25,7 @@ spec:
           # TODO: on v2 ticket
           title: env0 Template
           type: string
-          ui:field: ValidateKebabCase
+          ui:field: Env0StepTemplateSelectorExtension
           description: IaC template to be deployed.
         env0_environment_name:
           title: Environment Name
