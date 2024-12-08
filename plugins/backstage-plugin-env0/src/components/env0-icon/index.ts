@@ -1,1 +1,0 @@
-export {Env0Icon} from "./env0-icon";
