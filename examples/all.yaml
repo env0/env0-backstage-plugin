@@ -5,6 +5,6 @@ metadata:
   description: A collection of all Backstage entities for a demo env0
 spec:
   targets:
-    - ./entities.yaml
+    #- ./entities.yaml
     - ./org.yaml
     - ./templates/env0-create-environment/template.yaml

@@ -27,8 +27,8 @@ spec:
           #ui:autocomplete: true # Autocomplete field using the backend route
           # Or hardcoded until we implement the autocomplete logic
           enum:
-            - 123
-            - 321
+            - "123"
+            - "321"
           enumNames:
             - Terraform EC2
             - Network microservice [Workflow]
@@ -79,3 +79,11 @@ spec:
         #repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
 
+  # Outputs are displayed to the user after a successful execution of the template.
+  output:
+    links:
+      - title: Env0 Environment link
+        url: "https://app.env0.com/" #${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
