@@ -10,9 +10,9 @@ metadata:
     Choosing from an exposed list of env0 templates.
   tags:
     - env0
-  annotations:
-    env0.com/organization-id: '<org-id>' # Set by devops admin
-    env0.com/project-id: '<project-id>' # Optional annotation; or fetched by the template selection dynamically
+  # annotations:
+    # env0.com/organization-id: '<org-id>' # Set by devops admin, or fetch dynamically based on the Org API key
+    # env0.com/project-id: '<project-id>' # Optional annotation; or fetched by the template selection dynamically
 spec:
   type: infrastructure
   parameters:
@@ -22,6 +22,7 @@ spec:
         - env0_environment_name
       properties:
         env0_template_id:
+          # TODO: on v2 ticket
           title: env0 Template
           type: string
           #ui:autocomplete: true # Autocomplete field using the backend route
@@ -41,10 +42,16 @@ spec:
           title: First deployment comment
           type: string
           description: comment to be shown on your deployment
+        target_env0_project:
+          # TODO: on project id selection ticket
+          title: env0 target project
+          type: string
+          description: the project based on Org API Key and the associated template selected above
     - title: Variables
       required:
         - env0_variables
       properties:
+        # TODO: on variables ticket
         env0_variables:
           title: Variables
           type: string # we will need to implement a new type of component here
@@ -57,9 +64,9 @@ spec:
         blueprintId: ${{ parameters.env0_template_id }}
         envName: ${{ parameters.env0_environment_name }}
         comment: ${{ parameters.deploy_comment }}
-        configurationChanges: ${{ parameters.??? }}
+        configurationChanges: ${{ parameters.env0_variables }} # TODO: on variables ticket
         outputs:
-        - environmentId: ${{ steps['deployEnv0Template'].output.env0EnvironmentId }}
+        - environmentId
     - id: template
       name: Render the Backstage template
       action: fetch:template
@@ -69,13 +76,14 @@ spec:
           environmentName: "${{ parameters.env0_environment_name }}"
           environmentDescription: ${{ parameters.deploy_comment }}
           organizationId: ${{parameters.organizationId}}
-          environmentId: ${{parameters.environmentId}}
-#          owner: ${{ parameters.owner }}
-#          system: ${{ parameters.system }}
+          environmentId: ${{ steps['deployEnv0Template'].output.environmentId }}
+          # owner: ${{ parameters.owner }}
+          # system: ${{ parameters.system }}
     - id: registerEnv0Environment # see register process later in TD
       name: Register Catalog
       action: catalog:register
       input:
+        # TODO: make sure rendering catalog-info.yaml works in order to register the entity
         #repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
 
