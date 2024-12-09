@@ -1,5 +1,6 @@
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
+import { apiClient } from './common/api-client';
 
 type Args = z.infer<typeof schema>;
 
@@ -38,7 +39,14 @@ export function createEnv0EnvironmentAction() {
     async handler(ctx) {
       ctx.logger.info(`Creating env0 environment`);
 
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await apiClient.createEnvironment({
+        name: ctx.input.name,
+        projectId: ctx.input.projectId,
+        templateId: ctx.input.templateId,
+        variables: ctx.input.variables,
+      });
+
+      ctx.logger.info(`env0 environment created successfully`);
     },
   });
 }
