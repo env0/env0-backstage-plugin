@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { apiClient } from './common/api-client';
 import { variablesSchema } from './common/schema';
 
-type Args = z.infer<typeof schema>;
+type CreateEnvironmentArgs = z.infer<typeof schema>;
 
 const schema = z.object({
   name: z.string({ description: 'The name of the environment' }),
@@ -17,7 +17,7 @@ const schema = z.object({
 });
 
 export function createEnv0CreateEnvironmentAction() {
-  return createTemplateAction<Args>({
+  return createTemplateAction<CreateEnvironmentArgs>({
     id: 'env0:environment:create',
     description: 'Creates a new env0 environment',
     schema: {

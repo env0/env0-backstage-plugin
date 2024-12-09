@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { apiClient } from './common/api-client';
 import { variablesSchema } from './common/schema';
 
-type Args = z.infer<typeof schema>;
+type RedeployEnvironmentArgs = z.infer<typeof schema>;
 
 const schema = z.object({
   id: z.string({ description: 'The ID of the environment to redeploy' }),
@@ -11,7 +11,7 @@ const schema = z.object({
 });
 
 export function createEnv0RedeployEnvironmentAction() {
-  return createTemplateAction<Args>({
+  return createTemplateAction<RedeployEnvironmentArgs>({
     id: 'env0:environment:redeploy',
     description: 'Redeploys an existing env0 environment',
     schema: {
