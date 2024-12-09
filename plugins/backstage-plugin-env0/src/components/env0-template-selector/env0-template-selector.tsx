@@ -4,12 +4,19 @@ import { FormControl, FormHelperText, TextField } from '@material-ui/core';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import { useApi } from '@backstage/core-plugin-api';
-import { Env0Api, Template } from '../../api/types';
+import { Env0Api, Template, TemplateType } from '../../api/types';
 import { env0ApiRef } from '../../api';
 import useAsync from 'react-use/lib/useAsyncRetry';
 import Autocomplete from '@mui/material/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@mui/material/IconButton';
+
+const notDeployableTemplateTypes: Set<TemplateType> = new Set([
+  'module',
+  'approval-policy',
+  'custom-flow',
+  'environment-discovery',
+]);
 
 export const Env0TemplateSelector = ({
   onChange: onTemplateIdChange,
@@ -24,14 +31,9 @@ export const Env0TemplateSelector = ({
     const templates = await api.getTemplatesByOrganizationId(
       'bde19c6d-d0dc-4b11-a951-8f43fe49db92',
     );
+
     const deployableTemplates = templates.filter(
-      template =>
-        ![
-          'module',
-          'approval-policy',
-          'custom-flow',
-          'environment-discovery',
-        ].includes(template.type),
+      template => !notDeployableTemplateTypes.has(template.type),
     );
     return {
       templates: deployableTemplates,
