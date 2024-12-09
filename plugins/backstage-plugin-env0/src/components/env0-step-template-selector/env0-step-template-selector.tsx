@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FieldExtensionComponentProps } from '@backstage/plugin-scaffolder-react';
 import { FormControl, FormHelperText, TextField } from '@material-ui/core';
-import { Autocomplete, Alert } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import Snackbar, { type SnackbarCloseReason } from '@mui/material/Snackbar';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, Template } from '../../api/types';
 import { env0ApiRef } from '../../api';
 import useAsync from 'react-use/lib/useAsyncRetry';
+import Autocomplete from '@mui/material/Autocomplete';
 
 export const Env0StepTemplateSelector = ({
   onChange: onTemplateIdChange,
@@ -15,10 +17,10 @@ export const Env0StepTemplateSelector = ({
   formData: selectedTemplateId,
 }: FieldExtensionComponentProps<string>) => {
   const api = useApi<Env0Api>(env0ApiRef);
-
-  const { value, loading } = useAsync(async () => {
+  const [isErrorOpen, setIsErrorOpen] = useState<boolean>(true);
+  const { value, loading, error } = useAsync(async () => {
     const templates = await api.getTemplatesByOrganizationId(
-      'bde19c6d-d0dc-4b11-a951-8f43fe49db92',
+      'bde19c6d-d0dc-4b11-951-8f43fe49db92',
     );
     const deployableTemplates = templates.filter(
       template =>
@@ -34,7 +36,28 @@ export const Env0StepTemplateSelector = ({
     };
   });
   const templates = value?.templates || [];
-  // return <Alert severity="info">Loading...</Alert>;
+  const handleClose = (_, reason?: SnackbarCloseReason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setIsErrorOpen(false);
+  };
+  if (error) {
+    return (
+      <Snackbar
+        open={isErrorOpen}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        onClose={handleClose}
+      >
+        <Alert severity="error">
+          Failed to load templates from env0. Please try again later.
+          {error?.message}
+        </Alert>
+      </Snackbar>
+    );
+  }
   return (
     <FormControl
       margin="normal"
