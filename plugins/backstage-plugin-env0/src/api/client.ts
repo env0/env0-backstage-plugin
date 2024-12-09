@@ -53,7 +53,7 @@ export class Env0Client implements Env0Api {
     return template.json();
   }
 
-  // https://api.env0.com/blueprints
+  // https://docs.env0.com/reference/templates-find-all
   async getTemplatesByOrganizationId(organizationId:string): Promise<Template[]> {
     const url = `${await this.config.discoveryApi.getBaseUrl(
         'proxy',
