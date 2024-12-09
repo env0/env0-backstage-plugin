@@ -87,7 +87,7 @@ export const Env0TemplateSelector = ({
           />
         )}
       />
-      <FormHelperText id="entityName">
+      <FormHelperText>
         Select from the list of available env0 templates
       </FormHelperText>
     </FormControl>
