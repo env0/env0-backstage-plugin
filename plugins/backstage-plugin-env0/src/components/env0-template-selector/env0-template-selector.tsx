@@ -11,7 +11,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@mui/material/IconButton';
 
-export const Env0StepTemplateSelector = ({
+export const Env0TemplateSelector = ({
   onChange: onTemplateIdChange,
   schema,
   rawErrors,
@@ -22,7 +22,7 @@ export const Env0StepTemplateSelector = ({
   const [isErrorOpen, setIsErrorOpen] = useState<boolean>(true);
   const { value, loading, error } = useAsync(async () => {
     const templates = await api.getTemplatesByOrganizationId(
-      'bde19c6d-d0dc-4b11-951-8f43fe49db92',
+      'bde19c6d-d0dc-4b11-a951-8f43fe49db92',
     );
     const deployableTemplates = templates.filter(
       template =>

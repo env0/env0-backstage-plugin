@@ -48,7 +48,7 @@ proxy:
     target: 'https://api.env0.com/'
     changeOrigin: true
     headers:
-      Authorization: Bearer ${ENV0_ACCESS_TOKEN}
+      Authorization: Bearer yaronhamelech
       Accept: application/json
       Content-Type: application/json
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration

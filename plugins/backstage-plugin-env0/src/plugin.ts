@@ -8,7 +8,7 @@ import {
 
 import { rootRouteRef } from './routes';
 import { env0ApiRef, Env0Client } from './api';
-import { Env0StepTemplateSelector } from './components/env0-step-template-selector/env0-step-template-selector';
+import { Env0TemplateSelector } from './components/env0-template-selector/env0-template-selector';
 import { createScaffolderFieldExtension } from '@backstage/plugin-scaffolder-react';
 import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
 
@@ -33,9 +33,9 @@ export const BackstagePluginEnv0Page = backstagePluginEnv0Plugin.provide(
   }),
 );
 
-export const Env0StepTemplateSelectorExtension = scaffolderPlugin.provide(
+export const Env0TemplateSelectorExtension = scaffolderPlugin.provide(
   createScaffolderFieldExtension({
-    name: 'Env0StepTemplateSelector',
-    component: Env0StepTemplateSelector,
+    name: 'Env0TemplateSelector',
+    component: Env0TemplateSelector,
   }),
 );

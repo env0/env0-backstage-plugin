@@ -25,7 +25,7 @@ spec:
           # TODO: on v2 ticket
           title: env0 Template
           type: string
-          ui:field: Env0StepTemplateSelector
+          ui:field: Env0TemplateSelector
           description: IaC template to be deployed.
         env0_environment_name:
           title: Environment Name
