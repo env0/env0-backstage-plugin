@@ -72,7 +72,7 @@ export const Env0TemplateSelector = ({
       error={Boolean(rawErrors?.length)}
     >
       <Autocomplete<Template>
-        loading={loading || templates.length === 0}
+        loading={loading}
         getOptionLabel={option => option.name}
         options={templates || []}
         value={templates.find(t => t.id === selectedTemplateId) || null}
