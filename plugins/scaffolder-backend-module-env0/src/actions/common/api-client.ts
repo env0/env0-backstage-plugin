@@ -4,8 +4,7 @@ const DEFAULT_TIMEOUT = 10_000; // 10 seconds
 
 export interface ApiClientConfig {
   baseURL: string;
-  timeout?: number;
-  headers?: Record<string, string>;
+  timeout: number;
 }
 
 export class ApiClient {
@@ -14,12 +13,11 @@ export class ApiClient {
 
   private constructor(config: ApiClientConfig) {
     this.client = axios.create({
-      baseURL: config.baseURL,
-      timeout: config.timeout ?? DEFAULT_TIMEOUT,
+      ...config,
       headers: {
         'Content-Type': 'application/json',
-        'User-Agent': 'backstage-plugin-env0',
-        ...config.headers,
+        'User-Agent': 'backstage-scaffolder-module-env0',
+        Authorization: `Basic ${process.env.ENV0_API_KEY}`,
       },
     });
   }
@@ -83,4 +81,5 @@ export class ApiClient {
 
 export const apiClient = ApiClient.getInstance({
   baseURL: 'https://api.env0.com',
+  timeout: DEFAULT_TIMEOUT,
 });
