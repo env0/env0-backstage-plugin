@@ -10,14 +10,7 @@ import useAsync from 'react-use/lib/useAsyncRetry';
 import Autocomplete from '@mui/material/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@mui/material/IconButton';
-import uniqBy from 'lodash/uniqBy'
-
-const notDeployableTemplateTypes: Set<TemplateType> = new Set([
-  'module',
-  'approval-policy',
-  'custom-flow',
-  'environment-discovery',
-]);
+import uniqBy from 'lodash/uniqBy';
 
 export const Env0TemplateSelector = ({
   onChange: onTemplateIdChange,
@@ -31,15 +24,14 @@ export const Env0TemplateSelector = ({
   const { value, loading, error } = useAsync(async () => {
     const organizations = await api.getOrganizations();
     const projects = await api.getProjectsByOrganizationId(organizations[0].id);
-    const templates = (await Promise.all(
-      projects.map(project => api.getTemplatesByProjectId(project.id)),
-    )).flatMap(template => template);
+    const templates = (
+      await Promise.all(
+        projects.map(project => api.getTemplatesByProjectId(project.id)),
+      )
+    ).flatMap(template => template);
 
-    const deployableTemplates = templates.filter(
-      template => !notDeployableTemplateTypes.has(template.type),
-    );
     return {
-      templates: uniqBy(deployableTemplates, 'id'),
+      templates: uniqBy(templates, 'id'),
     };
   });
   const templates = value?.templates || [];
