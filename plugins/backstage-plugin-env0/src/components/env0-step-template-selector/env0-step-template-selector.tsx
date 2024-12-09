@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { FieldExtensionComponentProps } from '@backstage/plugin-scaffolder-react';
 import { FormControl, FormHelperText, TextField } from '@material-ui/core';
 import Alert from '@mui/material/Alert';
-import Snackbar, { type SnackbarCloseReason } from '@mui/material/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, Template } from '../../api/types';
 import { env0ApiRef } from '../../api';
 import useAsync from 'react-use/lib/useAsyncRetry';
 import Autocomplete from '@mui/material/Autocomplete';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@mui/material/IconButton';
 
 export const Env0StepTemplateSelector = ({
   onChange: onTemplateIdChange,
@@ -36,22 +38,27 @@ export const Env0StepTemplateSelector = ({
     };
   });
   const templates = value?.templates || [];
-  const handleClose = (_, reason?: SnackbarCloseReason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
 
-    setIsErrorOpen(false);
-  };
   if (error) {
     return (
       <Snackbar
         open={isErrorOpen}
         autoHideDuration={6000}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        onClose={handleClose}
       >
-        <Alert severity="error">
+        <Alert
+          severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => setIsErrorOpen(false)}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+        >
           Failed to load templates from env0. Please try again later.
           {error?.message}
         </Alert>
