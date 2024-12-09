@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { apiClient } from './common/api-client';
 import { variablesSchema } from './common/schema';
 
-type RedeployEnvironmentArgs = z.infer<typeof schema>;
+export type RedeployEnvironmentArgs = z.infer<typeof schema>;
 
 const schema = z.object({
   id: z.string({ description: 'The ID of the environment to redeploy' }),

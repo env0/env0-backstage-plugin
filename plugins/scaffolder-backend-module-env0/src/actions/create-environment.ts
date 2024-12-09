@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { apiClient } from './common/api-client';
 import { variablesSchema } from './common/schema';
 
-type CreateEnvironmentArgs = z.infer<typeof schema>;
+export type CreateEnvironmentArgs = z.infer<typeof schema>;
 
 const schema = z.object({
   name: z.string({ description: 'The name of the environment' }),

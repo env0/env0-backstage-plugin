@@ -1,4 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import type { CreateEnvironmentArgs } from '../create-environment';
+import type { RedeployEnvironmentArgs } from '../redeploy-environment';
 
 const DEFAULT_TIMEOUT = 10_000; // 10 seconds
 
@@ -43,13 +45,15 @@ class ApiClient {
     return response.data;
   }
 
-  public async createEnvironment(data: object): Promise<{ id: string }> {
+  public async createEnvironment(
+    data: CreateEnvironmentArgs,
+  ): Promise<{ id: string }> {
     return this.post('/environments', data);
   }
 
   public async deployEnvironment(
     id: string,
-    data: object,
+    data: Omit<RedeployEnvironmentArgs, 'id'>,
   ): Promise<{ id: string }> {
     return this.put(`/environments/${id}`, data);
   }
