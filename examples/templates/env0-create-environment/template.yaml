@@ -9,9 +9,6 @@ metadata:
     You will choose an env0 template to be deployed as an env0 environment from an exposed list of env0 templates by your admin.
   tags:
     - env0
-  # annotations:
-    # env0.com/organization-id: '<org-id>' # Set by devops admin, or fetch dynamically based on the Org API key
-    # env0.com/project-id: '<project-id>' # Optional annotation; or fetched by the template selection dynamically
 spec:
   type: infrastructure
   parameters:
