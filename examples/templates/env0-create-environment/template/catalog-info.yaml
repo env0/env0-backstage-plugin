@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{values.environmentName}}
+  {%- if values.environmentDescription %}
+  description: ${{values.environmentDescription | dump}}
+  {%- endif %}
+  annotations:
+    env0.com/organization-id: ${{values.organizationId}}
+    env0.com/environment-id: ${{values.environmentId}}
+spec:
+  type: service
+  lifecycle: experimental
+

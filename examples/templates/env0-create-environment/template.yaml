@@ -1,0 +1,93 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: env0-environment-from-template
+  title: Deploy an env0 Environment
+  description: |
+    A template to deploy an env0 environment.
+    This template will create an env0 environment as a backstage component.
+    You will choose an env0 template to be deployed as an env0 environment from an exposed list of env0 templates by your admin.
+  tags:
+    - env0
+spec:
+  type: infrastructure
+  parameters:
+    - title: Basic Information Step
+      required:
+        - env0_template_id
+        - env0_environment_name
+      properties:
+        env0_template_id:
+          # TODO: on v2 ticket
+          title: env0 Template
+          type: string
+          #ui:autocomplete: true # Autocomplete field using the backend route
+          # Or hardcoded until we implement the autocomplete logic
+          enum:
+            - "123"
+            - "321"
+          enumNames:
+            - Terraform EC2
+            - Network microservice [Workflow]
+          description: IaC template to be deployed.
+        env0_environment_name:
+          title: Environment Name
+          type: string
+          description: Give your component a name
+        deploy_comment:
+          title: Deployment comment
+          type: string
+          description: Comment to be shown on your deployment
+        target_env0_project:
+          # TODO: on project id selection ticket
+          title: env0 target project
+          type: string
+          description: Deploy under the selected env0 project. Projects list effected by your env0 Template selection.
+    - title: Variables
+      required:
+        - env0_variables
+      properties:
+        # TODO: on variables ticket
+        env0_variables:
+          title: Variables
+          type: string # we will need to implement a new type of component here
+          description: TF / Environment Variables
+  steps: # the pipeline deploy steps, using our custom actions
+    - id: deployEnv0Environment
+      name: Deploy via env0
+      action: env0:environment:create
+      input:
+        blueprintId: ${{ parameters.env0_template_id }}
+        envName: ${{ parameters.env0_environment_name }}
+        comment: ${{ parameters.deploy_comment }}
+        configurationChanges: ${{ parameters.env0_variables }} # TODO: on variables ticket
+        outputs:
+        - environmentId
+    - id: template
+      name: Render the Backstage template
+      action: fetch:template
+      input:
+        url: ./template
+        values:
+          environmentName: "${{ parameters.env0_environment_name }}"
+          environmentDescription: ${{ parameters.deploy_comment }}
+          organizationId: ${{parameters.organizationId}}
+          environmentId: ${{ steps['deployEnv0Template'].output.environmentId }}
+          # owner: ${{ parameters.owner }}
+          # system: ${{ parameters.system }}
+    - id: registerEnv0Environment
+      name: Register Catalog
+      action: catalog:register
+      input:
+        # TODO: make sure rendering catalog-info.yaml works in order to register the entity
+        #repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  # Outputs are displayed to the user after a successful execution of the template.
+  output:
+    links:
+      - title: Env0 Environment link
+        url: "https://app.env0.com/" #${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
