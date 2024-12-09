@@ -1,9 +1,10 @@
 import { createBackendModule } from '@backstage/backend-plugin-api';
 import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
-import { createEnv0EnvironmentAction } from './actions/create-environment';
+import { createEnv0CreateEnvironmentAction } from './actions/create-environment';
+import { createEnv0RedeployEnvironmentAction } from './actions/redeploy-environment';
 
 export const scaffolderModule = createBackendModule({
-  moduleId: 'example-action',
+  moduleId: 'env0',
   pluginId: 'scaffolder',
   register({ registerInit }) {
     registerInit({
@@ -11,7 +12,8 @@ export const scaffolderModule = createBackendModule({
         scaffolderActions: scaffolderActionsExtensionPoint,
       },
       async init({ scaffolderActions }) {
-        scaffolderActions.addActions(createEnv0EnvironmentAction());
+        scaffolderActions.addActions(createEnv0CreateEnvironmentAction());
+        scaffolderActions.addActions(createEnv0RedeployEnvironmentAction());
       },
     });
   },
