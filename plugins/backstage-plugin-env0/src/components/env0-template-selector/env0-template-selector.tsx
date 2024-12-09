@@ -10,6 +10,7 @@ import useAsync from 'react-use/lib/useAsyncRetry';
 import Autocomplete from '@mui/material/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@mui/material/IconButton';
+import uniqBy from 'lodash/uniqBy'
 
 const notDeployableTemplateTypes: Set<TemplateType> = new Set([
   'module',
@@ -38,7 +39,7 @@ export const Env0TemplateSelector = ({
       template => !notDeployableTemplateTypes.has(template.type),
     );
     return {
-      templates: deployableTemplates,
+      templates: uniqBy(deployableTemplates, 'id'),
     };
   });
   const templates = value?.templates || [];
