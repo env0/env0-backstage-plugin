@@ -1,14 +1,5 @@
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 
-/**
- * Creates an `acme:example` Scaffolder action.
- *
- * @remarks
- *
- * See {@link https://example.com} for more information.
- *
- * @public
- */
 export function createExampleAction() {
   // For more information on how to define custom actions, see
   //   https://backstage.io/docs/features/software-templates/writing-custom-actions
