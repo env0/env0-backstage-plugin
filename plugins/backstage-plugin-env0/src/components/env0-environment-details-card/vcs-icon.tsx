@@ -1,12 +1,14 @@
 import React from 'react';
 
-import { GitProviders } from '../../../api/types';
-import { GitIcon } from './git';
-import { BitbucketIcon } from './bitbucket';
-import { GithubIcon } from './github';
-import { GitlabIcon } from './gitlab';
-import { AzureDevopsIcon } from './azure-devops';
-import { HelmIcon } from './helm';
+import { GitProviders } from '../../api/types';
+import {
+  GitIcon,
+  BitbucketIcon,
+  GithubIcon,
+  GitlabIcon,
+  AzureDevopsIcon,
+  HelmIcon,
+} from '../icons';
 
 interface Props {
   providerName?: GitProviders;
