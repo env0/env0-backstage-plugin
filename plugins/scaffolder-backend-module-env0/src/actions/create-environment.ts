@@ -1,6 +1,7 @@
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
 import { apiClient } from './common/api-client';
+import { variablesSchema } from './common/schema';
 
 type Args = z.infer<typeof schema>;
 
@@ -12,21 +13,7 @@ const schema = z.object({
   projectId: z.string({
     description: 'The ID of the project to place the new environment on',
   }),
-  variables: z
-    .object({
-      id: z
-        .string({
-          description:
-            'The ID of an existing variable to override. When not used, will create a new variable',
-        })
-        .optional(),
-      name: z.string({ description: 'The name of the variable' }),
-      value: z.string({ description: 'The value of the variable' }).optional(),
-      type: z.union([z.literal(1), z.literal(0)], {
-        description: 'The type of the variable; 0 - TF Var, 1 - Env Var',
-      }),
-    })
-    .optional(),
+  variables: variablesSchema.optional(),
 });
 
 export function createEnv0EnvironmentAction() {
