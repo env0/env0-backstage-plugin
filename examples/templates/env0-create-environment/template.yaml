@@ -2,17 +2,13 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: env0-environment-from-template
-  title: Deploy env0 Environment
+  title: Deploy an env0 Environment
   description: |
     A template to deploy an env0 environment.
-    This template will create an environment as a backstage component.
-    You will choose an env0 template to be deployed as an env0 environment.
-    Choosing from an exposed list of env0 templates.
+    This template will create an env0 environment as a backstage component.
+    You will choose an env0 template to be deployed as an env0 environment from an exposed list of env0 templates by your admin.
   tags:
     - env0
-  # annotations:
-    # env0.com/organization-id: '<org-id>' # Set by devops admin, or fetch dynamically based on the Org API key
-    # env0.com/project-id: '<project-id>' # Optional annotation; or fetched by the template selection dynamically
 spec:
   type: infrastructure
   parameters:
@@ -32,14 +28,14 @@ spec:
           type: string
           description: Give your component a name
         deploy_comment:
-          title: First deployment comment
+          title: Deployment comment
           type: string
-          description: comment to be shown on your deployment
+          description: Comment to be shown on your deployment
         target_env0_project:
           # TODO: on project id selection ticket
           title: env0 target project
           type: string
-          description: the project based on Org API Key and the associated template selected above
+          description: Deploy under the selected env0 project. Projects list effected by your env0 Template selection.
     - title: Variables
       required:
         - env0_variables
@@ -50,7 +46,7 @@ spec:
           type: string # we will need to implement a new type of component here
           description: TF / Environment Variables
   steps: # the pipeline deploy steps, using our custom actions
-    - id: deployEnv0Template # see custom deploy later in TD
+    - id: deployEnv0Environment
       name: Deploy via env0
       action: env0:environment:create
       input:
@@ -72,7 +68,7 @@ spec:
           environmentId: ${{ steps['deployEnv0Template'].output.environmentId }}
           # owner: ${{ parameters.owner }}
           # system: ${{ parameters.system }}
-    - id: registerEnv0Environment # see register process later in TD
+    - id: registerEnv0Environment
       name: Register Catalog
       action: catalog:register
       input:

@@ -5,13 +5,22 @@ import {
   ServiceUnavailableError,
 } from '@backstage/errors';
 import {
-  Env0Api,
-  Env0ClientApiConfig,
-  Env0ClientApiDependencies,
-  Environment,
-  Organization, Project,
+  Deployment,
   Template,
+  Environment,
+  Env0Api,
+  Project,
+  Organization,
 } from './types';
+
+import { DiscoveryApi, FetchApi } from '@backstage/core-plugin-api';
+
+export type Env0ClientApiDependencies = {
+  discoveryApi: DiscoveryApi;
+  fetchApi: FetchApi;
+};
+
+export type Env0ClientApiConfig = Env0ClientApiDependencies & {};
 
 export const env0ApiRef = createApiRef<Env0Api>({
   id: 'plugin.env0.api',
@@ -54,6 +63,24 @@ export class Env0Client implements Env0Api {
     return template.json();
   }
 
+  // https://docs.env0.com/reference/deployments-find-all
+  async listDeployments(
+    environmentId: string,
+    paging = { limit: '50', offset: '0' },
+  ): Promise<Deployment[]> {
+    const url = `${await this.config.discoveryApi.getBaseUrl(
+      'proxy',
+    )}/env0/environments/${environmentId}/deployments`;
+    const deployments = await this.request(
+      url,
+      {
+        method: 'GET',
+      },
+      paging,
+    );
+    return deployments.json();
+  }
+
   // https://docs.env0.com/reference/templates-find-all
   async getTemplatesByProjectId(projectId: string): Promise<Template[]> {
     const url = `${await this.config.discoveryApi.getBaseUrl(
@@ -89,8 +116,25 @@ export class Env0Client implements Env0Api {
     return projects.json();
   }
 
-  private async request(url: string, options: RequestInit): Promise<Response> {
-    const response = await this.config.fetchApi.fetch(url, options);
+  private getUrlWithParams(
+    url: string,
+    queryParams?: Record<string, string>,
+  ): string {
+    if (!queryParams) {
+      return url;
+    }
+    return `${url}?${new URLSearchParams(queryParams).toString()}`;
+  }
+
+  private async request(
+    url: string,
+    options: RequestInit,
+    queryParams?: Record<string, string>,
+  ): Promise<Response> {
+    const response = await this.config.fetchApi.fetch(
+      this.getUrlWithParams(url, queryParams),
+      options,
+    );
 
     if (response.status === 401) {
       throw new NotAllowedError(await response.text());

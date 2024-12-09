@@ -11,5 +11,4 @@ metadata:
 spec:
   type: service
   lifecycle: experimental
-#  owner: ${{values.owner | dump}}
-#  system: ${{values.system}}
+
