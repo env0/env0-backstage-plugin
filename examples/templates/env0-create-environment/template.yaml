@@ -40,12 +40,12 @@ spec:
         deploy_comment:
           title: Deployment comment
           type: string
-          description: comment to be shown on your deployment
+          description: Comment to be shown on your deployment
         target_env0_project:
           # TODO: on project id selection ticket
           title: env0 target project
           type: string
-          description: the project based on Org API Key and the associated template selected above
+          description: Deploy under the selected env0 project. Projects list effected by your env0 Template selection.
     - title: Variables
       required:
         - env0_variables
