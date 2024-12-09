@@ -8,7 +8,10 @@ import {
 
 import { rootRouteRef } from './routes';
 import { env0ApiRef, Env0Client } from './api';
-import { Env0TemplateSelector } from './components/env0-template-selector/env0-template-selector';
+import {
+  Env0TemplateSelector,
+  Env0TemplateSelectorSchema,
+} from './components/env0-template-selector/env0-template-selector';
 import { createScaffolderFieldExtension } from '@backstage/plugin-scaffolder-react';
 import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
 
@@ -37,5 +40,6 @@ export const Env0TemplateSelectorExtension = scaffolderPlugin.provide(
   createScaffolderFieldExtension({
     name: 'Env0TemplateSelector',
     component: Env0TemplateSelector,
+    schema: Env0TemplateSelectorSchema,
   }),
 );
