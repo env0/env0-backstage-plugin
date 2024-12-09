@@ -10,7 +10,7 @@ const schema = z.object({
   variables: variablesSchema.optional(),
 });
 
-export function createEnv0EnvironmentAction() {
+export function createEnv0RedeployEnvironmentAction() {
   return createTemplateAction<Args>({
     id: 'env0:environment:redeploy',
     description: 'Redeploys an existing env0 environment',

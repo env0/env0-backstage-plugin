@@ -16,7 +16,7 @@ const schema = z.object({
   variables: variablesSchema.optional(),
 });
 
-export function createEnv0EnvironmentAction() {
+export function createEnv0CreateEnvironmentAction() {
   return createTemplateAction<Args>({
     id: 'env0:environment:create',
     description: 'Creates a new env0 environment',
