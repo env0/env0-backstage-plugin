@@ -21,14 +21,6 @@ class ApiClient {
     });
   }
 
-  // private async get<T = any>(
-  //   url: string,
-  //   config?: AxiosRequestConfig,
-  // ): Promise<T> {
-  //   const response: AxiosResponse<T> = await this.client.get(url, config);
-  //   return response.data;
-  // }
-
   private async post<T = any, D = any>(
     url: string,
     data?: D,
@@ -50,14 +42,6 @@ class ApiClient {
     const response: AxiosResponse<T> = await this.client.put(url, data, config);
     return response.data;
   }
-
-  // private async delete<T = any>(
-  //   url: string,
-  //   config?: AxiosRequestConfig,
-  // ): Promise<T> {
-  //   const response: AxiosResponse<T> = await this.client.delete(url, config);
-  //   return response.data;
-  // }
 
   public async createEnvironment(data: object): Promise<{ id: string }> {
     return this.post('/environments', data);
