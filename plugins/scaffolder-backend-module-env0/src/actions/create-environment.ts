@@ -26,7 +26,7 @@ export function createEnv0CreateEnvironmentAction() {
     async handler(ctx) {
       ctx.logger.info(`Creating env0 environment`);
 
-      await apiClient.createEnvironment({
+      const { id } = await apiClient.createEnvironment({
         name: ctx.input.name,
         projectId: ctx.input.projectId,
         templateId: ctx.input.templateId,
@@ -34,6 +34,7 @@ export function createEnv0CreateEnvironmentAction() {
       });
 
       ctx.logger.info(`env0 environment creation initiated successfully`);
+      ctx.output('environmentId', id);
     },
   });
 }
