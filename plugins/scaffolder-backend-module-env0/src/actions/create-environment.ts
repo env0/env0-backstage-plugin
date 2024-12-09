@@ -33,7 +33,7 @@ export function createEnv0CreateEnvironmentAction() {
         variables: ctx.input.variables,
       });
 
-      ctx.logger.info(`env0 environment created successfully`);
+      ctx.logger.info(`env0 environment creation initiated successfully`);
     },
   });
 }
