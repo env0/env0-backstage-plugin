@@ -7,11 +7,10 @@ export interface ApiClientConfig {
   timeout: number;
 }
 
-export class ApiClient {
-  private static instance: ApiClient;
+class ApiClient {
   private client: AxiosInstance;
 
-  private constructor(config: ApiClientConfig) {
+  constructor(config: ApiClientConfig) {
     this.client = axios.create({
       ...config,
       headers: {
@@ -20,13 +19,6 @@ export class ApiClient {
         Authorization: `Basic ${process.env.ENV0_API_KEY}`,
       },
     });
-  }
-
-  public static getInstance(config: ApiClientConfig): ApiClient {
-    if (!ApiClient.instance) {
-      ApiClient.instance = new ApiClient(config);
-    }
-    return ApiClient.instance;
   }
 
   // private async get<T = any>(
@@ -79,7 +71,7 @@ export class ApiClient {
   }
 }
 
-export const apiClient = ApiClient.getInstance({
-  baseURL: 'https://api.env0.com',
+export const apiClient = new ApiClient({
+  baseURL: 'https://api.env0.com/v1',
   timeout: DEFAULT_TIMEOUT,
 });
