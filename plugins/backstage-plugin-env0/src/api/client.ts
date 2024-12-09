@@ -9,6 +9,7 @@ import {
   Env0ClientApiConfig,
   Env0ClientApiDependencies,
   Environment,
+  Organization, Project,
   Template,
 } from './types';
 
@@ -54,14 +55,38 @@ export class Env0Client implements Env0Api {
   }
 
   // https://docs.env0.com/reference/templates-find-all
-  async getTemplatesByOrganizationId(organizationId:string): Promise<Template[]> {
+  async getTemplatesByProjectId(projectId: string): Promise<Template[]> {
     const url = `${await this.config.discoveryApi.getBaseUrl(
-        'proxy',
-    )}/env0/blueprints?organizationId=${organizationId}`;
+      'proxy',
+    )}/env0/blueprints?projectId=${projectId}`;
     const template = await this.request(url, {
       method: 'GET',
     });
     return template.json();
+  }
+
+  // https://docs.env0.com/reference/organization-find-organizations
+  async getOrganizations(): Promise<Organization[]> {
+    const url = `${await this.config.discoveryApi.getBaseUrl(
+      'proxy',
+    )}/env0/organizations`;
+    const organizations = await this.request(url, {
+      method: 'GET',
+    });
+    return organizations.json();
+  }
+
+  async getProjectsByOrganizationId(
+    organizationId: string,
+  ): Promise<Project[]> {
+    const url = `${await this.config.discoveryApi.getBaseUrl(
+      'proxy',
+    )}/env0/projects?organizationId=${organizationId}`;
+
+    const projects = await this.request(url, {
+      method: 'GET',
+    });
+    return projects.json();
   }
 
   private async request(url: string, options: RequestInit): Promise<Response> {

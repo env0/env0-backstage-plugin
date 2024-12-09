@@ -28,9 +28,11 @@ export const Env0TemplateSelector = ({
   const api = useApi<Env0Api>(env0ApiRef);
   const [isErrorOpen, setIsErrorOpen] = useState<boolean>(true);
   const { value, loading, error } = useAsync(async () => {
-    const templates = await api.getTemplatesByOrganizationId(
-      'bde19c6d-d0dc-4b11-a951-8f43fe49db92',
-    );
+    const organizations = await api.getOrganizations();
+    const projects = await api.getProjectsByOrganizationId(organizations[0].id);
+    const templates = (await Promise.all(
+      projects.map(project => api.getTemplatesByProjectId(project.id)),
+    )).flatMap(template => template);
 
     const deployableTemplates = templates.filter(
       template => !notDeployableTemplateTypes.has(template.type),

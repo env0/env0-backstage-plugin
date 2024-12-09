@@ -76,8 +76,19 @@ export type Environment = {
     user: User;
 }
 
+export type Organization = {
+    id: string;
+}
+
+export type Project = {
+    id: string;
+    organizationId: string;
+}
+
 export type Env0Api = {
     getEnvironmentByID(environmentId: string): Promise<Environment>;
-    getTemplatesByOrganizationId(organizationId): Promise<Template[]>;
+    getTemplatesByProjectId(projectId): Promise<Template[]>;
     getTemplateById(templateId: string): Promise<Template>;
+    getOrganizations(): Promise<Organization[]>;
+    getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
 }
