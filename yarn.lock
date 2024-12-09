@@ -6076,6 +6076,7 @@ __metadata:
     "@backstage/cli": "npm:^0.29.0"
     "@backstage/plugin-scaffolder-node": "npm:0.6.1"
     "@backstage/plugin-scaffolder-node-test-utils": "npm:^0.1.15"
+    zod: "npm:3.23.8"
   languageName: unknown
   linkType: soft
 
@@ -33189,7 +33190,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.22.4":
+"zod@npm:3.23.8, zod@npm:^3.22.4":
   version: 3.23.8
   resolution: "zod@npm:3.23.8"
   checksum: 10c0/8f14c87d6b1b53c944c25ce7a28616896319d95bc46a9660fe441adc0ed0a81253b02b5abdaeffedbeb23bdd25a0bf1c29d2c12dd919aef6447652dd295e3e69
