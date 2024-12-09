@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
+const DEFAULT_TIMEOUT = 10_000; // 10 seconds
+
 export interface ApiClientConfig {
   baseURL: string;
   timeout?: number;
@@ -13,7 +15,7 @@ export class ApiClient {
   private constructor(config: ApiClientConfig) {
     this.client = axios.create({
       baseURL: config.baseURL,
-      timeout: config.timeout ?? 5000,
+      timeout: config.timeout ?? DEFAULT_TIMEOUT,
       headers: {
         'Content-Type': 'application/json',
         'User-Agent': 'backstage-plugin-env0',
@@ -50,14 +52,14 @@ export class ApiClient {
     return response.data;
   }
 
-  // private async put<T = any, D = any>(
-  //   url: string,
-  //   data?: D,
-  //   config?: AxiosRequestConfig,
-  // ): Promise<T> {
-  //   const response: AxiosResponse<T> = await this.client.put(url, data, config);
-  //   return response.data;
-  // }
+  private async put<T = any, D = any>(
+    url: string,
+    data?: D,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    const response: AxiosResponse<T> = await this.client.put(url, data, config);
+    return response.data;
+  }
 
   // private async delete<T = any>(
   //   url: string,
@@ -67,9 +69,15 @@ export class ApiClient {
   //   return response.data;
   // }
 
-  public async createEnvironment(name: string): Promise<any> {
-    const data = { name };
+  public async createEnvironment(data: object): Promise<{ id: string }> {
     return this.post('/environments', data);
+  }
+
+  public async deployEnvironment(
+    id: string,
+    data: object,
+  ): Promise<{ id: string }> {
+    return this.put(`/environments/${id}`, data);
   }
 }
 
