@@ -18,17 +18,9 @@ spec:
         - env0_environment_name
       properties:
         env0_template_id:
-          # TODO: on v2 ticket
           title: env0 Template
           type: string
-          #ui:autocomplete: true # Autocomplete field using the backend route
-          # Or hardcoded until we implement the autocomplete logic
-          enum:
-            - "123"
-            - "321"
-          enumNames:
-            - Terraform EC2
-            - Network microservice [Workflow]
+          ui:field: Env0TemplateSelector
           description: IaC template to be deployed.
         env0_environment_name:
           title: Environment Name

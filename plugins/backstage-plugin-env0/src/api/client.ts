@@ -4,7 +4,14 @@ import {
   NotAllowedError,
   ServiceUnavailableError,
 } from '@backstage/errors';
-import { Deployment, Template, Environment, Env0Api } from './types';
+import {
+  Deployment,
+  Template,
+  Environment,
+  Env0Api,
+  Project,
+  Organization,
+} from './types';
 
 import { DiscoveryApi, FetchApi } from '@backstage/core-plugin-api';
 
@@ -55,6 +62,7 @@ export class Env0Client implements Env0Api {
     });
     return template.json();
   }
+
   // https://docs.env0.com/reference/deployments-find-all
   async listDeployments(
     environmentId: string,
@@ -71,6 +79,41 @@ export class Env0Client implements Env0Api {
       paging,
     );
     return deployments.json();
+  }
+
+  // https://docs.env0.com/reference/templates-find-all
+  async getTemplatesByProjectId(projectId: string): Promise<Template[]> {
+    const url = `${await this.config.discoveryApi.getBaseUrl(
+      'proxy',
+    )}/env0/blueprints?projectId=${projectId}`;
+    const template = await this.request(url, {
+      method: 'GET',
+    });
+    return template.json();
+  }
+
+  // https://docs.env0.com/reference/organization-find-organizations
+  async getOrganizations(): Promise<Organization[]> {
+    const url = `${await this.config.discoveryApi.getBaseUrl(
+      'proxy',
+    )}/env0/organizations`;
+    const organizations = await this.request(url, {
+      method: 'GET',
+    });
+    return organizations.json();
+  }
+
+  async getProjectsByOrganizationId(
+    organizationId: string,
+  ): Promise<Project[]> {
+    const url = `${await this.config.discoveryApi.getBaseUrl(
+      'proxy',
+    )}/env0/projects?organizationId=${organizationId}`;
+
+    const projects = await this.request(url, {
+      method: 'GET',
+    });
+    return projects.json();
   }
 
   private getUrlWithParams(

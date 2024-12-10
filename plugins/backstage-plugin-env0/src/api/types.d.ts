@@ -24,17 +24,21 @@ export type GitProviders =
   | 'GitLabEnterprise'
   | 'GitHubEnterprise';
 
+export type TemplateType = 'opentofu' | 'terraform' | 'terragrunt' | 'pulumi' | 'k8s' | 'cloudformation' | 'helm' | 'ansible' | 'workflow' | 'module' | 'approval-policy' | 'custom-flow' | 'environment-discovery';
 export type Template = {
-  repository: string;
-  githubInstallationId?: number;
-  isGitLab?: boolean;
-  isAzureDevOps?: boolean;
-  isHelmRepository?: boolean;
-  bitbucketClientKey?: boolean;
-  isBitbucketServer?: boolean;
-  isGitLabEnterprise?: boolean;
-  isGitHubEnterprise?: boolean;
-};
+    name: string;
+    id: string;
+    repository: string;
+    githubInstallationId?: number;
+    isGitLab?: boolean;
+    isAzureDevOps?: boolean;
+    isHelmRepository?: boolean;
+    bitbucketClientKey?: boolean;
+    isBitbucketServer?: boolean;
+    isGitLabEnterprise?: boolean;
+    isGitHubEnterprise?: boolean;
+    type: TemplateType;
+}
 
 type EnvironmentStatus =
   | 'CREATED'
@@ -107,8 +111,20 @@ export interface Deployment {
   blueprintId: string;
 }
 
+export type Organization = {
+    id: string;
+}
+
+export type Project = {
+    id: string;
+    organizationId: string;
+}
+
 export type Env0Api = {
-  getEnvironmentByID(environmentId: string): Promise<Environment>;
-  listDeployments(environmentId: string): Promise<Deployment[]>;
-  getTemplateById(templateId: string): Promise<Template>;
-};
+    listDeployments(environmentId: string): Promise<Deployment[]>;
+    getEnvironmentByID(environmentId: string): Promise<Environment>;
+    getTemplatesByProjectId(projectId): Promise<Template[]>;
+    getTemplateById(templateId: string): Promise<Template>;
+    getOrganizations(): Promise<Organization[]>;
+    getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
+}
