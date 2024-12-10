@@ -1,14 +1,10 @@
 import React from 'react';
 import { makeStyles, Chip, ChipProps } from '@material-ui/core';
+import { statusToTextAndColor } from './status-map';
 
 interface StatusProps extends ChipProps {
-  status: string;
+  status: keyof typeof statusToTextAndColor;
 }
-
-/**
-  background-color: ${({ status }) => statusToTextAndColor[status].bgColor};
-  color: ${({ status }) => statusToTextAndColor[status].color};
- */
 
 const useStyles = makeStyles({
   statusContainer: (props: StatusProps) => ({
@@ -19,8 +15,8 @@ const useStyles = makeStyles({
     padding: '0 10.5px',
     textAlign: 'center',
     maxWidth: '140px',
-    backgroundColor: props.status === 'ACTIVE' ? '#00C853' : '#FF8A65',
-    color: props.status === 'ACTIVE' ? '#00C853' : '#FF8A65',
+    backgroundColor: statusToTextAndColor[props.status].bgColor,
+    color: statusToTextAndColor[props.status].color,
     minWidth: '120px',
   }),
 });
