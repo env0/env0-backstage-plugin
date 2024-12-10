@@ -26,13 +26,13 @@ spec:
           title: Environment Name
           type: string
           description: Give your component a name
-        deploy_comment:
-          title: Deployment comment
+        env0_deployment_comment:
+          title: Deployment Comment
           type: string
           description: Comment to be shown on your deployment
-        target_env0_project:
+        env0_project_id:
           # TODO: on project id selection ticket
-          title: env0 target project
+          title: Project ID
           type: string
           description: Deploy under the selected env0 project. Projects list effected by your env0 Template selection.
     - title: Variables
@@ -45,16 +45,15 @@ spec:
           type: string # we will need to implement a new type of component here
           description: TF / Environment Variables
   steps: # the pipeline deploy steps, using our custom actions
-    - id: deployEnv0Environment
-      name: Deploy via env0
+    - id: createEnv0Environment
+      name: Create Env0 Environment
       action: env0:environment:create
       input:
-        blueprintId: ${{ parameters.env0_template_id }}
-        envName: ${{ parameters.env0_environment_name }}
-        comment: ${{ parameters.deploy_comment }}
-        configurationChanges: ${{ parameters.env0_variables }} # TODO: on variables ticket
-        outputs:
-        - environmentId
+        templateId: ${{ parameters.env0_template_id }}
+        projectId: ${{ parameters.env0_project_id }}
+        name: ${{ parameters.env0_environment_name }}
+        comment: ${{ parameters.env0_deployment_comment }}
+        # TODO: pass variables and validate that it works
     - id: template
       name: Render the Backstage template
       action: fetch:template
@@ -75,11 +74,10 @@ spec:
         #repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
 
-  # Outputs are displayed to the user after a successful execution of the template.
   output:
     links:
       - title: Env0 Environment link
-        url: "https://app.env0.com/" #${{ steps['publish'].output.remoteUrl }}
+        url: "https://app.env0.com/p/${{ parameters.env0_project_id }}/environments/${{ steps['createEnv0Environment'].output.environmentId }}"
       - title: Open in catalog
         icon: catalog
         entityRef: ${{ steps['register'].output.entityRef }}
