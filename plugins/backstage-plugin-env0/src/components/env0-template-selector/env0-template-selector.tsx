@@ -33,7 +33,13 @@ export const Env0TemplateSelector = ({
   const [isErrorOpen, setIsErrorOpen] = useState<boolean>(true);
   const { value, loading, error } = useAsync(async () => {
     const organizations = await api.getOrganizations();
-    const projects = await api.getProjectsByOrganizationId(organizations[0].id);
+    const projects = (
+      await Promise.all(
+        organizations.map(organization =>
+          api.getProjectsByOrganizationId(organization.id),
+        ),
+      )
+    ).flatMap(organization => organization);
     const templates = (
       await Promise.all(
         projects.map(project => api.getTemplatesByProjectId(project.id)),
