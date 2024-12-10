@@ -40,7 +40,7 @@ export type Template = {
     type: TemplateType;
 }
 
-type EnvironmentStatus =
+export type EnvironmentStatus =
   | 'CREATED'
   | 'INACTIVE'
   | 'ACTIVE'
@@ -58,7 +58,7 @@ type EnvironmentStatus =
   | 'NEVER_DEPLOYED'
   | 'DRIFTED';
 
-type EnvironmentDriftStatus =
+export type EnvironmentDriftStatus =
   | 'ERROR'
   | 'DRIFTED'
   | 'OK'
@@ -83,7 +83,7 @@ type DeploymentType =
   | 'task'
   | 'remotePlan';
 
-type DeploymentStatus =
+export type DeploymentStatus =
   | 'IN_PROGRESS'
   | 'WAITING_FOR_USER'
   | 'TIMEOUT'
