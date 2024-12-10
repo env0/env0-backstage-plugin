@@ -29,8 +29,10 @@ export function createEnv0CreateEnvironmentAction() {
       const { id } = await apiClient.createEnvironment({
         name: ctx.input.name,
         projectId: ctx.input.projectId,
-        templateId: ctx.input.templateId,
-        variables: ctx.input.variables,
+        deployRequest: {
+          blueprintId: ctx.input.templateId,
+          configurationChanges: ctx.input.variables,
+        },
       });
 
       ctx.logger.info(`env0 environment creation initiated successfully`);

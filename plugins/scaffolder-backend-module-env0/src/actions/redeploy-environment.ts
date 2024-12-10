@@ -21,7 +21,9 @@ export function createEnv0RedeployEnvironmentAction() {
       ctx.logger.info(`Redeploying env0 environment`);
 
       await apiClient.deployEnvironment(ctx.input.id, {
-        variables: ctx.input.variables,
+        deployRequest: {
+          configurationChanges: ctx.input.variables,
+        },
       });
 
       ctx.logger.info(`env0 environment re-deploy initiated successfully`);
