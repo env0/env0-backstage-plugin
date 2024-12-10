@@ -6,7 +6,7 @@ import { PlanSummary } from './plan-summary';
 import { DeploymentType } from './deployment-type';
 import { formatDatetime, parseTimerElapsedTime } from './common/time.utils';
 import dayjs from './common/dayjs.types';
-import { DeploymentTableHeader } from './DeploymentTableHeader';
+import { DeploymentTableHeader } from './deployment-table-header';
 import { ErrorContainer } from './common/error-container';
 
 const columnHeaderStyle = {
