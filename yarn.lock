@@ -6076,6 +6076,8 @@ __metadata:
     "@backstage/cli": "npm:^0.29.0"
     "@backstage/plugin-scaffolder-node": "npm:0.6.1"
     "@backstage/plugin-scaffolder-node-test-utils": "npm:^0.1.15"
+    axios: "npm:1.7.9"
+    zod: "npm:3.23.8"
   languageName: unknown
   linkType: soft
 
@@ -14697,6 +14699,17 @@ __metadata:
     pino: "npm:^5.12.2"
     pino-pretty: "npm:^2.6.0"
   checksum: 10c0/c68d66b22a578f92b27eae3f37c25f719ee02f34d33ce67bfeeaed2a030e9106119600101ff00e8472b4f6c09c33c64c65b935b138b748f3594e5381c39c81a2
+  languageName: node
+  linkType: hard
+
+"axios@npm:1.7.9":
+  version: 1.7.9
+  resolution: "axios@npm:1.7.9"
+  dependencies:
+    follow-redirects: "npm:^1.15.6"
+    form-data: "npm:^4.0.0"
+    proxy-from-env: "npm:^1.1.0"
+  checksum: 10c0/b7a41e24b59fee5f0f26c1fc844b45b17442832eb3a0fb42dd4f1430eb4abc571fe168e67913e8a1d91c993232bd1d1ab03e20e4d1fee8c6147649b576fc1b0b
   languageName: node
   linkType: hard
 
@@ -33189,7 +33202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.22.4":
+"zod@npm:3.23.8, zod@npm:^3.22.4":
   version: 3.23.8
   resolution: "zod@npm:3.23.8"
   checksum: 10c0/8f14c87d6b1b53c944c25ce7a28616896319d95bc46a9660fe441adc0ed0a81253b02b5abdaeffedbeb23bdd25a0bf1c29d2c12dd919aef6447652dd295e3e69
