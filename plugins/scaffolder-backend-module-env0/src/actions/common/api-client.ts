@@ -60,6 +60,6 @@ class ApiClient {
 }
 
 export const apiClient = new ApiClient({
-  baseURL: 'https://api.env0.com/v1',
+  baseURL: 'https://api.env0.com',
   timeout: DEFAULT_TIMEOUT,
 });
