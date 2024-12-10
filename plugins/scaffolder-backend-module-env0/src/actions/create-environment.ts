@@ -1,12 +1,13 @@
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
 import { apiClient } from './common/api-client';
-import { variablesSchema } from './common/schema';
+import { commentSchema, variablesSchema } from './common/schema';
 
 export type CreateEnvironmentArgs = z.infer<typeof schema>;
 
 const schema = z.object({
   name: z.string({ description: 'The name of the environment' }),
+  comment: commentSchema.optional(),
   templateId: z.string({
     description: 'The ID of the template to be deployed',
   }),
@@ -30,6 +31,7 @@ export function createEnv0CreateEnvironmentAction() {
         name: ctx.input.name,
         projectId: ctx.input.projectId,
         deployRequest: {
+          comment: ctx.input.comment,
           blueprintId: ctx.input.templateId,
           configurationChanges: ctx.input.variables,
         },

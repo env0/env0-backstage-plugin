@@ -19,3 +19,7 @@ export const variablesSchema = z
     isRequired: z.boolean({ description: 'Whether the variable is required' }),
   })
   .array();
+
+export const commentSchema = z.string({
+  description: 'The comment for the deployment',
+});

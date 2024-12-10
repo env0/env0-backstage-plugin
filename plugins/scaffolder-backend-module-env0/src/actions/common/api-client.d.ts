@@ -15,6 +15,7 @@ export namespace Env0Api {
       projectId: string;
       deployRequest: {
         blueprintId: string;
+        comment?: string;
         configurationChanges?: ConfigurationChange[]
       }
     }
@@ -30,6 +31,7 @@ export namespace Env0Api {
     export interface Request {
       id: string;
       deployRequest: {
+        comment?: string;
         configurationChanges?: ConfigurationChange[]
       }
     }
