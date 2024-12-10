@@ -1,11 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type { Env0Api } from './api-client.d';
 
-const DEFAULT_TIMEOUT = 10_000; // 10 seconds
-
 export interface ApiClientConfig {
   baseURL: string;
-  timeout: number;
 }
 
 class ApiClient {
@@ -52,5 +49,4 @@ class ApiClient {
 
 export const apiClient = new ApiClient({
   baseURL: 'https://api.env0.com',
-  timeout: DEFAULT_TIMEOUT,
 });
