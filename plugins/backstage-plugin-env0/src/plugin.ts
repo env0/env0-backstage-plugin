@@ -11,7 +11,7 @@ import { env0ApiRef, Env0Client } from './api';
 import {
   Env0TemplateSelector,
   Env0TemplateSelectorSchema,
-} from './components/env0-template-selector/env0-template-selector';
+} from './components/env0-template-selector';
 import { createScaffolderFieldExtension } from '@backstage/plugin-scaffolder-react';
 import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
 
