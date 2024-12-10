@@ -18,7 +18,6 @@ spec:
         - env0_environment_name
       properties:
         env0_template_id:
-          # TODO: on v2 ticket
           title: env0 Template
           type: string
           ui:field: Env0TemplateSelector
