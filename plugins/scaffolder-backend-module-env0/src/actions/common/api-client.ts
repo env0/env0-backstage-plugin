@@ -18,7 +18,7 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
         'User-Agent': 'backstage-scaffolder-module-env0',
-        Authorization: `Basic ${process.env.ENV0_API_KEY}`,
+        Authorization: `Basic ${process.env.ENV0_ACCESS_TOKEN}`,
       },
     });
   }
