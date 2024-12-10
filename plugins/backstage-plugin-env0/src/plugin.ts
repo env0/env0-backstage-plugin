@@ -31,7 +31,9 @@ export const BackstagePluginEnv0Page = backstagePluginEnv0Plugin.provide(
   createRoutableExtension({
     name: 'BackstagePluginEnv0Page',
     component: () =>
-      import('./components/ExampleComponent').then(m => m.ExampleComponent),
+      import('./components/env0-environment-details-card').then(
+        m => m.Env0EnvironmentDetailsCard,
+      ),
     mountPoint: rootRouteRef,
   }),
 );
