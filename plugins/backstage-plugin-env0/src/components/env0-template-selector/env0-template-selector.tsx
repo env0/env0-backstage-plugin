@@ -19,6 +19,7 @@ const Env0TemplateSelectorFieldSchema = makeFieldSchema({
 
 export const Env0TemplateSelectorSchema =
   Env0TemplateSelectorFieldSchema.schema;
+
 type Env0TemplateSelectorFieldProps =
   typeof Env0TemplateSelectorFieldSchema.type;
 
@@ -28,7 +29,10 @@ export const Env0TemplateSelector = ({
   rawErrors,
   required,
   formData: selectedTemplateId,
-}: Env0TemplateSelectorFieldProps) => {
+}: Pick<
+  Env0TemplateSelectorFieldProps,
+  'onChange' | 'schema' | 'rawErrors' | 'required' | 'formData'
+>) => {
   const api = useApi<Env0Api>(env0ApiRef);
   const [isErrorOpen, setIsErrorOpen] = useState<boolean>(true);
   const { value, loading, error } = useAsync(async () => {
