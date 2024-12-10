@@ -49,7 +49,7 @@ spec:
   parameters:
     - title: Basic Information Step
       required:
-        - env0_environment_name
+        - env0_template_id
       properties:
         env0_template_id:
           title: env0 Template
