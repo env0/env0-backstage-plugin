@@ -24,21 +24,34 @@ export type GitProviders =
   | 'GitLabEnterprise'
   | 'GitHubEnterprise';
 
-export type TemplateType = 'opentofu' | 'terraform' | 'terragrunt' | 'pulumi' | 'k8s' | 'cloudformation' | 'helm' | 'ansible' | 'workflow' | 'module' | 'approval-policy' | 'custom-flow' | 'environment-discovery';
+export type TemplateType =
+  | 'opentofu'
+  | 'terraform'
+  | 'terragrunt'
+  | 'pulumi'
+  | 'k8s'
+  | 'cloudformation'
+  | 'helm'
+  | 'ansible'
+  | 'workflow'
+  | 'module'
+  | 'approval-policy'
+  | 'custom-flow'
+  | 'environment-discovery';
 export type Template = {
-    name: string;
-    id: string;
-    repository: string;
-    githubInstallationId?: number;
-    isGitLab?: boolean;
-    isAzureDevOps?: boolean;
-    isHelmRepository?: boolean;
-    bitbucketClientKey?: boolean;
-    isBitbucketServer?: boolean;
-    isGitLabEnterprise?: boolean;
-    isGitHubEnterprise?: boolean;
-    type: TemplateType;
-}
+  name: string;
+  id: string;
+  repository: string;
+  githubInstallationId?: number;
+  isGitLab?: boolean;
+  isAzureDevOps?: boolean;
+  isHelmRepository?: boolean;
+  bitbucketClientKey?: boolean;
+  isBitbucketServer?: boolean;
+  isGitLabEnterprise?: boolean;
+  isGitHubEnterprise?: boolean;
+  type: TemplateType;
+};
 
 export type EnvironmentStatus =
   | 'CREATED'
@@ -112,23 +125,22 @@ export interface Deployment {
 }
 
 export type Organization = {
-    id: string;
-}
+  id: string;
+};
 
 export type Project = {
-    id: string;
-    organizationId: string;
-}
+  id: string;
+  organizationId: string;
+};
 
 export type Env0Api = {
-    listDeployments(environmentId: string): Promise<Deployment[]>;
-    getEnvironmentByID(environmentId: string): Promise<Environment>;
-    getTemplatesByProjectId(projectId): Promise<Template[]>;
-    getTemplateById(templateId: string): Promise<Template>;
-    getOrganizations(): Promise<Organization[]>;
-    getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
-}
-
+  listDeployments(environmentId: string): Promise<Deployment[]>;
+  getEnvironmentByID(environmentId: string): Promise<Environment>;
+  getTemplatesByProjectId(projectId): Promise<Template[]>;
+  getTemplateById(templateId: string): Promise<Template>;
+  getOrganizations(): Promise<Organization[]>;
+  getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
+};
 
 export enum DeploymentStepStatus {
   NOT_STARTED = 'NOT_STARTED',
@@ -139,5 +151,5 @@ export enum DeploymentStepStatus {
   CANCELLED = 'CANCELLED',
   TIMEOUT = 'TIMEOUT',
   SKIPPED = 'SKIPPED',
-  WARNING = 'WARNING'
+  WARNING = 'WARNING',
 }
