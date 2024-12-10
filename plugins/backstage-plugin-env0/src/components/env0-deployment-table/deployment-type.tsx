@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
-import { Deployment } from '../api/types';
+import { Deployment } from '../../api/types';
 import { Avatar, styled, SvgIcon } from '@material-ui/core';
-import { DeployIcon, DestroyIcon } from './icons';
+import { DeployIcon, DestroyIcon } from '../icons';
 import CodeOutlined from '@material-ui/icons/CodeOutlined';
 import FindInPage from '@material-ui/icons/FindInPage';
 
