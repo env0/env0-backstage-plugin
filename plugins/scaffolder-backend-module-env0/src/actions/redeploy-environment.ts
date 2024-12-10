@@ -20,7 +20,7 @@ export function createEnv0RedeployEnvironmentAction() {
     async handler(ctx) {
       ctx.logger.info(`Redeploying env0 environment`);
 
-      await apiClient.deployEnvironment(ctx.input.id, {
+      await apiClient.redeployEnvironment(ctx.input.id, {
         deployRequest: {
           configurationChanges: ctx.input.variables,
         },

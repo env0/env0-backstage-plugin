@@ -41,11 +41,11 @@ class ApiClient {
     return this.post('/environments', data);
   }
 
-  public async deployEnvironment(
+  public async redeployEnvironment(
     id: string,
     data: Omit<Env0Api.RedeployEnvironment.Request, 'id'>,
   ): Promise<Env0Api.RedeployEnvironment.Response> {
-    return this.post(`/environments/${id}`, data);
+    return this.post(`/environments/${id}/deployments`, data);
   }
 }
 
