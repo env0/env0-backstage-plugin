@@ -48,5 +48,5 @@ class ApiClient {
 }
 
 export const apiClient = new ApiClient({
-  baseURL: 'https://api.env0.com',
+  baseURL: `https://${process.env.ENV0_API_ENDPOINT ?? 'api.env0.com'}`,
 });
