@@ -24,23 +24,36 @@ export type GitProviders =
   | 'GitLabEnterprise'
   | 'GitHubEnterprise';
 
-export type TemplateType = 'opentofu' | 'terraform' | 'terragrunt' | 'pulumi' | 'k8s' | 'cloudformation' | 'helm' | 'ansible' | 'workflow' | 'module' | 'approval-policy' | 'custom-flow' | 'environment-discovery';
+export type TemplateType =
+  | 'opentofu'
+  | 'terraform'
+  | 'terragrunt'
+  | 'pulumi'
+  | 'k8s'
+  | 'cloudformation'
+  | 'helm'
+  | 'ansible'
+  | 'workflow'
+  | 'module'
+  | 'approval-policy'
+  | 'custom-flow'
+  | 'environment-discovery';
 export type Template = {
-    name: string;
-    id: string;
-    repository: string;
-    githubInstallationId?: number;
-    isGitLab?: boolean;
-    isAzureDevOps?: boolean;
-    isHelmRepository?: boolean;
-    bitbucketClientKey?: boolean;
-    isBitbucketServer?: boolean;
-    isGitLabEnterprise?: boolean;
-    isGitHubEnterprise?: boolean;
-    type: TemplateType;
-}
+  name: string;
+  id: string;
+  repository: string;
+  githubInstallationId?: number;
+  isGitLab?: boolean;
+  isAzureDevOps?: boolean;
+  isHelmRepository?: boolean;
+  bitbucketClientKey?: boolean;
+  isBitbucketServer?: boolean;
+  isGitLabEnterprise?: boolean;
+  isGitHubEnterprise?: boolean;
+  type: TemplateType;
+};
 
-type EnvironmentStatus =
+export type EnvironmentStatus =
   | 'CREATED'
   | 'INACTIVE'
   | 'ACTIVE'
@@ -58,7 +71,7 @@ type EnvironmentStatus =
   | 'NEVER_DEPLOYED'
   | 'DRIFTED';
 
-type EnvironmentDriftStatus =
+export type EnvironmentDriftStatus =
   | 'ERROR'
   | 'DRIFTED'
   | 'OK'
@@ -83,7 +96,7 @@ type DeploymentType =
   | 'task'
   | 'remotePlan';
 
-type DeploymentStatus =
+export type DeploymentStatus =
   | 'IN_PROGRESS'
   | 'WAITING_FOR_USER'
   | 'TIMEOUT'
@@ -112,19 +125,30 @@ export interface Deployment {
 }
 
 export type Organization = {
-    id: string;
-}
+  id: string;
+};
 
 export type Project = {
-    id: string;
-    organizationId: string;
-}
+  id: string;
+  organizationId: string;
+};
 
 export type Env0Api = {
-    listDeployments(environmentId: string): Promise<Deployment[]>;
-    getEnvironmentByID(environmentId: string): Promise<Environment>;
-    getTemplatesByProjectId(projectId): Promise<Template[]>;
-    getTemplateById(templateId: string): Promise<Template>;
-    getOrganizations(): Promise<Organization[]>;
-    getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
-}
+  listDeployments(environmentId: string): Promise<Deployment[]>;
+  getEnvironmentByID(environmentId: string): Promise<Environment>;
+  getTemplatesByProjectId(projectId): Promise<Template[]>;
+  getTemplateById(templateId: string): Promise<Template>;
+  getOrganizations(): Promise<Organization[]>;
+  getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
+};
+
+export type DeploymentStepStatus =
+  | 'NOT_STARTED'
+  | 'IN_PROGRESS'
+  | 'WAITING_FOR_USER'
+  | 'FAIL'
+  | 'SUCCESS'
+  | 'CANCELLED'
+  | 'TIMEOUT'
+  | 'SKIPPED'
+  | 'WARNING';

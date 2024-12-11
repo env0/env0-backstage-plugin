@@ -8,6 +8,7 @@ import { formatDatetime, parseTimerElapsedTime } from '../common/time.utils';
 import dayjs from '../common/dayjs.types';
 import { DeploymentTableHeader } from './deployment-table-header';
 import { ErrorContainer } from '../common/error-container';
+import Status from '../env0-status/status';
 
 const columnHeaderStyle = {
   color: '#3636D8',
@@ -32,7 +33,7 @@ const deploymentHistoryColumns: TableColumn<Deployment>[] = [
   },
   {
     title: 'Status',
-    field: 'status',
+    render: (deployment: Deployment) => <Status status={deployment.status} />,
   },
   {
     title: 'Plan Summary',
@@ -60,6 +61,7 @@ const deploymentHistoryColumns: TableColumn<Deployment>[] = [
     ),
   },
 ];
+
 export const Env0DeploymentTable: React.FunctionComponent<{
   environmentId: string;
 }> = ({ environmentId }) => {

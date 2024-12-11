@@ -18,6 +18,7 @@ import { useEntity } from '@backstage/plugin-catalog-react';
 import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
 import { Env0Icon } from '../icons';
 import { VcsIcon } from './vcs-icon';
+import Status from '../env0-status/status';
 
 type CardProps = {
   children: React.ReactNode;
@@ -103,8 +104,8 @@ export const Env0EnvironmentDetailsCard = () => {
         dense
         metadata={{
           name: environment.name,
-          status: environment.status,
-          driftStatus: environment.driftStatus,
+          status: <Status status={environment.status} />,
+          driftStatus: <Status status={environment.driftStatus} />,
           vcsRepo,
           revision: environment.latestDeploymentLog.blueprintRevision,
           workspaceName: environment.workspaceName,
