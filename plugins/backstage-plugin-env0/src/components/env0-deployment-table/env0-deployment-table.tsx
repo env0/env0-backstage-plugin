@@ -1,14 +1,14 @@
 import React from 'react';
-import { useGetDeployments } from '../hooks/use-deployments-history';
+import { useGetDeployments } from '../../hooks/use-deployments-history';
 import { Table, TableColumn } from '@backstage/core-components';
-import { Deployment } from '../api/types';
+import { Deployment } from '../../api/types';
 import { PlanSummary } from './plan-summary';
 import { DeploymentType } from './deployment-type';
-import { formatDatetime, parseTimerElapsedTime } from './common/time.utils';
-import dayjs from './common/dayjs.types';
+import { formatDatetime, parseTimerElapsedTime } from '../common/time.utils';
+import dayjs from '../common/dayjs.types';
 import { DeploymentTableHeader } from './deployment-table-header';
-import { ErrorContainer } from './common/error-container';
-import Status from './env0-status/status';
+import { ErrorContainer } from '../common/error-container';
+import Status from '../env0-status/status';
 
 const columnHeaderStyle = {
   color: '#3636D8',
