@@ -51,9 +51,9 @@ spec:
       input:
         url: ./template
         values:
-          environmentName: "${{ parameters.env0_environment_name }}"
-          environmentDescription: ${{ parameters.deploy_comment }}
-          organizationId: ${{parameters.organizationId}}
+          environmentName: ${{ parameters.env0_environment_name }}
+          environmentDescription: ${{ parameters.env0_deployment_comment }}
+          projectId: ${{ parameters.env0_project_id }}
           environmentId: ${{ steps['deployEnv0Template'].output.environmentId }}
           # owner: ${{ parameters.owner }}
           # system: ${{ parameters.system }}
@@ -61,7 +61,6 @@ spec:
       name: Register Catalog
       action: catalog:register
       input:
-        # TODO: make sure rendering catalog-info.yaml works in order to register the entity
         #repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
 
