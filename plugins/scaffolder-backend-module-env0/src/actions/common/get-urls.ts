@@ -6,7 +6,7 @@ const getEnv0AppUrl = () => {
   return process.env.ENV0_APP_URL ?? 'https://app.env0.com';
 };
 
-export const getEnv0EnvironmentLink = ({
+export const getEnv0EnvironmentUrl = ({
   environmentId,
   projectId,
 }: {
@@ -16,7 +16,7 @@ export const getEnv0EnvironmentLink = ({
   return `${getEnv0AppUrl()}/p/${projectId}/environments/${environmentId}`;
 };
 
-export const getEnv0DeploymentLink = ({
+export const getEnv0DeploymentUrl = ({
   environmentId,
   deploymentId,
   projectId,
@@ -25,7 +25,7 @@ export const getEnv0DeploymentLink = ({
   deploymentId: string;
   projectId: string;
 }) => {
-  return `${getEnv0EnvironmentLink({
+  return `${getEnv0EnvironmentUrl({
     environmentId,
     projectId,
   })}/deployments/${deploymentId}`;

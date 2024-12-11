@@ -2,7 +2,7 @@ import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
 import { apiClient } from './common/api-client';
 import { commentSchema, variablesSchema } from './common/schema';
-import { getEnv0DeploymentLink } from './common/get-urls';
+import { getEnv0DeploymentUrl } from './common/get-urls';
 
 export type RedeployEnvironmentArgs = z.infer<typeof schema>;
 
@@ -40,8 +40,8 @@ export function createEnv0RedeployEnvironmentAction() {
       ctx.output('environmentId', environmentId);
       ctx.output('deploymentId', deploymentId);
       ctx.output(
-        'deploymentLink',
-        getEnv0DeploymentLink({
+        'deploymentUrl',
+        getEnv0DeploymentUrl({
           environmentId,
           deploymentId,
           projectId,
