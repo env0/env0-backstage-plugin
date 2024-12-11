@@ -142,14 +142,13 @@ export type Env0Api = {
   getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
 };
 
-export enum DeploymentStepStatus {
-  NOT_STARTED = 'NOT_STARTED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  WAITING_FOR_USER = 'WAITING_FOR_USER',
-  FAIL = 'FAIL',
-  SUCCESS = 'SUCCESS',
-  CANCELLED = 'CANCELLED',
-  TIMEOUT = 'TIMEOUT',
-  SKIPPED = 'SKIPPED',
-  WARNING = 'WARNING',
-}
+export type DeploymentStepStatus =
+  | 'NOT_STARTED'
+  | 'IN_PROGRESS'
+  | 'WAITING_FOR_USER'
+  | 'FAIL'
+  | 'SUCCESS'
+  | 'CANCELLED'
+  | 'TIMEOUT'
+  | 'SKIPPED'
+  | 'WARNING';

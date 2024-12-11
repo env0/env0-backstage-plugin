@@ -1,4 +1,9 @@
-import { DeploymentStatus, DeploymentStepStatus, EnvironmentDriftStatus, EnvironmentStatus } from "../../api/types";
+import {
+  DeploymentStatus,
+  DeploymentStepStatus,
+  EnvironmentDriftStatus,
+  EnvironmentStatus,
+} from '../../api/types';
 
 interface StatusProperties {
   bgColor: string;
@@ -39,42 +44,42 @@ export const statusToTextAndColor: keyInDeploymentStepStatus &
   keyInDeploymentStatuses &
   keyInModuleTestStatuses &
   keyInDriftDetectionStatuses = {
-  [DeploymentStepStatus.FAIL]: {
+  FAIL: {
     bgColor: colors.lightRed,
     color: colors.red,
     text: 'Failed',
   },
-  [DeploymentStepStatus.IN_PROGRESS]: {
+  IN_PROGRESS: {
     bgColor: colors.plainGray,
     color: colors.darkGray,
     text: 'In Progress...',
   },
-  [DeploymentStepStatus.SUCCESS]: {
+  SUCCESS: {
     bgColor: colors.lightGreen,
     color: colors.secondaryGreen,
     text: 'Success',
   },
-  [DeploymentStepStatus.WAITING_FOR_USER]: {
+  WAITING_FOR_USER: {
     bgColor: colors.lightPurple,
     color: colors.primaryBlue,
     text: 'Waiting for approval',
   },
-  [DeploymentStepStatus.NOT_STARTED]: {
+  NOT_STARTED: {
     bgColor: '',
     color: '',
     text: '',
   },
-  [DeploymentStepStatus.CANCELLED]: {
+  CANCELLED: {
     bgColor: colors.errorRed,
     color: '#fff',
     text: 'Canceled',
   },
-  [DeploymentStepStatus.SKIPPED]: {
+  SKIPPED: {
     bgColor: colors.plainGray,
     color: colors.darkGray,
     text: 'Skipped',
   },
-  [DeploymentStepStatus.WARNING]: {
+  WARNING: {
     bgColor: colors.alertYellow,
     color: colors.alertYellowText,
     text: 'Warning',
