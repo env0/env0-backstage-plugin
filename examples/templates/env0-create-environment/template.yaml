@@ -35,15 +35,6 @@ spec:
           title: Project ID
           type: string
           description: Deploy under the selected env0 project. Projects list effected by your env0 Template selection.
-    - title: Variables
-      required:
-        - env0_variables
-      properties:
-        # TODO: on variables ticket
-        env0_variables:
-          title: Variables
-          type: string # we will need to implement a new type of component here
-          description: TF / Environment Variables
   steps: # the pipeline deploy steps, using our custom actions
     - id: createEnv0Environment
       name: Create Env0 Environment
@@ -77,7 +68,7 @@ spec:
   output:
     links:
       - title: Env0 Environment link
-        url: "https://app.env0.com/p/${{ parameters.env0_project_id }}/environments/${{ steps['createEnv0Environment'].output.environmentId }}"
+        url: "${{ steps['createEnv0Environment'].output.environmentUrl }}"
       - title: Open in catalog
         icon: catalog
         entityRef: ${{ steps['register'].output.entityRef }}
