@@ -25,7 +25,7 @@ const Status: React.FC<StatusProps> = ({ status, ...props }) => {
   const className = useStyles({ status });
 
   return (
-    <Chip className={className.statusContainer} label={status} {...props} />
+    <Chip className={className.statusContainer} label={statusToTextAndColor[status].text} {...props} />
   );
 };
 
