@@ -107,7 +107,7 @@ export const statusToTextAndColor: keyInDeploymentStepStatus &
   TIMEOUT: {
     bgColor: colors.lightRed,
     color: colors.red,
-    text: 'Timeoutg',
+    text: 'Timeout',
   },
   INACTIVE: {
     bgColor: colors.plainGray,
