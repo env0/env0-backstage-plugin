@@ -34,6 +34,8 @@ export namespace Env0Api {
 
     export interface Response {
       id: string; // environment id
+      name: string;
+      projectId: string;
     }
   }
 
