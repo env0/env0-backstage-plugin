@@ -2,6 +2,7 @@ import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
 import { apiClient } from './common/api-client';
 import { commentSchema, variablesSchema } from './common/schema';
+import { getEnv0DeploymentLink } from './common/get-urls';
 
 export type RedeployEnvironmentArgs = z.infer<typeof schema>;
 
@@ -20,17 +21,32 @@ export function createEnv0RedeployEnvironmentAction() {
     },
     async handler(ctx) {
       ctx.logger.info(`Redeploying env0 environment`);
+      const environmentId = ctx.input.id;
 
-      const { id } = await apiClient.redeployEnvironment(ctx.input.id, {
-        deployRequest: {
-          comment: ctx.input.comment,
-          configurationChanges: ctx.input.variables,
+      const { id: deploymentId } = await apiClient.redeployEnvironment(
+        environmentId,
+        {
+          deployRequest: {
+            comment: ctx.input.comment,
+            configurationChanges: ctx.input.variables,
+          },
         },
-      });
+      );
+
+      const { projectId } = await apiClient.getEnvironment(environmentId);
 
       ctx.logger.info(`env0 environment re-deploy initiated successfully`);
-      ctx.output('environmentId', ctx.input.id);
-      ctx.output('deploymentId', id);
+
+      ctx.output('environmentId', environmentId);
+      ctx.output('deploymentId', deploymentId);
+      ctx.output(
+        'deploymentLink',
+        getEnv0DeploymentLink({
+          environmentId,
+          deploymentId,
+          projectId,
+        }),
+      );
     },
   });
 }

@@ -2,6 +2,7 @@ import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
 import { apiClient } from './common/api-client';
 import { commentSchema, variablesSchema } from './common/schema';
+import { getEnv0EnvironmentLink } from './common/get-urls';
 
 export type CreateEnvironmentArgs = z.infer<typeof schema>;
 
@@ -39,6 +40,13 @@ export function createEnv0CreateEnvironmentAction() {
 
       ctx.logger.info(`env0 environment creation initiated successfully`);
       ctx.output('environmentId', id);
+      ctx.output(
+        'environmentLink',
+        getEnv0EnvironmentLink({
+          environmentId: id,
+          projectId: ctx.input.projectId,
+        }),
+      );
     },
   });
 }
