@@ -61,6 +61,7 @@ const deploymentHistoryColumns: TableColumn<Deployment>[] = [
     ),
   },
 ];
+
 export const Env0DeploymentTable: React.FunctionComponent<{
   environmentId: string;
 }> = ({ environmentId }) => {
