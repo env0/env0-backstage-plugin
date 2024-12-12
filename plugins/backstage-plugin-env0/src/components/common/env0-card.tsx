@@ -4,6 +4,7 @@ import Cached from '@material-ui/icons/Cached';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import { Env0Icon } from '../icons';
+import { styled } from '@material-ui/core';
 
 type CardProps = {
   title: string;
@@ -23,16 +24,10 @@ export const Env0Card = ({
   <Card>
     <CardHeader
       title={
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.4em',
-          }}
-        >
+        <Env0Title>
           <Env0Icon />
           <span>{title}</span>
-        </div>
+        </Env0Title>
       }
       subheader={subheader}
       titleTypographyProps={{ variant: 'h5' }}
@@ -51,3 +46,9 @@ export const Env0Card = ({
     <div style={{ marginTop: '1em' }}>{children}</div>
   </Card>
 );
+
+const Env0Title = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.4em',
+});
