@@ -50,7 +50,7 @@ export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
   };
 
   const buttonText = !isLoading ? (
-    'Redeploy'
+    'Deploy'
   ) : (
     <span>
       <CircularProgress size="1em" /> Loading...
@@ -64,9 +64,10 @@ export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
         enterDelay={1000}
       >
         <Button
+          sx={{ position: 'fixed', top: 0, right: 0, zIndex: 2000 }}
           disabled={disabled || isLoading}
           variant="contained"
-          color="secondary"
+          color="primary"
           onClick={() => handleRedeploy(environmentId)}
         >
           {buttonText}

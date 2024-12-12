@@ -1,16 +1,15 @@
 import React from 'react';
 import dayjs from '../common/dayjs.types';
-import { styled } from '@material-ui/core';
 import { Table, TableColumn } from '@backstage/core-components';
 import { Deployment } from '../../api/types';
 import { useGetDeployments } from '../../hooks/use-deployments-history';
 import { PlanSummary } from './plan-summary';
 import { DeploymentType } from './deployment-type';
 import { formatDatetime, parseTimerElapsedTime } from '../common/time.utils';
-import { DeploymentTableHeader } from './deployment-table-header';
 import { ErrorContainer } from '../common/error-container';
-import { RedeployButton } from './redeploy-button';
 import Status from '../env0-status/status';
+import { Env0Card } from '../common/env0-card';
+import { RedeployButton } from './redeploy-button';
 
 const getFormattedDeploymentDuration = (deployment: Deployment) => {
   if (!deployment.finishedAt || !deployment.startedAt) return '-';
@@ -65,6 +64,7 @@ export const Env0DeploymentTable: React.FunctionComponent<{
     value: deployments,
     loading: isLoading,
     error,
+    retry,
   } = useGetDeployments(environmentId);
 
   if (error) {
@@ -72,35 +72,22 @@ export const Env0DeploymentTable: React.FunctionComponent<{
   }
 
   return (
-    <Table
-      title={<DeploymentTableHeader />}
-      actions={[
-        {
-          icon: 'Redeploy',
-          position: 'toolbar',
-          onClick: () => console.log('Redeploy'),
-        },
-      ]}
-      components={{
-        Actions: () => (
-          <ActionsWrapper>
-            <RedeployButton />
-          </ActionsWrapper>
-        ),
-      }}
-      options={{
-        paging: false,
-        search: false,
-      }}
-      data={deployments ?? []}
-      columns={deploymentHistoryColumns}
-      isLoading={isLoading}
-    />
+    <Env0Card
+      title="Env0 Deployments"
+      subheader="View the history of deployments for this environment in env0."
+      retryAction={retry}
+      actions={<RedeployButton />}
+    >
+      <Table
+        options={{
+          paging: false,
+          search: false,
+          toolbar: false,
+        }}
+        data={deployments ?? []}
+        columns={deploymentHistoryColumns}
+        isLoading={isLoading}
+      />
+    </Env0Card>
   );
 };
-
-const ActionsWrapper = styled('div')({
-  padding: '1px 1em 0 1em',
-  alignSelf: 'start',
-  placeSelf: 'start',
-});
