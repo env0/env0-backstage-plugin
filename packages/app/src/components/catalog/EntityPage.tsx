@@ -135,10 +135,10 @@ const entityWarningContent = (
 );
 
 const overviewContent = (
-  <Grid spacing={3} alignItems="stretch">
+  <>
     {entityWarningContent}
     <Env0EnvironmentDetailsCard />
-  </Grid>
+  </>
 );
 
 const serviceEntityPage = (
