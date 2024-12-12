@@ -61,7 +61,7 @@ export const Env0EnvironmentDetailsCard = () => {
     if (isEmpty(environmentId)) {
       throw new Error("Entity's Environment ID is empty");
     }
-    const environment = await api.getEnvironmentByID(environmentId!);
+    const environment = await api.getEnvironmentById(environmentId!);
     const template = await api.getTemplateById(
       environment.latestDeploymentLog.blueprintId,
     );
