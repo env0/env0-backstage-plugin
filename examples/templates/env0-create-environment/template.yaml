@@ -45,7 +45,7 @@ spec:
           ui:field: Env0VariablesInput
           ui:backstage:
             review:
-              explode: true
+              show: false
           items:
             type: object
             properties:
