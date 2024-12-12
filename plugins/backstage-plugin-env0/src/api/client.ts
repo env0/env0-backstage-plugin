@@ -11,9 +11,12 @@ import {
   Env0Api,
   Project,
   Organization,
+  Variable,
+  ListVariablesParams,
 } from './types';
 
 import { DiscoveryApi, FetchApi } from '@backstage/core-plugin-api';
+import { isNil, omitBy } from 'lodash';
 
 export type Env0ClientApiDependencies = {
   discoveryApi: DiscoveryApi;
@@ -51,6 +54,30 @@ export class Env0Client implements Env0Api {
         'proxy',
     )
     return proxy;
+  }
+
+  // https://docs.env0.com/reference/configuration-find-variables-by-scope
+  async listVariables({
+    environmentId,
+    projectId,
+    templateId,
+    organizationId,
+  }: ListVariablesParams): Promise<Variable[]> {
+    const url = `${await this.config.discoveryApi.getBaseUrl(
+      'proxy',
+    )}/env0/configuration`;
+    const nonNullParams = omitBy(
+      { environmentId, projectId, templateId, organizationId },
+      isNil,
+    ) as Record<string, string>;
+    const variables = await this.request(
+      url,
+      {
+        method: 'GET',
+      },
+      nonNullParams,
+    );
+    return variables.json();
   }
 
   // https://docs.env0.com/reference/environments-find-by-id

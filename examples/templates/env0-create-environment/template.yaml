@@ -39,11 +39,24 @@ spec:
       required:
         - env0_variables
       properties:
-        # TODO: on variables ticket
         env0_variables:
           title: Variables
-          type: string # we will need to implement a new type of component here
-          description: TF / Environment Variables
+          type: array
+          ui:field: Env0VariablesInput
+          ui:options:
+            templateId: ${{ parameters.env0_template_id }}
+            projectId: ${{ parameters.env0_project_id }}
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+              additionalProperties: true
+          required:
+            - env0_variables
+          description: IaC / Environment Variables
   steps: # the pipeline deploy steps, using our custom actions
     - id: createEnv0Environment
       name: Create Env0 Environment
