@@ -60,14 +60,14 @@ export class Env0Client implements Env0Api {
   async listVariables({
     environmentId,
     projectId,
-    templateId,
+    blueprintId,
     organizationId,
   }: ListVariablesParams): Promise<Variable[]> {
     const url = `${await this.config.discoveryApi.getBaseUrl(
       'proxy',
     )}/env0/configuration`;
     const nonNullParams = omitBy(
-      { environmentId, projectId, templateId, organizationId },
+      { environmentId, projectId, blueprintId, organizationId },
       isNil,
     ) as Record<string, string>;
     const variables = await this.request(

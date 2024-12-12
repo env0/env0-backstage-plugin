@@ -43,9 +43,9 @@ spec:
           title: Variables
           type: array
           ui:field: Env0VariablesInput
-          ui:options:
-            templateId: ${{ parameters.env0_template_id }}
-            projectId: ${{ parameters.env0_project_id }}
+          ui:backstage:
+            review:
+              explode: true
           items:
             type: object
             properties:
@@ -53,7 +53,7 @@ spec:
                 type: string
               value:
                 type: string
-              additionalProperties: true
+            additionalProperties: true
           required:
             - env0_variables
           description: IaC / Environment Variables

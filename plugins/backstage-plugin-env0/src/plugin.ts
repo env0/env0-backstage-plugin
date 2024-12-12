@@ -52,7 +52,7 @@ export const Env0TemplateSelectorExtension = scaffolderPlugin.provide(
 
 export const Env0VariableInputExtension = scaffolderPlugin.provide(
   createScaffolderFieldExtension({
-    name: 'Env0VariableInput',
+    name: 'Env0VariablesInput',
     component: Env0VariablesInput,
     schema: Env0VariableInputSchema,
   }),

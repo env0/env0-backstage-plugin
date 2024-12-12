@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
 import {
   FormControl,
-  FormHelperText,
+  Select,
   styled,
   TextField,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 import { z } from 'zod';
@@ -13,6 +14,28 @@ import { useVariablesDataByTemplate } from '../../hooks/use-variables-data-by-te
 import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
 import { Env0Card } from '../common/env0-card';
+import InfoRounded from '@material-ui/icons/InfoRounded';
+
+const VariableContainer = styled('div')(() => ({
+  display: 'grid',
+  gridTemplateColumns: '1fr 5fr',
+  gridColumnStart: 1,
+  gap: '2em',
+  alignItems: 'center',
+  width: '100%',
+  marginBottom: '2em',
+}));
+
+const FullWidthSelect = styled(Select)({
+  width: '100%',
+});
+
+const InputAndInfoIconContainer = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+}));
 
 const variableSchema = (zImpl: typeof z) =>
   zImpl
@@ -29,49 +52,91 @@ const Env0VariableInputFieldSchema = makeFieldSchema({
 
 export const Env0VariableInputSchema = Env0VariableInputFieldSchema.schema;
 
-type PassedUIOptionsFields = {
-  templateId: string;
-  projectId: string;
+type PassedFormContextFields = {
+  formData: {
+    env0_project_id?: string;
+    env0_template_id?: string;
+  };
 };
 
 type Env0TemplateSelectorFieldProps =
-  typeof Env0VariableInputFieldSchema.TProps & PassedUIOptionsFields;
+  typeof Env0VariableInputFieldSchema.TProps;
 
-const VariableContainer = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  marginBottom: '10px',
-}));
+type VaribleType = 'string' | 'dropdown';
+
+type VariableInputComponentProps = {
+  variable: Variable;
+  index: number;
+  updateVariableValue: (index: number, value: string) => void;
+};
+
+const variableInputByInputType: Record<
+  VaribleType,
+  ({
+    variable,
+    index,
+    updateVariableValue,
+  }: VariableInputComponentProps) => ReactElement
+> = {
+  string: ({ variable, index, updateVariableValue }) => (
+    <TextField
+      label="Value"
+      fullWidth
+      value={variable.value}
+      required={variable.isRequired}
+      onChange={(changeEvent: any) =>
+        updateVariableValue(index, changeEvent.target.value)
+      }
+    />
+  ),
+  dropdown: ({ variable, index, updateVariableValue }) => (
+    <FullWidthSelect
+      value={variable.value}
+      onChange={(changeEvent: any) =>
+        updateVariableValue(index, changeEvent.target.value)
+      }
+    >
+      {variable.schema?.enum?.map((option, optionIndex) => (
+        <option key={optionIndex} value={option}>
+          {option}
+        </option>
+      ))}
+    </FullWidthSelect>
+  ),
+};
 
 export const Env0VariablesInput = ({
   formData = [],
-  required,
+  formContext,
   rawErrors,
   onChange: onVariablesChange,
-  templateId,
-  projectId,
 }: Env0TemplateSelectorFieldProps): React.ReactElement => {
+  const {
+    formData: { env0_project_id: projectId, env0_template_id: templateId },
+  } = formContext as PassedFormContextFields;
+
   const [variables, setVariables] = useState<Variable[]>(
     formData as Variable[],
   );
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const {
     loading,
     error,
     value: variablesData,
+    retry,
   } = useVariablesDataByTemplate(templateId, projectId);
 
   useEffect(() => {
-    if (variablesData) {
+    if (variablesData && !isInitialized) {
       setVariables(variablesData);
+      setIsInitialized(true);
     }
-  }, [variablesData]);
+  }, [isInitialized, variablesData]);
 
   if (loading) {
     return (
-      <Env0Card>
+      <Env0Card retryAction={retry}>
         <Progress />
       </Env0Card>
     );
@@ -79,7 +144,7 @@ export const Env0VariablesInput = ({
 
   if (error) {
     return (
-      <Env0Card>
+      <Env0Card retryAction={retry}>
         <ErrorContainer error={error} />
       </Env0Card>
     );
@@ -87,38 +152,42 @@ export const Env0VariablesInput = ({
 
   const updateVariableValue = (index: number, value: string) => {
     const newVariables = [...variables];
-    newVariables[index] = { ...newVariables[index], value };
+    newVariables[index] = {
+      ...newVariables[index],
+      scope: 'ENVIRONMENT',
+      value,
+    };
     setVariables(newVariables);
     onVariablesChange(newVariables);
   };
 
   return (
-    <FormControl
-      margin="normal"
-      required={required}
-      error={Boolean(rawErrors?.length)}
-      fullWidth
-    >
-      <FormHelperText>Env0 Variables Input</FormHelperText>
+    <FormControl margin="normal" error={Boolean(rawErrors?.length)} fullWidth>
       {variables.map((variable, index) => (
         <VariableContainer key={index}>
           <Typography
             variant="body1"
             style={{
-              marginRight: '10px',
               minWidth: '150px',
               fontWeight: 'bold',
             }}
           >
             {variable.name}:
           </Typography>
-          <TextField
-            label="Value"
-            value={variable.value}
-            onChange={(changeEvent: any) =>
-              updateVariableValue(index, changeEvent.target.value)
-            }
-          />
+          <InputAndInfoIconContainer>
+            {variableInputByInputType[
+              variable.schema?.enum ? 'dropdown' : 'string'
+            ]({
+              variable,
+              index,
+              updateVariableValue,
+            })}
+            {variable.description && (
+              <Tooltip title={variable.description}>
+                <InfoRounded />
+              </Tooltip>
+            )}
+          </InputAndInfoIconContainer>
         </VariableContainer>
       ))}
     </FormControl>

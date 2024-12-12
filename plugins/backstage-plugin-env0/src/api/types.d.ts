@@ -133,6 +133,15 @@ type PartialJSONSchema7 = {
   format?: 'HCL' | 'JSON' | 'ENVIRONMENT_OUTPUT';
 };
 
+type ConfigurationScope =
+  | 'SET'
+  | 'GLOBAL'
+  | 'BLUEPRINT'
+  | 'PROJECT'
+  | 'WORKFLOW'
+  | 'ENVIRONMENT'
+  | 'DEPLOYMENT';
+
 export type Variable = {
   id: string;
   name: string;
@@ -140,8 +149,11 @@ export type Variable = {
   isSensitive?: boolean;
   isReadonly?: boolean;
   isRequired?: boolean;
+  isOutput?: boolean;
   regex?: string;
   schema?: PartialJSONSchema7;
+  description?: string;
+
   // For grouping
   scopeId?: string;
   scope: ConfigurationScope;
@@ -159,7 +171,7 @@ export type Project = {
 export type ListVariablesParams = {
   environmentId?: string;
   projectId: string;
-  templateId: string;
+  blueprintId: string;
   organizationId: string;
 };
 
@@ -168,7 +180,7 @@ export type Env0Api = {
   listVariables({
     environmentId,
     projectId,
-    templateId,
+    blueprintId,
     organizationId,
   }: ListVariablesParams): Promise<Variable[]>;
   getEnvironmentById(environmentId: string): Promise<Environment>;
