@@ -1,20 +1,16 @@
 import React from 'react';
-import { useGetDeployments } from '../../hooks/use-deployments-history';
+import dayjs from '../common/dayjs.types';
+import { styled } from '@material-ui/core';
 import { Table, TableColumn } from '@backstage/core-components';
 import { Deployment } from '../../api/types';
+import { useGetDeployments } from '../../hooks/use-deployments-history';
 import { PlanSummary } from './plan-summary';
 import { DeploymentType } from './deployment-type';
 import { formatDatetime, parseTimerElapsedTime } from '../common/time.utils';
-import dayjs from '../common/dayjs.types';
 import { DeploymentTableHeader } from './deployment-table-header';
 import { ErrorContainer } from '../common/error-container';
+import { RedeployButton } from './redeploy-button';
 import Status from '../env0-status/status';
-
-const columnHeaderStyle = {
-  color: '#3636D8',
-  borderBottom: '1px solid #f0f0f0',
-  fontWeight: '500',
-};
 
 const getFormattedDeploymentDuration = (deployment: Deployment) => {
   if (!deployment.finishedAt || !deployment.startedAt) return '-';
@@ -76,10 +72,23 @@ export const Env0DeploymentTable: React.FunctionComponent<{
   }
 
   return (
-    <Table<Deployment>
+    <Table
       title={<DeploymentTableHeader />}
+      actions={[
+        {
+          icon: 'Redeploy',
+          position: 'toolbar',
+          onClick: () => console.log('Redeploy'),
+        },
+      ]}
+      components={{
+        Actions: () => (
+          <ActionsWrapper>
+            <RedeployButton />
+          </ActionsWrapper>
+        ),
+      }}
       options={{
-        headerStyle: columnHeaderStyle,
         paging: false,
         search: false,
       }}
@@ -89,3 +98,9 @@ export const Env0DeploymentTable: React.FunctionComponent<{
     />
   );
 };
+
+const ActionsWrapper = styled('div')({
+  padding: '1px 1em 0 1em',
+  alignSelf: 'start',
+  placeSelf: 'start',
+});
