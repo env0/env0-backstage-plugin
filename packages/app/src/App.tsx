@@ -40,6 +40,7 @@ import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/
 import {
   BackstagePluginEnv0Page,
   Env0TemplateSelectorExtension,
+  Env0ProjectSelectorExtension,
 } from '@env0/backstage-plugin-env0';
 
 const app = createApp({
@@ -88,6 +89,7 @@ const routes = (
     <Route path="/create" element={<ScaffolderPage />}>
       <ScaffolderFieldExtensions>
         <Env0TemplateSelectorExtension />
+        <Env0ProjectSelectorExtension />
       </ScaffolderFieldExtensions>
     </Route>
     <Route path="/api-docs" element={<ApiExplorerPage />} />

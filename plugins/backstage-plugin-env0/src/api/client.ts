@@ -103,6 +103,7 @@ export class Env0Client implements Env0Api {
     return organizations.json();
   }
 
+  // https://docs.env0.com/reference/projects-find-by-organization-id
   async getProjectsByOrganizationId(
     organizationId: string,
   ): Promise<Project[]> {
@@ -114,6 +115,18 @@ export class Env0Client implements Env0Api {
       method: 'GET',
     });
     return projects.json();
+  }
+
+  // https://docs.env0.com/reference/projects-find-by-id
+  async getProjectById(projectId: string): Promise<Project> {
+    const url = `${await this.config.discoveryApi.getBaseUrl(
+      'proxy',
+    )}/env0/projects/${projectId}`;
+
+    const project = await this.request(url, {
+      method: 'GET',
+    });
+    return project.json();
   }
 
   private getUrlWithParams(

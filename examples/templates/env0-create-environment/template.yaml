@@ -34,6 +34,7 @@ spec:
           # TODO: on project id selection ticket
           title: Project ID
           type: string
+          ui:field: Env0ProjectSelector
           description: Deploy under the selected env0 project. Projects list effected by your env0 Template selection.
     - title: Variables
       required:

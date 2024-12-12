@@ -51,6 +51,7 @@ export type Template = {
   isGitLabEnterprise?: boolean;
   isGitHubEnterprise?: boolean;
   type: TemplateType;
+  projectIds: string[];
 };
 
 export type EnvironmentStatus =
@@ -131,6 +132,7 @@ export type Organization = {
 export type Project = {
   id: string;
   organizationId: string;
+  name: string;
 };
 
 export type Env0Api = {
@@ -140,6 +142,7 @@ export type Env0Api = {
   getTemplateById(templateId: string): Promise<Template>;
   getOrganizations(): Promise<Organization[]>;
   getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
+  getProjectById(projectId: string): Promise<Project>;
 };
 
 export type DeploymentStepStatus =
