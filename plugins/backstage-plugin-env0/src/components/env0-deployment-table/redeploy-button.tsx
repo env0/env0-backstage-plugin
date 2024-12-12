@@ -41,7 +41,7 @@ export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
       await api.redeployEnvironment(environmentId);
       setSnackbarText('env0 deployment initiated successfully ✅');
     } catch (error) {
-      console.error('Env0 deployment failed:', error);
+      console.error('env0 deployment failed:', error);
       setSnackbarText('Failed to trigger env0 deployment ❌');
     } finally {
       setOpen(true);
