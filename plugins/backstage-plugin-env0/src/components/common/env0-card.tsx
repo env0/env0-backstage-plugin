@@ -20,32 +20,36 @@ export const Env0Card = ({
   retryAction,
   actions,
   children,
-}: CardProps) => (
-  <Card>
-    <CardHeader
-      title={
-        <Env0Title>
-          <Env0Icon />
-          <span>{title}</span>
-        </Env0Title>
-      }
-      subheader={subheader}
-      titleTypographyProps={{ variant: 'h5' }}
-      action={
-        <>
-          {actions}
-          {retryAction ? (
-            <Button onClick={retryAction}>
-              <Cached />
-            </Button>
-          ) : undefined}
-        </>
-      }
-    />
+}: CardProps) => {
+  const retryButton = !!retryAction && (
+    <Button onClick={retryAction}>
+      <Cached />
+    </Button>
+  );
 
-    <div style={{ marginTop: '1em' }}>{children}</div>
-  </Card>
-);
+  return (
+    <Card>
+      <CardHeader
+        title={
+          <Env0Title>
+            <Env0Icon />
+            <span>{title}</span>
+          </Env0Title>
+        }
+        subheader={subheader}
+        titleTypographyProps={{ variant: 'h5' }}
+        action={
+          <>
+            {actions}
+            {retryButton}
+          </>
+        }
+      />
+
+      <div style={{ marginTop: '1em' }}>{children}</div>
+    </Card>
+  );
+};
 
 const Env0Title = styled('div')({
   display: 'flex',
