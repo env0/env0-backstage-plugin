@@ -10,6 +10,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@mui/material/IconButton';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
+import { useEntity } from '@backstage/plugin-catalog-react';
+import { ENV0_TEMPLATE_ANNOTATION } from '../common/is-plugin-available';
 
 const Env0ProjectSelectorFieldSchema = makeFieldSchema({
   output: z => z.string(),
@@ -27,7 +29,13 @@ export const Env0ProjectSelector = ({
   formContext,
   formData: selectedProjectId,
 }: Env0ProjectSelectorFieldProps) => {
-  const selectedTemplateId = formContext?.formData?.env0_template_id;
+  const { entity } = useEntity();
+  const formTemplateId: string | undefined =
+    formContext?.formData?.env0_template_id;
+  const annotationTemplateId =
+    entity.metadata.annotations?.[ENV0_TEMPLATE_ANNOTATION];
+  const selectedTemplateId = formTemplateId || annotationTemplateId;
+
   const api = useApi<Env0Api>(env0ApiRef);
   const [isErrorOpen, setIsErrorOpen] = useState<boolean>(true);
   const {
@@ -51,16 +59,21 @@ export const Env0ProjectSelector = ({
     loading: loadingTemplate,
     error: errorTemplate,
   } = useAsync(async () => {
-    const template = await api.getTemplateById(selectedTemplateId);
-    return { template };
+    if (selectedTemplateId) {
+      const template = await api.getTemplateById(selectedTemplateId);
+      return { template };
+    }
+    return { template: undefined };
   }, [selectedTemplateId]);
 
   const projects = useMemo(() => {
     if (templateValue?.template) {
       const projectIds = templateValue?.template.projectIds;
-      return projectValue?.projects.filter(project =>
-        projectIds?.includes(project.id),
-      ) || [];
+      return (
+        projectValue?.projects.filter(project =>
+          projectIds?.includes(project.id),
+        ) || []
+      );
     }
     return projectValue?.projects || [];
   }, [templateValue, projectValue]);
