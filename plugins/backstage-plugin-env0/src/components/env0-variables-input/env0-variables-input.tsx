@@ -46,7 +46,7 @@ const variableSchema = (zImpl: typeof z) =>
     .passthrough();
 
 const Env0VariableInputFieldSchema = makeFieldSchema({
-  output: zImpl => zImpl.array(variableSchema(z)),
+  output: zImpl => zImpl.array(variableSchema(zImpl)),
   uiOptions: zImpl => zImpl.object({}),
 });
 
