@@ -1,20 +1,15 @@
 import React from 'react';
-import { useGetDeployments } from '../../hooks/use-deployments-history';
+import dayjs from '../common/dayjs.types';
 import { Table, TableColumn } from '@backstage/core-components';
 import { Deployment } from '../../api/types';
+import { useGetDeployments } from '../../hooks/use-deployments-history';
 import { PlanSummary } from './plan-summary';
 import { DeploymentType } from './deployment-type';
 import { formatDatetime, parseTimerElapsedTime } from '../common/time.utils';
-import dayjs from '../common/dayjs.types';
-import { DeploymentTableHeader } from './deployment-table-header';
 import { ErrorContainer } from '../common/error-container';
 import Status from '../env0-status/status';
-
-const columnHeaderStyle = {
-  color: '#3636D8',
-  borderBottom: '1px solid #f0f0f0',
-  fontWeight: '500',
-};
+import { Env0Card } from '../common/env0-card';
+import { RedeployButton } from './redeploy-button';
 
 const getFormattedDeploymentDuration = (deployment: Deployment) => {
   if (!deployment.finishedAt || !deployment.startedAt) return '-';
@@ -69,6 +64,7 @@ export const Env0DeploymentTable: React.FunctionComponent<{
     value: deployments,
     loading: isLoading,
     error,
+    retry,
   } = useGetDeployments(environmentId);
 
   if (error) {
@@ -76,16 +72,22 @@ export const Env0DeploymentTable: React.FunctionComponent<{
   }
 
   return (
-    <Table<Deployment>
-      title={<DeploymentTableHeader />}
-      options={{
-        headerStyle: columnHeaderStyle,
-        paging: false,
-        search: false,
-      }}
-      data={deployments ?? []}
-      columns={deploymentHistoryColumns}
-      isLoading={isLoading}
-    />
+    <Env0Card
+      title="env0 Deployments"
+      subheader="View the history of deployments for this environment in env0."
+      retryAction={retry}
+      actions={<RedeployButton />}
+    >
+      <Table
+        options={{
+          paging: false,
+          search: false,
+          toolbar: false,
+        }}
+        data={deployments ?? []}
+        columns={deploymentHistoryColumns}
+        isLoading={isLoading}
+      />
+    </Env0Card>
   );
 };

@@ -26,6 +26,8 @@ export const env0ApiRef = createApiRef<Env0Api>({
   id: 'plugin.env0.api',
 });
 
+let proxy: string | undefined = undefined;
+
 export class Env0Client implements Env0Api {
   static fromConfig(
     _configApi: ConfigApi,
@@ -41,8 +43,18 @@ export class Env0Client implements Env0Api {
 
   constructor(private readonly config: Env0ClientApiConfig) {}
 
+  async getBaseUrl() : Promise<string> {
+    if (proxy) {
+      return proxy;
+    }
+    proxy = await this.config.discoveryApi.getBaseUrl(
+        'proxy',
+    )
+    return proxy;
+  }
+
   // https://docs.env0.com/reference/environments-find-by-id
-  async getEnvironmentByID(environmentId: string): Promise<Environment> {
+  async getEnvironmentById(environmentId: string): Promise<Environment> {
     const url = `${await this.config.discoveryApi.getBaseUrl(
       'proxy',
     )}/env0/environments/${environmentId}`;
@@ -54,9 +66,7 @@ export class Env0Client implements Env0Api {
 
   // https://docs.env0.com/reference/templates-get-blueprint-by-id
   async getTemplateById(templateId: string): Promise<Template> {
-    const url = `${await this.config.discoveryApi.getBaseUrl(
-      'proxy',
-    )}/env0/blueprints/${templateId}`;
+    const url = `${await this.getBaseUrl()}/env0/blueprints/${templateId}`;
     const template = await this.request(url, {
       method: 'GET',
     });
@@ -68,9 +78,7 @@ export class Env0Client implements Env0Api {
     environmentId: string,
     paging = { limit: '50', offset: '0' },
   ): Promise<Deployment[]> {
-    const url = `${await this.config.discoveryApi.getBaseUrl(
-      'proxy',
-    )}/env0/environments/${environmentId}/deployments`;
+    const url = `${await this.getBaseUrl()}/env0/environments/${environmentId}/deployments`;
     const deployments = await this.request(
       url,
       {
@@ -83,9 +91,7 @@ export class Env0Client implements Env0Api {
 
   // https://docs.env0.com/reference/templates-find-all
   async getTemplatesByProjectId(projectId: string): Promise<Template[]> {
-    const url = `${await this.config.discoveryApi.getBaseUrl(
-      'proxy',
-    )}/env0/blueprints?projectId=${projectId}`;
+    const url = `${await this.getBaseUrl()}/env0/blueprints?projectId=${projectId}`;
     const template = await this.request(url, {
       method: 'GET',
     });
@@ -94,15 +100,14 @@ export class Env0Client implements Env0Api {
 
   // https://docs.env0.com/reference/organization-find-organizations
   async getOrganizations(): Promise<Organization[]> {
-    const url = `${await this.config.discoveryApi.getBaseUrl(
-      'proxy',
-    )}/env0/organizations`;
+    const url = `${await this.getBaseUrl()}/env0/organizations`;
     const organizations = await this.request(url, {
       method: 'GET',
     });
     return organizations.json();
   }
 
+  // https://docs.env0.com/reference/projects-find-by-organization-id
   async getProjectsByOrganizationId(
     organizationId: string,
   ): Promise<Project[]> {
@@ -114,6 +119,22 @@ export class Env0Client implements Env0Api {
       method: 'GET',
     });
     return projects.json();
+  }
+
+  // https://docs.env0.com/reference/environments-deploy
+  async redeployEnvironment(environmentId: string): Promise<Deployment> {
+    const url = `${await this.getBaseUrl()}/env0/environments/${environmentId}/deployments`;
+    const deployment = await this.request(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        deploymentType: 'deploy',
+        triggerName: 'user',
+      }),
+    });
+    return deployment.json();
   }
 
   private getUrlWithParams(

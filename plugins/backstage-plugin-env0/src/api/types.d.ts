@@ -135,11 +135,12 @@ export type Project = {
 
 export type Env0Api = {
   listDeployments(environmentId: string): Promise<Deployment[]>;
-  getEnvironmentByID(environmentId: string): Promise<Environment>;
+  getEnvironmentById(environmentId: string): Promise<Environment>;
   getTemplatesByProjectId(projectId): Promise<Template[]>;
   getTemplateById(templateId: string): Promise<Template>;
   getOrganizations(): Promise<Organization[]>;
   getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
+  redeployEnvironment(environmentId: string): Promise<Deployment>;
 };
 
 export type DeploymentStepStatus =
