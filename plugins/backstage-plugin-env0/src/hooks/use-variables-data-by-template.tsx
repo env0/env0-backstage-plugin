@@ -1,10 +1,6 @@
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, env0ApiRef } from '../api';
-import { Variable } from '../api/types';
 import { useAsyncRetry } from 'react-use';
-
-const filterHiddenVariables = () => (variable: Variable) =>
-  !(variable.isReadonly || variable.isOutput);
 
 export const useVariablesDataByTemplate = (
   templateId?: string,
@@ -24,6 +20,6 @@ export const useVariablesDataByTemplate = (
       blueprintId: templateId,
       organizationId: template.organizationId,
     });
-    return variables.filter(filterHiddenVariables());
+    return variables;
   }, [templateId]);
 };

@@ -106,6 +106,9 @@ const variableInputByInputType: Record<
   ),
 };
 
+const shouldShowVariable = (variable: Variable) =>
+  !(variable.isReadonly || variable.isOutput);
+
 export const Env0VariablesInput = ({
   formData = [],
   formContext,
@@ -164,33 +167,36 @@ export const Env0VariablesInput = ({
 
   return (
     <FormControl margin="normal" error={Boolean(rawErrors?.length)} fullWidth>
-      {variables.map((variable, index) => (
-        <VariableContainer key={index}>
-          <Typography
-            variant="body1"
-            style={{
-              minWidth: '150px',
-              fontWeight: 'bold',
-            }}
-          >
-            {variable.name}:
-          </Typography>
-          <InputAndInfoIconContainer>
-            {variableInputByInputType[
-              variable.schema?.enum ? 'dropdown' : 'string'
-            ]({
-              variable,
-              index,
-              updateVariableValue,
-            })}
-            {variable.description && (
-              <Tooltip title={variable.description}>
-                <InfoRounded />
-              </Tooltip>
-            )}
-          </InputAndInfoIconContainer>
-        </VariableContainer>
-      ))}
+      {variables.map(
+        (variable, index) =>
+          shouldShowVariable(variable) && (
+            <VariableContainer key={index}>
+              <Typography
+                variant="body1"
+                style={{
+                  minWidth: '150px',
+                  fontWeight: 'bold',
+                }}
+              >
+                {variable.name}:
+              </Typography>
+              <InputAndInfoIconContainer>
+                {variableInputByInputType[
+                  variable.schema?.enum ? 'dropdown' : 'string'
+                ]({
+                  variable,
+                  index,
+                  updateVariableValue,
+                })}
+                {variable.description && (
+                  <Tooltip title={variable.description}>
+                    <InfoRounded />
+                  </Tooltip>
+                )}
+              </InputAndInfoIconContainer>
+            </VariableContainer>
+          ),
+      )}
     </FormControl>
   );
 };
