@@ -140,7 +140,7 @@ export const Env0VariablesInput = ({
 
   if (loading) {
     return (
-      <Env0Card retryAction={retry}>
+      <Env0Card title="env0" retryAction={retry}>
         <Progress />
       </Env0Card>
     );
@@ -148,7 +148,7 @@ export const Env0VariablesInput = ({
 
   if (error) {
     return (
-      <Env0Card retryAction={retry}>
+      <Env0Card title="env0" retryAction={retry}>
         <ErrorContainer error={error} />
       </Env0Card>
     );
@@ -182,6 +182,7 @@ export const Env0VariablesInput = ({
           shouldShowVariable(variable) && (
             <VariableContainer key={index}>
               <Typography
+                noWrap={false}
                 variant="body1"
                 style={{
                   minWidth: '150px',
