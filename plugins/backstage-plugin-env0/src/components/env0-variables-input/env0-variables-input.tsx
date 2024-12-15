@@ -165,6 +165,16 @@ export const Env0VariablesInput = ({
     onVariablesChange(newVariables);
   };
 
+  const getVariableInput = (variable: Variable, index: number) => {
+    return variableInputByInputType[
+      variable.schema?.enum ? 'dropdown' : 'string'
+    ]({
+      variable,
+      index,
+      updateVariableValue,
+    });
+  };
+
   return (
     <FormControl margin="normal" error={Boolean(rawErrors?.length)} fullWidth>
       {variables.map(
@@ -181,13 +191,7 @@ export const Env0VariablesInput = ({
                 {variable.name}:
               </Typography>
               <InputAndInfoIconContainer>
-                {variableInputByInputType[
-                  variable.schema?.enum ? 'dropdown' : 'string'
-                ]({
-                  variable,
-                  index,
-                  updateVariableValue,
-                })}
+                {getVariableInput(variable, index)}
                 {variable.description && (
                   <Tooltip title={variable.description}>
                     <InfoRounded />
