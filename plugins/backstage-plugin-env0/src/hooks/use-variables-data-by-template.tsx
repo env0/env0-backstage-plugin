@@ -10,7 +10,9 @@ export const useVariablesDataByTemplate = (
 
   return useAsyncRetry(async () => {
     if (!templateId || !projectId) {
-      throw new Error('Error fetching variables please try again');
+      throw new Error(
+        `Error fetching variables, missing templateId or projectId please try again.`,
+      );
     }
 
     const template = await apiClient.getTemplateById(templateId);
