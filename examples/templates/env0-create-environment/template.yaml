@@ -39,11 +39,24 @@ spec:
       required:
         - env0_variables
       properties:
-        # TODO: on variables ticket
         env0_variables:
           title: Variables
-          type: string # we will need to implement a new type of component here
-          description: TF / Environment Variables
+          type: array
+          ui:field: Env0VariablesInput
+          ui:backstage:
+            review:
+              show: false
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+            additionalProperties: true
+          required:
+            - env0_variables
+          description: IaC / Environment Variables
   steps: # the pipeline deploy steps, using our custom actions
     - id: createEnv0Environment
       name: Create Env0 Environment
@@ -53,7 +66,7 @@ spec:
         projectId: ${{ parameters.env0_project_id }}
         name: ${{ parameters.env0_environment_name }}
         comment: ${{ parameters.env0_deployment_comment }}
-        # TODO: pass variables and validate that it works
+        variables: ${{ parameters.env0_variables }}
     - id: template
       name: Render the Backstage template
       action: fetch:template

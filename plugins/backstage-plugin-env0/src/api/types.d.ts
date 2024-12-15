@@ -51,6 +51,7 @@ export type Template = {
   isGitLabEnterprise?: boolean;
   isGitHubEnterprise?: boolean;
   type: TemplateType;
+  organizationId: string;
 };
 
 export type EnvironmentStatus =
@@ -86,6 +87,8 @@ export type Environment = {
   workspaceName: string;
   resources?: Resource[];
   user: User;
+  organizationId: string;
+  projectId: string;
 };
 
 type DeploymentType =
@@ -124,6 +127,38 @@ export interface Deployment {
   blueprintId: string;
 }
 
+type PartialJSONSchema7 = {
+  type?: 'string';
+  enum?: string[];
+  format?: 'HCL' | 'JSON' | 'ENVIRONMENT_OUTPUT';
+};
+
+type ConfigurationScope =
+  | 'SET'
+  | 'GLOBAL'
+  | 'BLUEPRINT'
+  | 'PROJECT'
+  | 'WORKFLOW'
+  | 'ENVIRONMENT'
+  | 'DEPLOYMENT';
+
+export type Variable = {
+  id: string;
+  name: string;
+  value?: string;
+  isSensitive?: boolean;
+  isReadonly?: boolean;
+  isRequired?: boolean;
+  isOutput?: boolean;
+  regex?: string;
+  schema?: PartialJSONSchema7;
+  description?: string;
+
+  // For grouping
+  scopeId?: string;
+  scope: ConfigurationScope;
+};
+
 export type Organization = {
   id: string;
 };
@@ -133,8 +168,21 @@ export type Project = {
   organizationId: string;
 };
 
+export type ListVariablesParams = {
+  environmentId?: string;
+  projectId: string;
+  blueprintId: string;
+  organizationId: string;
+};
+
 export type Env0Api = {
   listDeployments(environmentId: string): Promise<Deployment[]>;
+  listVariables({
+    environmentId,
+    projectId,
+    blueprintId,
+    organizationId,
+  }: ListVariablesParams): Promise<Variable[]>;
   getEnvironmentById(environmentId: string): Promise<Environment>;
   getTemplatesByProjectId(projectId): Promise<Template[]>;
   getTemplateById(templateId: string): Promise<Template>;
