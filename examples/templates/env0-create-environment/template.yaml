@@ -31,12 +31,11 @@ spec:
           type: string
           description: Comment to be shown on your deployment
         env0_project_id:
-          # TODO: on project id selection ticket
           title: Project ID
           type: string
           ui:field: Env0ProjectSelector
           ui:options:
-            env0TemplateId: "itamar the itamarol"
+            env0TemplateId: "uuid"
           description: Deploy under the selected env0 project. Projects list effected by your env0 Template selection.
     - title: Variables
       required:
