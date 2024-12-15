@@ -52,57 +52,59 @@ export const Env0TemplateSelector = ({
   });
   const templates = value?.templates || [];
 
-  if (error) {
-    return (
-      <Snackbar
-        open={isErrorOpen}
-        autoHideDuration={6000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert
-          severity="error"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => setIsErrorOpen(false)}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-        >
-          Failed to load templates from env0. Please try again later.
-          {error?.message}
-        </Alert>
-      </Snackbar>
-    );
-  }
-  return (
-    <FormControl
-      margin="normal"
-      required={required}
-      error={Boolean(rawErrors?.length)}
+  const snackbar = (
+    <Snackbar
+      open={isErrorOpen}
+      autoHideDuration={6000}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
-      <Autocomplete<Template>
-        loading={loading}
-        getOptionLabel={option => option.name}
-        options={templates || []}
-        value={templates.find(t => t.id === selectedTemplateId) || null}
-        onChange={(_, newValue: Template | null) => {
-          onTemplateIdChange(newValue?.id);
-        }}
-        renderInput={params => (
-          <TextField
-            {...params}
-            label={required ? `${schema.title}*` : schema.title}
-            aria-describedby="entityName"
-          />
-        )}
-      />
-      <FormHelperText>
-        Select from the list of available env0 templates
-      </FormHelperText>
-    </FormControl>
+      <Alert
+        severity="error"
+        action={
+          <IconButton
+            aria-label="close"
+            color="inherit"
+            size="small"
+            onClick={() => setIsErrorOpen(false)}
+          >
+            <CloseIcon fontSize="inherit" />
+          </IconButton>
+        }
+      >
+        Failed to load templates from env0. Please try again later.
+        {error?.message}
+      </Alert>
+    </Snackbar>
+  );
+
+  return (
+    <>
+      {error && snackbar}
+      <FormControl
+        margin="normal"
+        required={required}
+        error={Boolean(rawErrors?.length)}
+      >
+        <Autocomplete<Template>
+          loading={loading}
+          getOptionLabel={option => option.name}
+          options={templates || []}
+          value={templates.find(t => t.id === selectedTemplateId) || null}
+          onChange={(_, newValue: Template | null) => {
+            onTemplateIdChange(newValue?.id);
+          }}
+          renderInput={params => (
+            <TextField
+              {...params}
+              label={required ? `${schema.title}*` : schema.title}
+              aria-describedby="entityName"
+            />
+          )}
+        />
+        <FormHelperText>
+          Select from the list of available env0 templates
+        </FormHelperText>
+      </FormControl>
+    </>
   );
 };
