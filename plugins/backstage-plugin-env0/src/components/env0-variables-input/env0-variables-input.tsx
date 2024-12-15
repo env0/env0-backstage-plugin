@@ -18,6 +18,10 @@ import { z } from 'zod';
 import type { Variable } from '../../api/types';
 import Warning from '@material-ui/icons/Warning';
 
+const secretTypeReferences = ['ssm', 'gcp', 'azure', 'vault'].map(
+  secretType => `\${${secretType}`,
+);
+
 const VariableContainer = styled('div')(() => ({
   display: 'grid',
   gridTemplateColumns: '1fr 5fr',
@@ -107,8 +111,16 @@ const variableInputByInputType: Record<
   ),
 };
 
-const shouldShowVariable = (variable: Variable) =>
-  !(variable.isReadonly || variable.isOutput);
+const shouldShowVariable = (variable: Variable) => {
+  if (secretTypeReferences.some(ref => variable.value?.includes(ref))) {
+    if (variable.isRequired) {
+      throw new Error("Not supported: variable of type secrets reference can't be required");
+    }
+    return false;
+  }
+
+  return !(variable.isReadonly || variable.isOutput);
+};
 
 export const Env0VariablesInput = ({
   formData = [],
@@ -192,9 +204,7 @@ export const Env0VariablesInput = ({
                 }}
               >
                 {variable.isSensitive && (
-                  <Tooltip
-                    title="Senstive variable"
-                  >
+                  <Tooltip title="Senstive variable">
                     <Warning />
                   </Tooltip>
                 )}
