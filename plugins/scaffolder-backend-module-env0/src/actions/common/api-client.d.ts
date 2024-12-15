@@ -36,6 +36,7 @@ export namespace Env0Api {
       id: string; // environment id
       name: string;
       projectId: string;
+      organizationId: string;
     }
   }
 
