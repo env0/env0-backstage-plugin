@@ -10,7 +10,7 @@ metadata:
 spec:
   type: infrastructure
   parameters:
-    - title: Basic Information Step
+    - title: Gather Information
       required:
         - env0_template_id
         - env0_environment_name
@@ -43,6 +43,11 @@ spec:
           type: string
           ui:field: RepoUrlPicker
           ui:options:
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
+              additionalScopes:
+                github:
+                  - workflow
             allowedHosts:
               - github.com
   steps:
@@ -60,6 +65,7 @@ spec:
       action: fetch:template
       input:
         url: ./template
+        targetPath: ${{ steps['create-env0-environment'].output.environmentId }}
         values:
           id: ${{ steps['create-env0-environment'].output.environmentId }}
           name: ${{ parameters.env0_environment_name }}
@@ -76,8 +82,11 @@ spec:
       action: github:repo:push
       input:
         allowedHosts: ["github.com"]
+        token: ${{ secrets.USER_OAUTH_TOKEN or false }}
         description: Publish the template of ${{ parameters.env0_environment_name }} to GitHub
         repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: main
+        protectDefaultBranch: false
     - id: register
       name: Register Component to Catalog
       action: catalog:register
@@ -89,6 +98,6 @@ spec:
     links:
       - title: Open Env0 Environment
         url: "${{ steps['create-env0-environment'].output.environmentUrl }}"
-      - title: Open the Backstage Component
+      - title: Open Backstage Component
         icon: catalog
         entityRef: ${{ steps['register'].output.entityRef }}
