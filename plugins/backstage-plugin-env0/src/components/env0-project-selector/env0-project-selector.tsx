@@ -10,8 +10,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@mui/material/IconButton';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
-import { useEntity } from '@backstage/plugin-catalog-react';
-import { ENV0_TEMPLATE_ANNOTATION } from '../common/is-plugin-available';
 
 const Env0ProjectSelectorFieldSchema = makeFieldSchema({
   output: z => z.string(),
@@ -28,12 +26,14 @@ export const Env0ProjectSelector = ({
   required,
   formContext,
   formData: selectedProjectId,
+  uiSchema,
 }: Env0ProjectSelectorFieldProps) => {
-  const { entity } = useEntity();
   const formTemplateId: string | undefined =
     formContext?.formData?.env0_template_id;
-  const annotationTemplateId =
-    entity.metadata.annotations?.[ENV0_TEMPLATE_ANNOTATION];
+  const rawUiSchemaTemplateId = uiSchema?.['ui:options']?.['env0TemplateId'];
+  const annotationTemplateId: string | undefined =
+      typeof rawUiSchemaTemplateId === 'string' ? rawUiSchemaTemplateId : undefined;
+
   const selectedTemplateId = formTemplateId || annotationTemplateId;
 
   const api = useApi<Env0Api>(env0ApiRef);

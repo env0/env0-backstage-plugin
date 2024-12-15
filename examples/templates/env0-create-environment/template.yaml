@@ -35,6 +35,8 @@ spec:
           title: Project ID
           type: string
           ui:field: Env0ProjectSelector
+          ui:options:
+            env0TemplateId: "itamar the itamarol"
           description: Deploy under the selected env0 project. Projects list effected by your env0 Template selection.
     - title: Variables
       required:
