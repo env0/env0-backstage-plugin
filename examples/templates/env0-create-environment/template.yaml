@@ -34,6 +34,17 @@ spec:
           title: Project
           type: string
           description: Select the project to deploy the env0 environment to
+    - title: Choose a Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
   steps:
     - id: create-env0-environment
       name: Create Env0 Environment
@@ -60,11 +71,18 @@ spec:
           type: service
           lifecycle: experimental
           owner: default
+    - id: publish
+      name: Publish to GitHub
+      action: github:repo:push
+      input:
+        allowedHosts: ["github.com"]
+        description: Publish the template of ${{ parameters.env0_environment_name }} to GitHub
+        repoUrl: ${{ parameters.repoUrl }}
     - id: register
       name: Register Component to Catalog
       action: catalog:register
       input:
-        repoContentsUrl: file://./template
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
 
   output:
