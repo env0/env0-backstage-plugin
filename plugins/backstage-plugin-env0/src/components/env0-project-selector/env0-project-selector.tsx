@@ -32,7 +32,9 @@ export const Env0ProjectSelector = ({
     formContext?.formData?.env0_template_id;
   const rawUiSchemaTemplateId = uiSchema?.['ui:options']?.['env0TemplateId'];
   const annotationTemplateId: string | undefined =
-      typeof rawUiSchemaTemplateId === 'string' ? rawUiSchemaTemplateId : undefined;
+    typeof rawUiSchemaTemplateId === 'string'
+      ? rawUiSchemaTemplateId
+      : undefined;
 
   const selectedTemplateId = formTemplateId || annotationTemplateId;
 
@@ -78,8 +80,8 @@ export const Env0ProjectSelector = ({
     return projectValue?.projects || [];
   }, [templateValue, projectValue]);
 
-  if (errorProjects || errorTemplate) {
-    return (
+  const snackbar = (
+    <>
       <Snackbar
         open={isErrorOpen}
         autoHideDuration={6000}
@@ -102,33 +104,37 @@ export const Env0ProjectSelector = ({
           {(errorProjects || errorTemplate)?.message}
         </Alert>
       </Snackbar>
-    );
-  }
+    </>
+  );
+
   return (
-    <FormControl
-      margin="normal"
-      required={required}
-      error={Boolean(rawErrors?.length)}
-    >
-      <Autocomplete<Project>
-        loading={loadingProjects || loadingTemplate}
-        getOptionLabel={option => option.name}
-        options={projects || []}
-        value={projects.find(p => p.id === selectedProjectId) || null}
-        onChange={(_, newValue: Project | null) => {
-          onProjectIdChange(newValue?.id);
-        }}
-        renderInput={params => (
-          <TextField
-            {...params}
-            label={required ? `${schema.title}*` : schema.title}
-            aria-describedby="entityName"
-          />
-        )}
-      />
-      <FormHelperText>
-        Select from the list of available env0 templates
-      </FormHelperText>
-    </FormControl>
+    <>
+      {(errorProjects || errorTemplate) && snackbar}
+      <FormControl
+        margin="normal"
+        required={required}
+        error={Boolean(rawErrors?.length)}
+      >
+        <Autocomplete<Project>
+          loading={loadingProjects || loadingTemplate}
+          getOptionLabel={option => option.name}
+          options={projects || []}
+          value={projects.find(p => p.id === selectedProjectId) || null}
+          onChange={(_, newValue: Project | null) => {
+            onProjectIdChange(newValue?.id);
+          }}
+          renderInput={params => (
+            <TextField
+              {...params}
+              label={required ? `${schema.title}*` : schema.title}
+              aria-describedby="entityName"
+            />
+          )}
+        />
+        <FormHelperText>
+          Select from the list of available env0 templates
+        </FormHelperText>
+      </FormControl>
+    </>
   );
 };
