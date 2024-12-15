@@ -25,6 +25,7 @@ It can be installed as follows in the `App.tsx`
 <Route path="/create" element={<ScaffolderPage />}>
     <ScaffolderFieldExtensions>
         ...
+        <Env0VariableInputExtension />
         <Env0TemplateSelectorExtension />
     </ScaffolderFieldExtensions>
 </Route>
