@@ -53,7 +53,9 @@ spec:
           id: ${{ steps['create-env0-environment'].output.environmentId }}
           name: ${{ parameters.env0_environment_name }}
           projectId: ${{ parameters.env0_project_id }}
+          templateId: ${{ parameters.env0_template_id }}
           environmentUrl: ${{ steps['create-env0-environment'].output.environmentUrl }}
+          organizationId: ${{ steps['create-env0-environment'].output.organizationId }}
           # These are the component's default values, which you can customize with your own
           type: service
           lifecycle: experimental
