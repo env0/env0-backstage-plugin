@@ -56,4 +56,6 @@ backend.add(import('@env0/backstage-scaffolder-backend-env0'));
 
 // GitHub
 backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
+backend.add(import('@backstage/plugin-auth-backend-module-github-provider'));
+
 backend.start();
