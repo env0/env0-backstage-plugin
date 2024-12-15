@@ -17,11 +17,10 @@ export const useVariablesDataByTemplate = (
 
     const template = await apiClient.getTemplateById(templateId);
 
-    const variables = await apiClient.listVariables({
+    return await apiClient.listVariables({
       projectId,
       blueprintId: templateId,
       organizationId: template.organizationId,
     });
-    return variables;
   }, [templateId]);
 };
