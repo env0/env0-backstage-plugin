@@ -14,7 +14,6 @@ import { Env0Api, env0ApiRef } from '../../api';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
 import { VcsIcon } from './vcs-icon';
-import { Env0Card } from '../common/env0-card';
 import Status from '../env0-status/status';
 import { Env0Card } from '../common/env0-card';
 
