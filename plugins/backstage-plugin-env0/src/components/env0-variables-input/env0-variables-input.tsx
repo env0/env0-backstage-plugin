@@ -8,13 +8,14 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { z } from 'zod';
-import { Variable } from '../../api/types';
 import { useVariablesDataByTemplate } from '../../hooks/use-variables-data-by-template';
 import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
 import { Env0Card } from '../common/env0-card';
 import InfoRounded from '@material-ui/icons/InfoRounded';
+
+import { z } from 'zod';
+import type { Variable } from '../../api/types';
 
 const VariableContainer = styled('div')(() => ({
   display: 'grid',
