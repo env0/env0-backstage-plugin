@@ -11,9 +11,12 @@ import {
   Env0Api,
   Project,
   Organization,
+  Variable,
+  ListVariablesParams,
 } from './types';
 
 import { DiscoveryApi, FetchApi } from '@backstage/core-plugin-api';
+import { isNil, omitBy } from 'lodash';
 
 export type Env0ClientApiDependencies = {
   discoveryApi: DiscoveryApi;
@@ -43,14 +46,36 @@ export class Env0Client implements Env0Api {
 
   constructor(private readonly config: Env0ClientApiConfig) {}
 
-  async getBaseUrl() : Promise<string> {
+  async getBaseUrl(): Promise<string> {
     if (proxy) {
       return proxy;
     }
-    proxy = await this.config.discoveryApi.getBaseUrl(
-        'proxy',
-    )
+    proxy = await this.config.discoveryApi.getBaseUrl('proxy');
     return proxy;
+  }
+
+  // https://docs.env0.com/reference/configuration-find-variables-by-scope
+  async listVariables({
+    environmentId,
+    projectId,
+    blueprintId,
+    organizationId,
+  }: ListVariablesParams): Promise<Variable[]> {
+    const url = `${await this.config.discoveryApi.getBaseUrl(
+      'proxy',
+    )}/env0/configuration`;
+    const nonNullVariableScopeParams = omitBy(
+      { environmentId, projectId, blueprintId, organizationId },
+      isNil,
+    ) as Record<string, string>;
+    const variables = await this.request(
+      url,
+      {
+        method: 'GET',
+      },
+      nonNullVariableScopeParams,
+    );
+    return variables.json();
   }
 
   // https://docs.env0.com/reference/environments-find-by-id

@@ -41,6 +41,7 @@ import {
   BackstagePluginEnv0Page,
   Env0TemplateSelectorExtension,
   Env0ProjectSelectorExtension,
+  Env0VariableInputExtension
 } from '@env0/backstage-plugin-env0';
 
 const app = createApp({
@@ -88,6 +89,7 @@ const routes = (
     </Route>
     <Route path="/create" element={<ScaffolderPage />}>
       <ScaffolderFieldExtensions>
+        <Env0VariableInputExtension />
         <Env0TemplateSelectorExtension />
         <Env0ProjectSelectorExtension />
       </ScaffolderFieldExtensions>
