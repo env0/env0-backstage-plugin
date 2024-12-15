@@ -16,6 +16,7 @@ import InfoRounded from '@material-ui/icons/InfoRounded';
 
 import { z } from 'zod';
 import type { Variable } from '../../api/types';
+import Warning from '@material-ui/icons/Warning';
 
 const VariableContainer = styled('div')(() => ({
   display: 'grid',
@@ -184,10 +185,18 @@ export const Env0VariablesInput = ({
               <Typography
                 variant="body1"
                 style={{
+                  display: 'flex',
                   minWidth: '150px',
                   fontWeight: 'bold',
                 }}
               >
+                {variable.isSensitive && (
+                  <Tooltip
+                    title="Senstive variable"
+                  >
+                    <Warning />
+                  </Tooltip>
+                )}
                 {variable.name}:
               </Typography>
               <InputAndInfoIconContainer>
