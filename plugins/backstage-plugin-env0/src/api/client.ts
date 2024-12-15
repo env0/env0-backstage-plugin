@@ -46,13 +46,11 @@ export class Env0Client implements Env0Api {
 
   constructor(private readonly config: Env0ClientApiConfig) {}
 
-  async getBaseUrl() : Promise<string> {
+  async getBaseUrl(): Promise<string> {
     if (proxy) {
       return proxy;
     }
-    proxy = await this.config.discoveryApi.getBaseUrl(
-        'proxy',
-    )
+    proxy = await this.config.discoveryApi.getBaseUrl('proxy');
     return proxy;
   }
 
@@ -66,7 +64,7 @@ export class Env0Client implements Env0Api {
     const url = `${await this.config.discoveryApi.getBaseUrl(
       'proxy',
     )}/env0/configuration`;
-    const nonNullParams = omitBy(
+    const nonNullVariableScopeParams = omitBy(
       { environmentId, projectId, blueprintId, organizationId },
       isNil,
     ) as Record<string, string>;
@@ -75,7 +73,7 @@ export class Env0Client implements Env0Api {
       {
         method: 'GET',
       },
-      nonNullParams,
+      nonNullVariableScopeParams,
     );
     return variables.json();
   }
