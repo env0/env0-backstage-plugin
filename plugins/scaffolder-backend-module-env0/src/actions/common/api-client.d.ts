@@ -1,11 +1,9 @@
 export namespace Env0Api {
   interface ConfigurationChange {
-    id?: string;
+    id: string;
     name: string;
     value?: string;
-    type: 0 | 1; // 0 - TF Var, 1 - Env Var
-    isSensitive?: boolean;
-    isRequired?: boolean;
+    [key: string]: any;
   }
 
   export namespace GetEnvironment {
@@ -27,10 +25,9 @@ export namespace Env0Api {
       deployRequest: {
         blueprintId: string;
         comment?: string;
-        configurationChanges?: ConfigurationChange[]
-      }
+        configurationChanges?: ConfigurationChange[];
+      };
     }
-
 
     export interface Response {
       id: string; // environment id
@@ -40,14 +37,14 @@ export namespace Env0Api {
     }
   }
 
-  https://docs.env0.com/reference/environments-deploy
+  // https://docs.env0.com/reference/environments-deploy
   export namespace RedeployEnvironment {
     export interface Request {
       id: string;
       deployRequest: {
         comment?: string;
-        configurationChanges?: ConfigurationChange[]
-      }
+        configurationChanges?: ConfigurationChange[];
+      };
     }
 
     export interface Response {

@@ -14,6 +14,12 @@ type CardProps = {
   actions?: React.ReactNode;
 };
 
+const Env0Title = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.4em',
+});
+
 export const Env0Card = ({
   title,
   subheader,
@@ -50,9 +56,3 @@ export const Env0Card = ({
     </Card>
   );
 };
-
-const Env0Title = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '0.4em',
-});

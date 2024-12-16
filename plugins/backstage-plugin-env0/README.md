@@ -12,11 +12,12 @@ You can also serve the plugin in isolation by running `yarn start` in the plugin
 This method of serving the plugin provides quicker iteration speed and a faster startup and hot reloads.
 It is only meant for local development, and the setup for it can be found inside the [/dev](./dev) directory.
 
-## Use custom env0 template selector
+## Use custom env0 fields
 
+### Template Selector
 This custom scaffolder field, fetches all available env0 templates based on the permissions of the API key provided in the `app-config.yaml`.
 
-It do it by query the available organizations for the api key, then the projects for each organization and finally the templates assigned for those projects.
+It does it by querying the available organizations for the api key, then the projects for each organization and finally the templates assigned for those projects.
 
 It can be installed as follows in the `App.tsx`
 
@@ -56,4 +57,51 @@ spec:
           type: string
           ui:field: Env0TemplateSelector
           description: IaC template to be deployed.
+```
+
+### Variable Input
+This custom scaffolder field is used to input the values for the variables of the selected env0 template and project. 
+
+It fetches the variables of the selected template and project and renders the input fields for each variable.
+
+It can be installed as follows in the `App.tsx`
+```tsx
+...
+<Route path="/create" element={<ScaffolderPage />}>
+    <ScaffolderFieldExtensions>
+        ...
+        <Env0VariableInputExtension />
+    </ScaffolderFieldExtensions>
+</Route>
+...
+```
+
+Here is an example of its use in a template:
+```yaml
+...
+- spec:
+  type: infrastructure
+  parameters:
+    - title: Variables
+      required:
+        - env0_variables
+      properties:
+        env0_variables:
+          title: Variables
+          type: array
+          ui:field: Env0VariablesInput
+          ui:backstage:
+            review:
+              show: false
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+            additionalProperties: true
+          required:
+            - env0_variables
+          description: IaC / Environment Variables
 ```
