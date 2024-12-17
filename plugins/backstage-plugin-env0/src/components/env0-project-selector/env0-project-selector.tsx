@@ -106,7 +106,7 @@ export const Env0ProjectSelector = ({
             <TextField
               {...params}
               label={required ? `${schema.title}*` : schema.title}
-              aria-describedby="entityName"
+              aria-describedby="projectName"
             />
           )}
         />
