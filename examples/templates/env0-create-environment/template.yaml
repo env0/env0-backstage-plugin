@@ -28,12 +28,12 @@ spec:
         env0_deployment_comment:
           title: Deployment Comment
           type: string
-          description: Define a comment for the initial env0 deployment
+          description: Leave a comment on the initial env0 deployment
         env0_project_id:
           # TODO: on project id selection ticket
           title: Project
           type: string
-          description: Select the project to deploy the env0 environment to
+          description: Select the project to deploy the env0 environment in
     - title: Variables
       required:
         - env0_variables
