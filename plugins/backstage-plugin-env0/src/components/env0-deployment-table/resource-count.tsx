@@ -1,6 +1,10 @@
 import React, { useMemo } from 'react';
 import isNumber from 'lodash/isNumber';
-import { Tooltip } from '@material-ui/core';
+import { styled, Tooltip } from '@material-ui/core';
+
+const ResourceCountText = styled('span')({
+  cursor: 'default',
+});
 
 export const ResourceCount: React.FC<{ resourceCount?: number }> = ({
   resourceCount,
@@ -22,7 +26,9 @@ export const ResourceCount: React.FC<{ resourceCount?: number }> = ({
   }, [resourceCount]);
   return (
     <Tooltip title={tooltipText}>
-      <span>{text}</span>
+      <ResourceCountText style={{ cursor: 'default' }}>
+        {text}
+      </ResourceCountText>
     </Tooltip>
   );
 };
