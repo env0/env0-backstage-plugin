@@ -20,7 +20,7 @@ export const Env0ProjectSelectorSchema = Env0ProjectSelectorFieldSchema.schema;
 type Env0ProjectSelectorFieldProps =
   typeof Env0ProjectSelectorFieldSchema.TProps;
 
-const useGetProjectsByTemplateId = (templateId: string) => {
+const useGetProjectsByTemplateId = (templateId?: string) => {
   const api = useApi<Env0Api>(env0ApiRef);
   const {
     value: projectValue,
@@ -109,7 +109,8 @@ export const Env0ProjectSelector = ({
           renderInput={params => (
             <TextField
               {...params}
-              label={required ? `${schema.title}*` : schema.title}
+              required={required}
+              label={schema.title}
               aria-describedby="projectName"
             />
           )}

@@ -71,7 +71,8 @@ export const Env0TemplateSelector = ({
           renderInput={params => (
             <TextField
               {...params}
-              label={required ? `${schema.title}*` : schema.title}
+              required={required}
+              label={schema.title}
               aria-describedby="entityName"
             />
           )}
