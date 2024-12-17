@@ -26,9 +26,7 @@ export const ResourceCount: React.FC<{ resourceCount?: number }> = ({
   }, [resourceCount]);
   return (
     <Tooltip title={tooltipText}>
-      <ResourceCountText style={{ cursor: 'default' }}>
-        {text}
-      </ResourceCountText>
+      <ResourceCountText>{text}</ResourceCountText>
     </Tooltip>
   );
 };
