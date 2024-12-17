@@ -13,7 +13,9 @@ import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
 
 const Env0ProjectSelectorFieldSchema = makeFieldSchema({
   output: z => z.string(),
-  uiOptions: z => z.object({}),
+  uiOptions: z => z.object({
+    env0TemplateId: z.string().optional()
+  }),
 });
 
 export const Env0ProjectSelectorSchema = Env0ProjectSelectorFieldSchema.schema;
