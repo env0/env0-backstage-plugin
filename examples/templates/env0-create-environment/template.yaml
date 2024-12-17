@@ -1,40 +1,39 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: env0-environment-from-template
-  title: Deploy an env0 Environment
+  name: create-env0-environment
+  title: Create an env0 Environment
   description: |
-    A template to deploy an env0 environment.
-    This template will create an env0 environment as a backstage component.
-    You will choose an env0 template to be deployed as an env0 environment from an exposed list of env0 templates by your admin.
+    A template for creating an env0 environment.
   tags:
     - env0
 spec:
   type: infrastructure
   parameters:
-    - title: Basic Information Step
+    - title: Gather Information
       required:
         - env0_template_id
         - env0_environment_name
+        - env0_project_id
       properties:
         env0_template_id:
-          title: env0 Template
+          title: Template
           type: string
           ui:field: Env0TemplateSelector
-          description: IaC template to be deployed.
+          description: Select the env0 template to deploy
         env0_environment_name:
           title: Environment Name
           type: string
-          description: Give your component a name
+          description: Define the new env0 environment name
         env0_deployment_comment:
           title: Deployment Comment
           type: string
-          description: Comment to be shown on your deployment
+          description: Leave a comment on the initial env0 deployment
         env0_project_id:
           # TODO: on project id selection ticket
-          title: Project ID
+          title: Project
           type: string
-          description: Deploy under the selected env0 project. Projects list effected by your env0 Template selection.
+          description: Select the project to deploy the env0 environment in
     - title: Variables
       required:
         - env0_variables
@@ -57,8 +56,29 @@ spec:
           required:
             - env0_variables
           description: IaC / Environment Variables
-  steps: # the pipeline deploy steps, using our custom actions
-    - id: createEnv0Environment
+    - title: Choose a Location
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
+              additionalScopes:
+                github:
+                  - workflow
+            allowedHosts:
+              - github.com
+        branch:
+            title: Branch
+            type: string
+            description: The branch to push the template to
+            default: main
+  steps:
+    - id: create-env0-environment
       name: Create Env0 Environment
       action: env0:environment:create
       input:
@@ -73,24 +93,37 @@ spec:
       input:
         url: ./template
         values:
-          environmentName: "${{ parameters.env0_environment_name }}"
-          environmentDescription: ${{ parameters.deploy_comment }}
-          organizationId: ${{parameters.organizationId}}
-          environmentId: ${{ steps['deployEnv0Template'].output.environmentId }}
-          # owner: ${{ parameters.owner }}
-          # system: ${{ parameters.system }}
-    - id: registerEnv0Environment
-      name: Register Catalog
+          id: ${{ steps['create-env0-environment'].output.environmentId }}
+          name: ${{ parameters.env0_environment_name }}
+          projectId: ${{ parameters.env0_project_id }}
+          templateId: ${{ parameters.env0_template_id }}
+          environmentUrl: ${{ steps['create-env0-environment'].output.environmentUrl }}
+          organizationId: ${{ steps['create-env0-environment'].output.organizationId }}
+          # These are the component's default values, which you can customize with your own
+          type: service
+          lifecycle: experimental
+          owner: default
+    - id: publish
+      name: Publish to GitHub
+      action: github:repo:push
+      input:
+        allowedHosts: ["github.com"]
+        token: ${{ secrets.USER_OAUTH_TOKEN or false }}
+        description: Publish the template of ${{ parameters.env0_environment_name }} to GitHub
+        repoUrl: ${{ parameters.repoUrl }}
+        defaultBranch: ${{ parameters.branch }}
+        protectDefaultBranch: false
+    - id: register
+      name: Register Component to Catalog
       action: catalog:register
       input:
-        # TODO: make sure rendering catalog-info.yaml works in order to register the entity
-        #repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
         catalogInfoPath: '/catalog-info.yaml'
 
   output:
     links:
-      - title: Env0 Environment link
-        url: "https://app.env0.com/p/${{ parameters.env0_project_id }}/environments/${{ steps['createEnv0Environment'].output.environmentId }}"
-      - title: Open in catalog
+      - title: Open Env0 Environment
+        url: "${{ steps['create-env0-environment'].output.environmentUrl }}"
+      - title: Open Backstage Component
         icon: catalog
         entityRef: ${{ steps['register'].output.entityRef }}

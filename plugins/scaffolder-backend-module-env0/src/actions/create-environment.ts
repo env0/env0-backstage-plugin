@@ -2,6 +2,7 @@ import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
 import { apiClient } from './common/api-client';
 import { commentSchema, variablesSchema } from './common/schema';
+import { getEnv0EnvironmentUrl } from './common/get-urls';
 
 export type CreateEnvironmentArgs = z.infer<typeof schema>;
 
@@ -27,7 +28,7 @@ export function createEnv0CreateEnvironmentAction() {
     async handler(ctx) {
       ctx.logger.info(`Creating env0 environment`);
 
-      const { id } = await apiClient.createEnvironment({
+      const { id, organizationId } = await apiClient.createEnvironment({
         name: ctx.input.name,
         projectId: ctx.input.projectId,
         deployRequest: {
@@ -39,6 +40,14 @@ export function createEnv0CreateEnvironmentAction() {
 
       ctx.logger.info(`env0 environment creation initiated successfully`);
       ctx.output('environmentId', id);
+      ctx.output('organizationId', organizationId);
+      ctx.output(
+        'environmentUrl',
+        getEnv0EnvironmentUrl({
+          environmentId: id,
+          projectId: ctx.input.projectId,
+        }),
+      );
     },
   });
 }
