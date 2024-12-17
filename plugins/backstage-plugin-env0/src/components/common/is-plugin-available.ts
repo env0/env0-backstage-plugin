@@ -1,4 +1,4 @@
-import { Entity } from '@backstage/catalog-model';
+import type { Entity } from '@backstage/catalog-model';
 
 export const ENV0_ORGANIZATION_ANNOTATION = 'env0.com/organization-id';
 export const ENV0_ENVIRONMENT_ANNOTATION = 'env0.com/environment-id';

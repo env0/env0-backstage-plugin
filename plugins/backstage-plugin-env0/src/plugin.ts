@@ -15,6 +15,10 @@ import {
 import { createScaffolderFieldExtension } from '@backstage/plugin-scaffolder-react';
 import { scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import {
+  Env0ProjectSelector,
+  Env0ProjectSelectorSchema,
+} from './components/env0-project-selector';
+import {
   Env0VariableInputSchema,
   Env0VariablesInput,
 } from './components/env0-variables-input';
@@ -47,6 +51,14 @@ export const Env0TemplateSelectorExtension = scaffolderPlugin.provide(
     name: 'Env0TemplateSelector',
     component: Env0TemplateSelector,
     schema: Env0TemplateSelectorSchema,
+  }),
+);
+
+export const Env0ProjectSelectorExtension = scaffolderPlugin.provide(
+  createScaffolderFieldExtension({
+    name: 'Env0ProjectSelector',
+    component: Env0ProjectSelector,
+    schema: Env0ProjectSelectorSchema,
   }),
 );
 
