@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type { Env0Api } from './api-client.d';
+import { getEnv0ApiUrl } from './get-urls';
 
 export interface ApiClientConfig {
   baseURL: string;
@@ -20,6 +21,14 @@ class ApiClient {
     });
   }
 
+  private async get<T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    const response: AxiosResponse<T> = await this.client.get(url, config);
+    return response.data;
+  }
+
   private async post<T = any, D = any>(
     url: string,
     data?: D,
@@ -31,6 +40,10 @@ class ApiClient {
       config,
     );
     return response.data;
+  }
+
+  public async getEnvironment(id: string) {
+    return this.get<Env0Api.GetEnvironment.Response>(`/environments/${id}`);
   }
 
   public async createEnvironment(
@@ -48,5 +61,5 @@ class ApiClient {
 }
 
 export const apiClient = new ApiClient({
-  baseURL: `https://${process.env.ENV0_API_ENDPOINT ?? 'api.env0.com'}`,
+  baseURL: getEnv0ApiUrl(),
 });
