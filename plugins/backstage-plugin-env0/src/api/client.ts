@@ -160,9 +160,7 @@ export class Env0Client implements Env0Api {
 
     // https://docs.env0.com/reference/projects-find-by-id
     async getProjectById(projectId: string): Promise<Project> {
-        const url = `${await this.config.discoveryApi.getBaseUrl(
-            'proxy',
-        )}/env0/projects/${projectId}`;
+        const url = `${await this.getBaseUrl()}/env0/projects/${projectId}`;
 
         const project = await this.request(url, {
             method: 'GET',
