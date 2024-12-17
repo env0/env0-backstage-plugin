@@ -193,7 +193,7 @@ export const Env0VariablesInput = ({
               >
                 {variable.isSensitive && (
                   <Tooltip
-                    title="Senstive variable"
+                    title="Sensitive variable"
                   >
                     <Warning />
                   </Tooltip>
