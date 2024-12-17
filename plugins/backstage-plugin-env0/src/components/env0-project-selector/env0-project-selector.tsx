@@ -52,7 +52,7 @@ export const Env0ProjectSelector = ({
           api.getProjectsByOrganizationId(organization.id),
         ),
       )
-    ).flatMap(organization => organization);
+    ).flatMap(project => project);
     return { projects };
   });
 
