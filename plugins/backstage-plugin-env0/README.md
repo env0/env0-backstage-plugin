@@ -111,7 +111,7 @@ Here is an example of its use in a template:
 
 This custom scaffolder field, fetches all available env0 projects based on the permissions of the API key provided in the `app-config.yaml` and the selected template id if given.
 
-It do it by query the available projects for the api key, then filter by the projects that are assigned to that project.
+It do it by querying the available projects for the api key, then filters by the projects that are assigned to that template.
 
 If no template id is given, it will fetch all projects.
 
