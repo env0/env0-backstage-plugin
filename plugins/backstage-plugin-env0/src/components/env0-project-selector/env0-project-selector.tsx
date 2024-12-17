@@ -19,7 +19,7 @@ const Env0ProjectSelectorFieldSchema = makeFieldSchema({
 });
 
 export const Env0ProjectSelectorSchema = Env0ProjectSelectorFieldSchema.schema;
-type Env0ProjectSelectorFieldProps = typeof Env0ProjectSelectorFieldSchema.type;
+type Env0ProjectSelectorFieldProps = typeof Env0ProjectSelectorFieldSchema.TProps;
 
 export const Env0ProjectSelector = ({
   onChange: onProjectIdChange,
