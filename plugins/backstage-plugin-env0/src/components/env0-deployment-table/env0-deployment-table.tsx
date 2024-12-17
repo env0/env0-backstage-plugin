@@ -10,6 +10,7 @@ import { ErrorContainer } from '../common/error-container';
 import Status from '../env0-status/status';
 import { Env0Card } from '../common/env0-card';
 import { RedeployButton } from './redeploy-button';
+import { ResourceCount } from './resource-count';
 
 const getFormattedDeploymentDuration = (deployment: Deployment) => {
   if (!deployment.finishedAt || !deployment.startedAt) return '-';
@@ -41,7 +42,9 @@ const deploymentHistoryColumns: TableColumn<Deployment>[] = [
   },
   {
     title: 'Resource Count',
-    field: 'resourceCount',
+    render: (deployment: Deployment) => (
+      <ResourceCount resourceCount={deployment.resourceCount} />
+    ),
   },
   {
     title: 'Started At',
