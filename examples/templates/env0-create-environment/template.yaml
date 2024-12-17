@@ -72,6 +72,11 @@ spec:
                   - workflow
             allowedHosts:
               - github.com
+        branch:
+            title: Branch
+            type: string
+            description: The branch to push the template to
+            default: main
   steps:
     - id: create-env0-environment
       name: Create Env0 Environment
@@ -106,7 +111,7 @@ spec:
         token: ${{ secrets.USER_OAUTH_TOKEN or false }}
         description: Publish the template of ${{ parameters.env0_environment_name }} to GitHub
         repoUrl: ${{ parameters.repoUrl }}
-        defaultBranch: main
+        defaultBranch: ${{ parameters.branch }}
         protectDefaultBranch: false
     - id: register
       name: Register Component to Catalog
