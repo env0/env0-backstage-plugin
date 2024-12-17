@@ -24,13 +24,14 @@ const iconPropsMap: Record<
   Deployment['type'],
   { icon: typeof SvgIcon; style?: CSSProperties }
 > = {
-  destroy: { icon: DestroyIcon },
-  deploy: {
+  destroy: {
     icon: DestroyIcon,
     style: {
-      color: '#D83636',
       backgroundColor: 'rgb(216, 54, 54, 0.08)',
     },
+  },
+  deploy: {
+    icon: DeployIcon,
   },
   driftDetection: {
     icon: FindInPage,
