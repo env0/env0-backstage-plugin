@@ -114,12 +114,26 @@ const variableInputByInputType: Record<
 const shouldShowVariable = (variable: Variable) => {
   if (secretTypeReferences.some(ref => variable.value?.includes(ref))) {
     if (variable.isRequired) {
-      throw new Error("Not supported: variable of type secrets reference can't be required");
+      throw new Error(
+        "Not supported: variable of type secrets reference can't be required",
+      );
     }
     return false;
   }
 
   return !(variable.isReadonly || variable.isOutput);
+};
+
+const areVariablesValid = (variables: Variable[]) => {
+  variables.forEach(variable => {
+    if (secretTypeReferences.some(ref => variable.value?.includes(ref))) {
+      if (variable.isRequired) {
+        throw new Error(
+          "Not supported: variable of type secrets reference can't be required",
+        );
+      }
+    }
+  });
 };
 
 export const Env0VariablesInput = ({
@@ -165,6 +179,14 @@ export const Env0VariablesInput = ({
         <ErrorContainer error={error} />
       </Env0Card>
     );
+  }
+
+  try {
+    areVariablesValid(variables);
+  } catch (e) {
+    return (<Env0Card title="env0" retryAction={retry}>
+      <ErrorContainer error={e as Error} />
+    </Env0Card>)
   }
 
   const updateVariableValue = (index: number, value: string) => {
