@@ -87,7 +87,6 @@ spec:
       action: fetch:template
       input:
         url: ./template
-        targetPath: ${{ steps['create-env0-environment'].output.environmentId }}
         values:
           id: ${{ steps['create-env0-environment'].output.environmentId }}
           name: ${{ parameters.env0_environment_name }}
