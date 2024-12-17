@@ -9,6 +9,7 @@ const Container = styled('span')({
   display: 'flex',
   alignItems: 'center',
   width: 'fit-content',
+  whiteSpace: 'nowrap',
 });
 
 const DeploymentTypeTextContainer = styled('div')({
