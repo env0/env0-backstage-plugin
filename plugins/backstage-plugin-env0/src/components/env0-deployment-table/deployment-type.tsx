@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
 import { Deployment } from '../../api/types';
 import { Avatar, styled, SvgIcon } from '@material-ui/core';
-import { DeployIcon, DestroyIcon } from '../icons';
+import { DeployIcon, DestroyIcon, DiffIcon } from '../icons';
 import CodeOutlined from '@material-ui/icons/CodeOutlined';
 import FindInPage from '@material-ui/icons/FindInPage';
 
@@ -38,10 +38,10 @@ const iconPropsMap: Record<
     icon: FindInPage,
   },
   remotePlan: {
-    icon: DeployIcon, // <DifferenceOutlined />, TODO: find a fitting icon replacement for this one
+    icon: DiffIcon,
   },
   prPlan: {
-    icon: DeployIcon, // <DifferenceOutlined />,
+    icon: DiffIcon,
   },
   task: {
     icon: CodeOutlined,
