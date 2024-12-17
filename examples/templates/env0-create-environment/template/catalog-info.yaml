@@ -2,7 +2,6 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: ${{ values.name }}
-  description: The env0 environment ${{ values.id }} deployed under the project ${{ values.projectId }}
   links:
     - title: Env0 Console
       url: ${{ values.environmentUrl }}
