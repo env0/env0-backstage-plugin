@@ -20,20 +20,7 @@ export const Env0ProjectSelectorSchema = Env0ProjectSelectorFieldSchema.schema;
 type Env0ProjectSelectorFieldProps =
   typeof Env0ProjectSelectorFieldSchema.TProps;
 
-export const Env0ProjectSelector = ({
-  onChange: onProjectIdChange,
-  schema,
-  rawErrors,
-  required,
-  formContext,
-  formData: selectedProjectId,
-  uiSchema,
-}: Env0ProjectSelectorFieldProps) => {
-  const formTemplateId: string | undefined =
-    formContext?.formData?.env0_template_id;
-  const rawUiSchemaTemplateId = uiSchema?.['ui:options']?.['env0TemplateId']
-  const selectedTemplateId = formTemplateId || rawUiSchemaTemplateId
-
+const useGetProjectsByTemplateId = (templateId: string) => {
   const api = useApi<Env0Api>(env0ApiRef);
   const {
     value: projectValue,
@@ -56,12 +43,12 @@ export const Env0ProjectSelector = ({
     loading: loadingTemplate,
     error: errorTemplate,
   } = useAsync(async () => {
-    if (selectedTemplateId) {
-      const template = await api.getTemplateById(selectedTemplateId);
+    if (templateId) {
+      const template = await api.getTemplateById(templateId);
       return { template };
     }
     return { template: undefined };
-  }, [selectedTemplateId]);
+  }, [templateId]);
 
   const projects = useMemo(() => {
     if (templateValue?.template) {
@@ -74,12 +61,35 @@ export const Env0ProjectSelector = ({
     }
     return projectValue?.projects || [];
   }, [templateValue, projectValue]);
+  const error = errorProjects || errorTemplate;
+  return {
+    error,
+    loading: loadingProjects || loadingTemplate,
+    projects,
+  };
+};
+
+export const Env0ProjectSelector = ({
+  onChange: onProjectIdChange,
+  schema,
+  rawErrors,
+  required,
+  formContext,
+  formData: selectedProjectId,
+  uiSchema,
+}: Env0ProjectSelectorFieldProps) => {
+  const formTemplateId: string | undefined =
+    formContext?.formData?.env0_template_id;
+  const rawUiSchemaTemplateId = uiSchema?.['ui:options']?.['env0TemplateId'];
+  const selectedTemplateId = formTemplateId || rawUiSchemaTemplateId;
+  const { projects, error, loading } =
+    useGetProjectsByTemplateId(selectedTemplateId);
 
   return (
     <>
-      {(errorProjects || errorTemplate) && (
+      {error && (
         <PopupError
-          error={errorProjects || errorTemplate}
+          error={error}
           message="Failed to load templates or projects from env0. Please try again later."
         />
       )}
@@ -89,7 +99,7 @@ export const Env0ProjectSelector = ({
         error={Boolean(rawErrors?.length)}
       >
         <Autocomplete<Project>
-          loading={loadingProjects || loadingTemplate}
+          loading={loading}
           getOptionLabel={option => option.name}
           options={projects}
           value={projects.find(p => p.id === selectedProjectId) || null}
