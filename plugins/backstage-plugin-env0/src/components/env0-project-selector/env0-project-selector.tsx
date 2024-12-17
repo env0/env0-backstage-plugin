@@ -31,13 +31,8 @@ export const Env0ProjectSelector = ({
 }: Env0ProjectSelectorFieldProps) => {
   const formTemplateId: string | undefined =
     formContext?.formData?.env0_template_id;
-  const rawUiSchemaTemplateId = uiSchema?.['ui:options']?.['env0TemplateId'];
-  const annotationTemplateId: string | undefined =
-    typeof rawUiSchemaTemplateId === 'string'
-      ? rawUiSchemaTemplateId
-      : undefined;
-
-  const selectedTemplateId = formTemplateId || annotationTemplateId;
+  const rawUiSchemaTemplateId = uiSchema?.['ui:options']?.['env0TemplateId']
+  const selectedTemplateId = formTemplateId || rawUiSchemaTemplateId
 
   const api = useApi<Env0Api>(env0ApiRef);
   const {
