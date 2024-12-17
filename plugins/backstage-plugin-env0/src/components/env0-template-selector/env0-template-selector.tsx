@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormControl, FormHelperText, TextField } from '@material-ui/core';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, Template } from '../../api/types';
@@ -7,7 +7,7 @@ import useAsync from 'react-use/lib/useAsyncRetry';
 import Autocomplete from '@mui/material/Autocomplete';
 import uniqBy from 'lodash/uniqBy';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
-import {PopupError} from "../common/popup-error";
+import { PopupError } from '../common/popup-error';
 
 const Env0TemplateSelectorFieldSchema = makeFieldSchema({
   output: z => z.string(),
@@ -49,7 +49,12 @@ export const Env0TemplateSelector = ({
   const templates = value?.templates || [];
   return (
     <>
-      {error && <PopupError error={error} />}
+      {error && (
+        <PopupError
+          error={error}
+          message="Failed to load templates from env0. Please try again later."
+        />
+      )}
       <FormControl
         margin="normal"
         required={required}

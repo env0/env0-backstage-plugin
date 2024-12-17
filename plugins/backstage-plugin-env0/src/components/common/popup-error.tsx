@@ -6,9 +6,10 @@ import React, { useState } from 'react';
 
 export type PopupErrorProps = {
   error?: Error;
+  message: string;
 };
 
-export const PopupError = ({ error }: PopupErrorProps) => {
+export const PopupError = ({ error, message }: PopupErrorProps) => {
   const [isErrorOpen, setIsErrorOpen] = useState<boolean>(true);
 
   return (
@@ -30,8 +31,8 @@ export const PopupError = ({ error }: PopupErrorProps) => {
           </IconButton>
         }
       >
-        Failed to load templates from env0. Please try again later.
-        {(error)?.message}
+        {message}
+        {error?.message}
       </Alert>
     </Snackbar>
   );

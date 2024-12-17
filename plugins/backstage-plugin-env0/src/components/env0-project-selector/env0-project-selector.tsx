@@ -1,14 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { FormControl, FormHelperText, TextField } from '@material-ui/core';
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, Project } from '../../api/types';
 import { env0ApiRef } from '../../api';
 import useAsync from 'react-use/lib/useAsyncRetry';
 import Autocomplete from '@mui/material/Autocomplete';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@mui/material/IconButton';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
 import { PopupError } from '../common/popup-error';
 
@@ -87,7 +83,10 @@ export const Env0ProjectSelector = ({
   return (
     <>
       {(errorProjects || errorTemplate) && (
-        <PopupError error={errorProjects || errorTemplate} />
+        <PopupError
+          error={errorProjects || errorTemplate}
+          message="Failed to load templates or projects from env0. Please try again later."
+        />
       )}
       <FormControl
         margin="normal"
