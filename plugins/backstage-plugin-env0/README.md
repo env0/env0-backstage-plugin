@@ -162,7 +162,7 @@ spec:
           description: env0 project deploy to.
 ```
 
-If you want to dynamically use the template if from the property you should name the template id property as `env0_template_id` and the project id property as `env0_project_id`.
+If you want to dynamically use the template id from the property you should name the template id property as `env0_template_id` and the project id property as `env0_project_id`.
 
 If you want to set const template id to filter by use
 ```yaml
