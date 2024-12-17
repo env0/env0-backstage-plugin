@@ -113,11 +113,6 @@ const variableInputByInputType: Record<
 
 const shouldShowVariable = (variable: Variable) => {
   if (secretTypeReferences.some(ref => variable.value?.includes(ref))) {
-    if (variable.isRequired) {
-      throw new Error(
-        "Not supported: variable of type secrets reference can't be required",
-      );
-    }
     return false;
   }
 
