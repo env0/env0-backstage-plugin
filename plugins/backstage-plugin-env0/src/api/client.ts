@@ -80,9 +80,7 @@ export class Env0Client implements Env0Api {
 
   // https://docs.env0.com/reference/environments-find-by-id
   async getEnvironmentById(environmentId: string): Promise<Environment> {
-    const url = `${await this.config.discoveryApi.getBaseUrl(
-      'proxy',
-    )}/env0/environments/${environmentId}`;
+    const url = `${await this.getBaseUrl()}/env0/environments/${environmentId}`;
     const environment = await this.request(url, {
       method: 'GET',
     });
@@ -136,9 +134,7 @@ export class Env0Client implements Env0Api {
   async getProjectsByOrganizationId(
     organizationId: string,
   ): Promise<Project[]> {
-    const url = `${await this.config.discoveryApi.getBaseUrl(
-      'proxy',
-    )}/env0/projects?organizationId=${organizationId}`;
+    const url = `${await this.getBaseUrl()}/env0/projects?organizationId=${organizationId}`;
 
     const projects = await this.request(url, {
       method: 'GET',
@@ -161,6 +157,16 @@ export class Env0Client implements Env0Api {
     });
     return deployment.json();
   }
+
+    // https://docs.env0.com/reference/projects-find-by-id
+    async getProjectById(projectId: string): Promise<Project> {
+        const url = `${await this.getBaseUrl()}/env0/projects/${projectId}`;
+
+        const project = await this.request(url, {
+            method: 'GET',
+        });
+        return project.json();
+    }
 
   private getUrlWithParams(
     url: string,

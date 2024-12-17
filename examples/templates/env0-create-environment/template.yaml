@@ -30,9 +30,9 @@ spec:
           type: string
           description: Leave a comment on the initial env0 deployment
         env0_project_id:
-          # TODO: on project id selection ticket
           title: Project
           type: string
+          ui:field: Env0ProjectSelector
           description: Select the project to deploy the env0 environment in
     - title: Variables
       required:
