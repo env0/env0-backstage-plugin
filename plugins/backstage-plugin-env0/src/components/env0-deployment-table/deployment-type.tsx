@@ -17,8 +17,7 @@ const DeploymentTypeTextContainer = styled('div')({
 });
 
 const defaultIconStyle = {
-  color: '#3636D8',
-  backgroundColor: 'rgb(54, 54, 216, 0.08)',
+  backgroundColor: 'rgb(233, 233, 244, 0.33)',
 };
 
 const iconPropsMap: Record<
@@ -28,7 +27,7 @@ const iconPropsMap: Record<
   destroy: {
     icon: DestroyIcon,
     style: {
-      backgroundColor: 'rgb(216, 54, 54, 0.08)',
+      backgroundColor: 'rgb(245, 234, 234, 0.33)',
     },
   },
   deploy: {
