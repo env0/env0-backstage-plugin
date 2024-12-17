@@ -34,8 +34,6 @@ spec:
           title: Project ID
           type: string
           ui:field: Env0ProjectSelector
-          ui:options:
-            env0TemplateId: "uuid"
           description: Deploy under the selected env0 project. Projects list effected by your env0 Template selection.
     - title: Variables
       required:
