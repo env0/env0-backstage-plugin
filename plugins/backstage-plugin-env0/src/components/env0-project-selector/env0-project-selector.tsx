@@ -96,7 +96,7 @@ export const Env0ProjectSelector = ({
         <Autocomplete<Project>
           loading={loadingProjects || loadingTemplate}
           getOptionLabel={option => option.name}
-          options={projects || []}
+          options={projects}
           value={projects.find(p => p.id === selectedProjectId) || null}
           onChange={(_, newValue: Project | null) => {
             onProjectIdChange(newValue?.id);
