@@ -10,16 +10,19 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@mui/material/IconButton';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
+import { PopupError } from '../common/popup-error';
 
 const Env0ProjectSelectorFieldSchema = makeFieldSchema({
   output: z => z.string(),
-  uiOptions: z => z.object({
-    env0TemplateId: z.string().optional()
-  }),
+  uiOptions: z =>
+    z.object({
+      env0TemplateId: z.string().optional(),
+    }),
 });
 
 export const Env0ProjectSelectorSchema = Env0ProjectSelectorFieldSchema.schema;
-type Env0ProjectSelectorFieldProps = typeof Env0ProjectSelectorFieldSchema.TProps;
+type Env0ProjectSelectorFieldProps =
+  typeof Env0ProjectSelectorFieldSchema.TProps;
 
 export const Env0ProjectSelector = ({
   onChange: onProjectIdChange,
@@ -41,7 +44,6 @@ export const Env0ProjectSelector = ({
   const selectedTemplateId = formTemplateId || annotationTemplateId;
 
   const api = useApi<Env0Api>(env0ApiRef);
-  const [isErrorOpen, setIsErrorOpen] = useState<boolean>(true);
   const {
     value: projectValue,
     loading: loadingProjects,
@@ -82,36 +84,11 @@ export const Env0ProjectSelector = ({
     return projectValue?.projects || [];
   }, [templateValue, projectValue]);
 
-  const snackbar = (
-    <>
-      <Snackbar
-        open={isErrorOpen}
-        autoHideDuration={6000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert
-          severity="error"
-          action={
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => setIsErrorOpen(false)}
-            >
-              <CloseIcon fontSize="inherit" />
-            </IconButton>
-          }
-        >
-          Failed to load templates from env0. Please try again later.
-          {(errorProjects || errorTemplate)?.message}
-        </Alert>
-      </Snackbar>
-    </>
-  );
-
   return (
     <>
-      {(errorProjects || errorTemplate) && snackbar}
+      {(errorProjects || errorTemplate) && (
+        <PopupError error={errorProjects || errorTemplate} />
+      )}
       <FormControl
         margin="normal"
         required={required}

@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { FormControl, FormHelperText, TextField } from '@material-ui/core';
-import Alert from '@mui/material/Alert';
-import Snackbar from '@mui/material/Snackbar';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, Template } from '../../api/types';
 import { env0ApiRef } from '../../api';
 import useAsync from 'react-use/lib/useAsyncRetry';
 import Autocomplete from '@mui/material/Autocomplete';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@mui/material/IconButton';
 import uniqBy from 'lodash/uniqBy';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
+import {PopupError} from "../common/popup-error";
 
 const Env0TemplateSelectorFieldSchema = makeFieldSchema({
   output: z => z.string(),
@@ -30,7 +27,6 @@ export const Env0TemplateSelector = ({
   formData: selectedTemplateId,
 }: Env0TemplateSelectorFieldProps) => {
   const api = useApi<Env0Api>(env0ApiRef);
-  const [isErrorOpen, setIsErrorOpen] = useState<boolean>(true);
   const { value, loading, error } = useAsync(async () => {
     const organizations = await api.getOrganizations();
     const projects = (
@@ -51,35 +47,9 @@ export const Env0TemplateSelector = ({
     };
   });
   const templates = value?.templates || [];
-
-  const snackbar = (
-    <Snackbar
-      open={isErrorOpen}
-      autoHideDuration={6000}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-    >
-      <Alert
-        severity="error"
-        action={
-          <IconButton
-            aria-label="close"
-            color="inherit"
-            size="small"
-            onClick={() => setIsErrorOpen(false)}
-          >
-            <CloseIcon fontSize="inherit" />
-          </IconButton>
-        }
-      >
-        Failed to load templates from env0. Please try again later.
-        {error?.message}
-      </Alert>
-    </Snackbar>
-  );
-
   return (
     <>
-      {error && snackbar}
+      {error && <PopupError error={error} />}
       <FormControl
         margin="normal"
         required={required}
