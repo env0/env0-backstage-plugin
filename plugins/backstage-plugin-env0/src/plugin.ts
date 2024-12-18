@@ -20,7 +20,7 @@ import {
 } from './components/env0-project-selector';
 import {
   Env0VariableInputSchema,
-  Env0VariablesInput,
+  Env0VariablesScaffolderInput,
 } from './components/env0-variables-input';
 
 export const backstagePluginEnv0Plugin = createPlugin({
@@ -65,7 +65,7 @@ export const Env0ProjectSelectorExtension = scaffolderPlugin.provide(
 export const Env0VariableInputExtension = scaffolderPlugin.provide(
   createScaffolderFieldExtension({
     name: 'Env0VariablesInput',
-    component: Env0VariablesInput,
+    component: Env0VariablesScaffolderInput,
     schema: Env0VariableInputSchema,
   }),
 );
