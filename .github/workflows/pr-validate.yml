@@ -5,6 +5,7 @@ on:
       - "opened"
       - "edited"
       - "reopened"
+      - "synchronize"
 jobs:
   check-title:
     name: "PR Title"
