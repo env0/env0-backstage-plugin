@@ -93,6 +93,9 @@ const variableInputByInputType: Record<
         label="Value"
         fullWidth
         error={isRegexWrong}
+        helperText={
+          isRegexWrong ? `Value does not match regex: ${variable.regex}` : ''
+        }
         value={variable.value}
         required={variable.isRequired}
         onChange={(changeEvent: any) =>
