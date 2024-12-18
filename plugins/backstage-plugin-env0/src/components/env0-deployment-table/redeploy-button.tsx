@@ -15,14 +15,14 @@ import { styled } from '@material-ui/core';
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
 import { Env0VariablesInput } from '../env0-variables-input';
 import Card from '@mui/material/Card';
-import { CardActions } from '@mui/material';
+import CardActions from '@mui/material/CardActions';
 
 const StyledCard = styled(Card)({
   padding: '0 1em',
-})
+});
 const StyledEnv0VariablesInput = styled(Env0VariablesInput)({
-  boxShadow: 'none'
-})
+  boxShadow: 'none',
+});
 
 const StyledBox = styled(Box)({
   position: 'absolute',
@@ -41,7 +41,6 @@ export const RedeployButton: React.FC<{
     entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
   const projectId = entity.metadata.annotations?.[ENV0_PROJECT_ANNOTATION];
   const templateId = entity.metadata.annotations?.[ENV0_TEMPLATE_ANNOTATION];
-  console.log({ environmentId, projectId, templateId });
   const api = useApi<Env0Api>(env0ApiRef);
   const [snackbarText, setSnackbarText] = useState<string>('');
   const [snackBarOpen, setSnackBarOpen] = useState(false);
@@ -62,7 +61,7 @@ export const RedeployButton: React.FC<{
     setSnackBarOpen(false);
   };
 
-  const handleRedeploy = async (environmentId?: string) => {
+  const handleRedeploy = async () => {
     if (!environmentId) {
       return;
     }
@@ -76,7 +75,7 @@ export const RedeployButton: React.FC<{
     } finally {
       setSnackBarOpen(true);
       setModalOpen(false);
-      fetchDeployments && fetchDeployments();
+      !fetchDeployments && fetchDeployments();
     }
   };
 
@@ -94,16 +93,16 @@ export const RedeployButton: React.FC<{
           />
           <CardActions>
             <Button
-              color={'secondary'}
-              variant={'contained'}
+              color="secondary"
+              variant="contained"
               onClick={() => setModalOpen(false)}
             >
-              Reject
+              Cancel
             </Button>
             <Button
               color="primary"
-              variant={'contained'}
-              onClick={() => handleRedeploy(environmentId)}
+              variant="contained"
+              onClick={() => handleRedeploy()}
             >
               Deploy
             </Button>
@@ -135,7 +134,7 @@ export const RedeployButton: React.FC<{
   return (
     <>
       <Tooltip
-        title={'Trigger env0 deployment with current configured variables'}
+        title="Trigger env0 deployment with current configured variables"
         enterDelay={1000}
       >
         <Button
