@@ -1,12 +1,30 @@
 import React, { useState } from 'react';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
+import {
+  ENV0_ENVIRONMENT_ANNOTATION,
+  ENV0_PROJECT_ANNOTATION,
+  ENV0_TEMPLATE_ANNOTATION,
+} from '../common/is-plugin-available';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, env0ApiRef } from '../../api';
 import Button from '@material-ui/core/Button';
-import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
-import CircularProgress from '@mui/material/CircularProgress';
+import Modal from '@mui/material/Modal';
 import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
+import { styled } from '@material-ui/core';
+import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
+
+const StyledBox = styled(Box)({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: '24',
+  p: 4,
+});
 
 export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
   disabled = false,
@@ -14,11 +32,16 @@ export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
   const { entity } = useEntity();
   const environmentId =
     entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
-
+  const projectId = entity.metadata.annotations?.[ENV0_PROJECT_ANNOTATION];
+  const template = entity.metadata.annotations?.[ENV0_TEMPLATE_ANNOTATION];
   const api = useApi<Env0Api>(env0ApiRef);
   const [snackbarText, setSnackbarText] = useState<string>('');
-  const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
   const handleSnackbarClose = (
     _event: React.SyntheticEvent | Event,
@@ -28,7 +51,7 @@ export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
       return;
     }
 
-    setOpen(false);
+    setSnackBarOpen(false);
   };
 
   const handleRedeploy = async (environmentId?: string) => {
@@ -37,24 +60,40 @@ export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
     }
 
     try {
-      setIsLoading(true);
       await api.redeployEnvironment(environmentId);
       setSnackbarText('env0 deployment initiated successfully ✅');
     } catch (error) {
       console.error('env0 deployment failed:', error);
       setSnackbarText('Failed to trigger env0 deployment ❌');
     } finally {
-      setOpen(true);
-      setIsLoading(false);
+      setSnackBarOpen(true);
+      setModalOpen(false);
     }
   };
 
-  const buttonText = !isLoading ? (
-    'Deploy'
-  ) : (
-    <span>
-      <CircularProgress size="1em" /> Loading...
-    </span>
+  const modal = (
+    <Modal open={modalOpen} onClose={handleModalClose}>
+      <StyledBox>
+        <div>Hey my man</div>
+        <Button onClick={() => handleRedeploy(environmentId)}>Deploy</Button>
+        <Button>Reject</Button>
+      </StyledBox>
+    </Modal>
+  );
+
+  const snackbar = (
+    <Snackbar
+      open={snackBarOpen}
+      onClose={handleSnackbarClose}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      message={snackbarText}
+      autoHideDuration={3000}
+      action={
+        <Button color="inherit" size="small" onClick={() => setSnackBarOpen(false)}>
+          Close
+        </Button>
+      }
+    />
   );
 
   return (
@@ -64,27 +103,16 @@ export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
         enterDelay={1000}
       >
         <Button
-          disabled={disabled || isLoading}
+          disabled={disabled}
           variant="contained"
           color="primary"
-          onClick={() => handleRedeploy(environmentId)}
+          onClick={() => setModalOpen(true)}
         >
-          {buttonText}
+          Deploy
         </Button>
       </Tooltip>
-
-      <Snackbar
-        open={open}
-        onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        message={snackbarText}
-        autoHideDuration={3000}
-        action={
-          <Button color="inherit" size="small" onClick={() => setOpen(false)}>
-            Close
-          </Button>
-        }
-      />
+      {modal}
+      {snackbar}
     </>
   );
 };
