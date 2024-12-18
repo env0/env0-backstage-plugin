@@ -64,7 +64,7 @@ type PassedFormContextFields = {
 type Env0TemplateSelectorFieldProps =
   typeof Env0VariableInputFieldSchema.TProps;
 
-type VaribleType = 'string' | 'dropdown';
+type VariableType = 'string' | 'dropdown';
 
 type VariableInputComponentProps = {
   variable: Variable;
@@ -73,7 +73,7 @@ type VariableInputComponentProps = {
 };
 
 const variableInputByInputType: Record<
-  VaribleType,
+  VariableType,
   ({
     variable,
     index,
