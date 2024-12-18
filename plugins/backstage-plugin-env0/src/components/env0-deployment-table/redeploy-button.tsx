@@ -13,27 +13,35 @@ import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import { styled } from '@material-ui/core';
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
+import { Env0VariablesInput } from '../env0-variables-input';
+import Card from '@mui/material/Card';
+import { CardActions } from '@mui/material';
+
+const StyledCard = styled(Card)({
+  padding: '0 1em',
+})
+const StyledEnv0VariablesInput = styled(Env0VariablesInput)({
+  boxShadow: 'none'
+})
 
 const StyledBox = styled(Box)({
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: '24',
-  p: 4,
+  width: '50%',
 });
 
-export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
-  disabled = false,
-}) => {
+export const RedeployButton: React.FC<{
+  disabled?: boolean;
+  fetchDeployments?: () => void;
+}> = ({ disabled = false, fetchDeployments }) => {
   const { entity } = useEntity();
   const environmentId =
     entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
   const projectId = entity.metadata.annotations?.[ENV0_PROJECT_ANNOTATION];
-  const template = entity.metadata.annotations?.[ENV0_TEMPLATE_ANNOTATION];
+  const templateId = entity.metadata.annotations?.[ENV0_TEMPLATE_ANNOTATION];
+  console.log({ environmentId, projectId, templateId });
   const api = useApi<Env0Api>(env0ApiRef);
   const [snackbarText, setSnackbarText] = useState<string>('');
   const [snackBarOpen, setSnackBarOpen] = useState(false);
@@ -68,15 +76,39 @@ export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
     } finally {
       setSnackBarOpen(true);
       setModalOpen(false);
+      fetchDeployments && fetchDeployments();
     }
   };
 
   const modal = (
     <Modal open={modalOpen} onClose={handleModalClose}>
       <StyledBox>
-        <div>Hey my man</div>
-        <Button onClick={() => handleRedeploy(environmentId)}>Deploy</Button>
-        <Button>Reject</Button>
+        <StyledCard>
+          <StyledEnv0VariablesInput
+            initialVariables={[]}
+            onVariablesChange={() => {}}
+            rawErrors={[]}
+            environmentId={environmentId}
+            projectId={projectId}
+            templateId={templateId}
+          />
+          <CardActions>
+            <Button
+              color={'secondary'}
+              variant={'contained'}
+              onClick={() => setModalOpen(false)}
+            >
+              Reject
+            </Button>
+            <Button
+              color="primary"
+              variant={'contained'}
+              onClick={() => handleRedeploy(environmentId)}
+            >
+              Deploy
+            </Button>
+          </CardActions>
+        </StyledCard>
       </StyledBox>
     </Modal>
   );
@@ -89,7 +121,11 @@ export const RedeployButton: React.FC<{ disabled?: boolean }> = ({
       message={snackbarText}
       autoHideDuration={3000}
       action={
-        <Button color="inherit" size="small" onClick={() => setSnackBarOpen(false)}>
+        <Button
+          color="inherit"
+          size="small"
+          onClick={() => setSnackBarOpen(false)}
+        >
           Close
         </Button>
       }
