@@ -80,17 +80,28 @@ const variableInputByInputType: Record<
     updateVariableValue,
   }: VariableInputComponentProps) => ReactElement
 > = {
-  string: ({ variable, index, updateVariableValue }) => (
-    <TextField
-      label="Value"
-      fullWidth
-      value={variable.value}
-      required={variable.isRequired}
-      onChange={(changeEvent: any) =>
-        updateVariableValue(index, changeEvent.target.value)
-      }
-    />
-  ),
+  string: ({ variable, index, updateVariableValue }) => {
+    let isRegexWrong = false;
+
+    if (!!variable.regex) {
+      const regex = new RegExp(variable.regex);
+      isRegexWrong = !regex.test(variable.value || '');
+    }
+
+    return (
+      <TextField
+        label="Value"
+        fullWidth
+        error={isRegexWrong}
+        value={variable.value}
+        required={variable.isRequired}
+        onChange={(changeEvent: any) =>
+          updateVariableValue(index, changeEvent.target.value)
+        }
+      />
+    );
+  },
+
   dropdown: ({ variable, index, updateVariableValue }) => (
     <FullWidthSelect
       value={variable.value}
