@@ -94,7 +94,8 @@ export const RedeployButton: React.FC<{
     } finally {
       setSnackBarOpen(true);
       setModalOpen(false);
-      !fetchDeployments && fetchDeployments();
+      if(fetchDeployments)
+        fetchDeployments();
     }
   };
 
