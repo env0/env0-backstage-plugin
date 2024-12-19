@@ -19,9 +19,11 @@ import {
   Env0ProjectSelectorSchema,
 } from './components/env0-project-selector';
 import {
+  doesVariableValueMatchRegex,
   Env0VariableInputSchema,
   Env0VariablesInput,
 } from './components/env0-variables-input';
+import { Variable } from './api/types';
 
 export const backstagePluginEnv0Plugin = createPlugin({
   id: 'env0',
@@ -67,5 +69,14 @@ export const Env0VariableInputExtension = scaffolderPlugin.provide(
     name: 'Env0VariablesInput',
     component: Env0VariablesInput,
     schema: Env0VariableInputSchema,
+    validation: (variables, validation) => {
+      variables.forEach(variable => {
+        if (!doesVariableValueMatchRegex(variable as Variable)) {
+          validation.addError(
+            `value for variable "${variable.name}" does not match regex: ${variable.regex}`,
+          );
+        }
+      });
+    },
   }),
 );
