@@ -19,11 +19,11 @@ import {
   Env0ProjectSelectorSchema,
 } from './components/env0-project-selector';
 import {
-  doesVariableValueMatchRegex,
   Env0VariableInputSchema,
   Env0VariablesInput,
 } from './components/env0-variables-input';
 import { Variable } from './api/types';
+import { doesVariableValueMatchRegex } from './components/env0-variables-input/env0-variable-field';
 
 export const backstagePluginEnv0Plugin = createPlugin({
   id: 'env0',

@@ -1,43 +1,14 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
-import {
-  FormControl,
-  Select,
-  styled,
-  TextField,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import { FormControl } from '@material-ui/core';
 import { useVariablesDataByTemplate } from '../../hooks/use-variables-data-by-template';
 import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
 import { Env0Card } from '../common/env0-card';
-import InfoRounded from '@material-ui/icons/InfoRounded';
 
 import { z } from 'zod';
 import type { Variable } from '../../api/types';
-import Warning from '@material-ui/icons/Warning';
-
-const VariableContainer = styled('div')(() => ({
-  display: 'grid',
-  gridTemplateColumns: '1fr 5fr',
-  gridColumnStart: 1,
-  gap: '2em',
-  alignItems: 'center',
-  width: '100%',
-  marginBottom: '2em',
-}));
-
-const FullWidthSelect = styled(Select)({
-  width: '100%',
-});
-
-const InputAndInfoIconContainer = styled('div')(() => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-}));
+import { Env0VariableField } from './env0-variable-field';
 
 const variableSchema = (zImpl: typeof z) =>
   zImpl
@@ -52,15 +23,6 @@ const Env0VariableInputFieldSchema = makeFieldSchema({
   uiOptions: zImpl => zImpl.object({}),
 });
 
-export const doesVariableValueMatchRegex = (variable: Variable) => {
-  if (!variable.regex) {
-    return true;
-  }
-
-  const regex = new RegExp(variable.regex);
-  return regex.test(variable.value || '');
-};
-
 export const Env0VariableInputSchema = Env0VariableInputFieldSchema.schema;
 
 type PassedFormContextFields = {
@@ -72,58 +34,6 @@ type PassedFormContextFields = {
 
 type Env0TemplateSelectorFieldProps =
   typeof Env0VariableInputFieldSchema.TProps;
-
-type VariableType = 'string' | 'dropdown';
-
-type VariableInputComponentProps = {
-  variable: Variable;
-  index: number;
-  updateVariableValue: (index: number, value: string) => void;
-};
-
-const variableInputByInputType: Record<
-  VariableType,
-  ({
-    variable,
-    index,
-    updateVariableValue,
-  }: VariableInputComponentProps) => ReactElement
-> = {
-  string: ({ variable, index, updateVariableValue }) => {
-    const isRegexWrong = !doesVariableValueMatchRegex(variable);
-
-    return (
-      <TextField
-        label="Value"
-        fullWidth
-        error={isRegexWrong}
-        helperText={
-          isRegexWrong ? `Value does not match regex: ${variable.regex}` : ''
-        }
-        value={variable.value}
-        required={variable.isRequired}
-        onChange={(changeEvent: any) =>
-          updateVariableValue(index, changeEvent.target.value)
-        }
-      />
-    );
-  },
-
-  dropdown: ({ variable, index, updateVariableValue }) => (
-    <FullWidthSelect
-      value={variable.value}
-      onChange={(changeEvent: any) =>
-        updateVariableValue(index, changeEvent.target.value)
-      }
-    >
-      {variable.schema?.enum?.map((option, optionIndex) => (
-        <option key={optionIndex} value={option}>
-          {option}
-        </option>
-      ))}
-    </FullWidthSelect>
-  ),
-};
 
 const shouldShowVariable = (variable: Variable) =>
   !(variable.isReadonly || variable.isOutput);
@@ -141,6 +51,15 @@ export const Env0VariablesInput = ({
   const [variables, setVariables] = useState<Variable[]>(
     formData as Variable[],
   );
+
+  const onVariablesChangeCallback = useCallback(
+    (newVariables: Variable[]) => {
+      onVariablesChange(newVariables);
+      setVariables(newVariables);
+    },
+    [onVariablesChange],
+  );
+
   const [isInitialized, setIsInitialized] = useState(false);
 
   const {
@@ -152,10 +71,22 @@ export const Env0VariablesInput = ({
 
   useEffect(() => {
     if (variablesData && !isInitialized) {
-      setVariables(variablesData);
+      onVariablesChangeCallback(variablesData);
       setIsInitialized(true);
     }
-  }, [isInitialized, variablesData]);
+  }, [isInitialized, onVariablesChangeCallback, variablesData]);
+
+  const updateVariableValue = (updatedVariable: Variable, value: string) => {
+    const newVariables = [...variables];
+    const updatedVariableIndex = newVariables.findIndex(
+      variable => variable.id === updatedVariable.id,
+    );
+    newVariables[updatedVariableIndex] = {
+      ...updatedVariable,
+      value,
+    };
+    onVariablesChangeCallback(newVariables);
+  };
 
   if (loading) {
     return (
@@ -173,58 +104,16 @@ export const Env0VariablesInput = ({
     );
   }
 
-  const updateVariableValue = (index: number, value: string) => {
-    const newVariables = [...variables];
-    newVariables[index] = {
-      ...newVariables[index],
-      scope: 'ENVIRONMENT',
-      value,
-    };
-    setVariables(newVariables);
-    onVariablesChange(newVariables);
-  };
-
-  const getVariableInput = (variable: Variable, index: number) => {
-    return variableInputByInputType[
-      variable.schema?.enum ? 'dropdown' : 'string'
-    ]({
-      variable,
-      index,
-      updateVariableValue,
-    });
-  };
-
   return (
     <FormControl margin="normal" error={Boolean(rawErrors?.length)} fullWidth>
       {variables.map(
-        (variable, index) =>
+        variable =>
           shouldShowVariable(variable) && (
-            <VariableContainer key={index}>
-              <Typography
-                noWrap={false}
-                variant="body1"
-                style={{
-                  display: 'flex',
-                  minWidth: '150px',
-                  fontWeight: 'bold',
-                }}
-              >
-                {variable.isSensitive && (
-                  <Tooltip title="Sensitive variable">
-                    <Warning />
-                  </Tooltip>
-                )}
-                {variable.name}:
-              </Typography>
-              <InputAndInfoIconContainer>
-                {getVariableInput(variable, index)}
-                {variable.description && (
-                  <Tooltip title={variable.description}>
-                    <InfoRounded />
-                  </Tooltip>
-                )}
-              </InputAndInfoIconContainer>
-            </VariableContainer>
+            <Env0VariableField
+              key={variable.id}
+              variable={variable}
+              onVariableUpdated={updateVariableValue}
+            />
           ),
       )}
     </FormControl>
