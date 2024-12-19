@@ -7,18 +7,16 @@ import { ErrorContainer } from '../common/error-container';
 import { FormControl } from '@material-ui/core';
 import { Env0VariableField } from './env0-variable-field';
 
-
 const shouldShowVariable = (variable: Variable) =>
-    !(variable.isReadonly || variable.isOutput);
-
+  !(variable.isReadonly || variable.isOutput);
 
 export type Env0VariablesInputProps = {
-    projectId?: string;
-    templateId?: string;
-    environmentId?: string;
-    onVariablesChange: (update: Variable[]) => void;
-    rawErrors: string[];
-    initialVariables: Variable[];
+  projectId?: string;
+  templateId?: string;
+  environmentId?: string;
+  onVariablesChange: (update: Variable[]) => void;
+  rawErrors: string[];
+  initialVariables: Variable[];
 };
 
 export const Env0VariablesInput = ({
