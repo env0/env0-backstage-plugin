@@ -40,13 +40,11 @@ export const Env0VariablesScaffolderInput = ({
   } = formContext as PassedFormContextFields;
   return (
     <Env0VariablesInput
-      {...{
-        initialVariables: formData as Variable[],
-        onVariablesChange,
-        rawErrors,
-        projectId,
-        templateId,
-      }}
+      initialVariables={formData as Variable[]}
+      onVariablesChange={onVariablesChange}
+      rawErrors={rawErrors}
+      projectId={projectId}
+      templateId={templateId}
     />
   );
 };
