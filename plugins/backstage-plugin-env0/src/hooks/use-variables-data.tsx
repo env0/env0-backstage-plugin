@@ -2,7 +2,7 @@ import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, env0ApiRef } from '../api';
 import { useAsyncRetry } from 'react-use';
 
-export const useVariablesDataByTemplate = (
+export const useVariablesData = (
   templateId?: string,
   projectId?: string,
   environmentId?: string

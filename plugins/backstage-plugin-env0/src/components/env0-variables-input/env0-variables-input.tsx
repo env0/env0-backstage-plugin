@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import type { Variable } from '../../api/types';
-import { useVariablesDataByTemplate } from '../../hooks/use-variables-data-by-template';
+import { useVariablesData } from '../../hooks/use-variables-data';
 import { Env0Card } from '../common/env0-card';
 import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
@@ -27,12 +27,9 @@ export const Env0VariablesInput = ({
   rawErrors,
   initialVariables,
 }: Env0VariablesInputProps) => {
-  const [variables, setVariables] = useState<Variable[]>(initialVariables);
-
   const onVariablesChangeCallback = useCallback(
     (newVariables: Variable[]) => {
       onVariablesChange(newVariables);
-      setVariables(newVariables);
     },
     [onVariablesChange],
   );
@@ -44,7 +41,7 @@ export const Env0VariablesInput = ({
     error,
     value: variablesData,
     retry,
-  } = useVariablesDataByTemplate(templateId, projectId, environmentId);
+  } = useVariablesData(templateId, projectId, environmentId);
 
   useEffect(() => {
     if (variablesData && !isInitialized) {
@@ -54,7 +51,7 @@ export const Env0VariablesInput = ({
   }, [isInitialized, onVariablesChangeCallback, variablesData]);
 
   const updateVariableValue = (updatedVariable: Variable, value: string) => {
-    const newVariables = [...variables];
+    const newVariables = [...initialVariables];
     const updatedVariableIndex = newVariables.findIndex(
       variable => variable.id === updatedVariable.id,
     );
@@ -84,7 +81,7 @@ export const Env0VariablesInput = ({
   return (
     <Env0Card title="env0" retryAction={retry}>
       <FormControl margin="normal" error={Boolean(rawErrors?.length)} fullWidth>
-        {variables.map(
+        {initialVariables.map(
           variable =>
             shouldShowVariable(variable) && (
               <Env0VariableField

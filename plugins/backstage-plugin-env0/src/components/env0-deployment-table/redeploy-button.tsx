@@ -14,6 +14,7 @@ import { Env0VariablesInput } from '../env0-variables-input';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import useAsync from 'react-use/lib/useAsyncRetry';
+import type { Variable } from '../../api/types';
 
 const StyledCard = styled(Card)({
   padding: '0 1em',
@@ -42,7 +43,13 @@ export const RedeployButton: React.FC<{
   const [snackbarText, setSnackbarText] = useState<string>('');
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const { value, loading, error: environmentError } = useAsync(async () => {
+  const [variables, setVariables] = useState<Variable[]>([]);
+
+  const {
+    value,
+    loading,
+    error: environmentError,
+  } = useAsync(async () => {
     if (!environmentId) {
       throw new Error('No environmentId found on entity');
     }
@@ -51,6 +58,7 @@ export const RedeployButton: React.FC<{
       projectId,
       latestDeploymentLog: { blueprintId: templateId },
     } = await api.getEnvironmentById(environmentId);
+
     return {
       projectId,
       templateId,
@@ -79,7 +87,7 @@ export const RedeployButton: React.FC<{
     }
 
     try {
-      await api.redeployEnvironment(environmentId);
+      await api.redeployEnvironment(environmentId, variables);
       setSnackbarText('env0 deployment initiated successfully ✅');
     } catch (error) {
       console.error('env0 deployment failed:', error);
@@ -90,14 +98,14 @@ export const RedeployButton: React.FC<{
       !fetchDeployments && fetchDeployments();
     }
   };
-
+  console.log({ variables });
   const modal = (
     <Modal open={modalOpen} onClose={handleModalClose}>
       <StyledBox>
         <StyledCard>
           <StyledEnv0VariablesInput
-            initialVariables={[]}
-            onVariablesChange={() => {}}
+            initialVariables={variables}
+            onVariablesChange={setVariables}
             rawErrors={[]}
             environmentId={environmentId}
             projectId={projectId}
@@ -146,17 +154,17 @@ export const RedeployButton: React.FC<{
   const getButtonText = () => {
     if (environmentError) {
       return (
-          <Tooltip title={environmentError.message}>
-            <span>Error</span>
-          </Tooltip>
+        <Tooltip title={environmentError.message}>
+          <span>Error</span>
+        </Tooltip>
       );
     }
 
     if (loading) {
       return (
-          <span>
-        <CircularProgress size="1em" /> Loading...
-      </span>
+        <span>
+          <CircularProgress size="1em" /> Loading...
+        </span>
       );
     }
 
@@ -164,7 +172,6 @@ export const RedeployButton: React.FC<{
   };
 
   const buttonText = getButtonText();
-
 
   return (
     <>

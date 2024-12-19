@@ -191,7 +191,7 @@ export type Env0Api = {
   getOrganizations(): Promise<Organization[]>;
   getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
   getProjectById(projectId: string): Promise<Project>;
-  redeployEnvironment(environmentId: string): Promise<Deployment>;
+  redeployEnvironment(environmentId: string, variables?: Variable[]): Promise<Deployment>;
 };
 
 export type DeploymentStepStatus =
