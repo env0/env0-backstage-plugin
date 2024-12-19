@@ -142,11 +142,10 @@ export const Env0VariablesInput = ({
     if (!variables || !variablesSetsData) return {};
 
     return variables.reduce((acc, variable) => {
-      if (
-        variable.scope === 'SET' ||
+      const wasEditedFromSetScope =
         variable.overwrites?.scope === 'SET' ||
-        variable.originalVariableScope === 'SET'
-      ) {
+        variable.originalVariableScope === 'SET';
+      if (variable.scope === 'SET' || wasEditedFromSetScope) {
         const foundSet = variablesSetsData.find(
           set =>
             set.id === variable.scopeId ||
