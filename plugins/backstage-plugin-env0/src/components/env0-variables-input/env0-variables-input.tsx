@@ -165,6 +165,10 @@ export const Env0VariablesInput = ({
     }, {} as Record<string, Variable[]>);
   }, [variables, variablesSetsData]);
 
+  const areThereAnyVariablesToShowInGroup = (group: Variable[]) => {
+    return group.some(variable => shouldShowVariable(variable));
+  };
+
   if (loading) {
     return (
       <Env0Card title="env0" retryAction={retry}>
@@ -189,7 +193,8 @@ export const Env0VariablesInput = ({
       />
       {Object.entries(groupedVariablesByVariableSets).map(
         ([variableSetName, groupVariables]) =>
-          variableSetName !== 'defaultGroup' && (
+          variableSetName !== 'defaultGroup' &&
+          areThereAnyVariablesToShowInGroup(groupVariables) && (
             <VariablesCollapsedGroup
               key={variableSetName}
               title={variableSetName}
