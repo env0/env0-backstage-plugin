@@ -1,21 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
 import {
   Collapse,
   FormControl,
   IconButton,
   Typography,
 } from '@material-ui/core';
-import {
-  ExpandMore as ExpandMoreIcon,
-  ExpandLess as ExpandLessIcon,
-} from '@material-ui/icons';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { useVariablesData } from '../../hooks/use-variables-data';
 import { Env0Card } from '../common/env0-card';
 import type { Variable } from '../../api/types';
 import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
-import { FormControl } from '@material-ui/core';
 import { Env0VariableField } from './env0-variable-field';
 
 const shouldShowVariable = (variable: Variable) =>
@@ -103,9 +99,6 @@ export const Env0VariablesInput = ({
 }: Env0VariablesInputProps) => {
   const [variables, setVariables] = useState<Variable[]>(initialVariables);
 
-  const [variables, setVariables] = useState<Variable[]>(
-    formData as Variable[],
-  );
   const [isInitialized, setIsInitialized] = useState(false);
 
   const onVariablesChangeCallback = useCallback(
@@ -133,8 +126,7 @@ export const Env0VariablesInput = ({
     error,
     value: { variables: variablesData, variablesSets: variablesSetsData } = {},
     retry,
-  } = useVariablesDataByTemplate(templateId, projectId, environmentId);
-  } = useVariablesData(templateId, projectId);
+  } = useVariablesData(templateId, projectId, environmentId);
 
   useEffect(() => {
     if (variablesData && !isInitialized) {
