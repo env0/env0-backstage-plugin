@@ -116,6 +116,9 @@ export const Env0VariablesInput = ({
     );
     newVariables[updatedVariableIndex] = {
       ...updatedVariable,
+      originalVariableScope:
+        updatedVariable.originalVariableScope || updatedVariable.scope,
+      scope: 'ENVIRONMENT',
       value,
     };
     onVariablesChangeCallback(newVariables);
@@ -139,7 +142,11 @@ export const Env0VariablesInput = ({
     if (!variables || !variablesSetsData) return {};
 
     return variables.reduce((acc, variable) => {
-      if (variable.scope === 'SET' || variable.overwrites?.scope === 'SET') {
+      if (
+        variable.scope === 'SET' ||
+        variable.overwrites?.scope === 'SET' ||
+        variable.originalVariableScope === 'SET'
+      ) {
         const foundSet = variablesSetsData.find(
           set =>
             set.id === variable.scopeId ||
