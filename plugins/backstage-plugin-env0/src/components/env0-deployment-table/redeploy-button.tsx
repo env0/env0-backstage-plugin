@@ -90,7 +90,6 @@ export const RedeployButton: React.FC<{
       await api.redeployEnvironment(environmentId, variables);
       setSnackbarText('env0 deployment initiated successfully ✅');
     } catch (error) {
-      console.error('env0 deployment failed:', error);
       setSnackbarText('Failed to trigger env0 deployment ❌');
     } finally {
       setSnackBarOpen(true);
@@ -98,7 +97,7 @@ export const RedeployButton: React.FC<{
       !fetchDeployments && fetchDeployments();
     }
   };
-  console.log({ variables });
+
   const modal = (
     <Modal open={modalOpen} onClose={handleModalClose}>
       <StyledBox>
