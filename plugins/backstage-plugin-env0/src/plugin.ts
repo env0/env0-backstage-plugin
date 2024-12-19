@@ -20,7 +20,7 @@ import {
 } from './components/env0-project-selector';
 import {
   Env0VariableInputSchema,
-  Env0VariablesInput,
+  Env0VariablesScaffolderInput,
 } from './components/env0-variables-input';
 import { Variable } from './api/types';
 import { doesVariableValueMatchRegex } from './components/env0-variables-input/env0-variable-field';
@@ -67,7 +67,7 @@ export const Env0ProjectSelectorExtension = scaffolderPlugin.provide(
 export const Env0VariableInputExtension = scaffolderPlugin.provide(
   createScaffolderFieldExtension({
     name: 'Env0VariablesInput',
-    component: Env0VariablesInput,
+    component: Env0VariablesScaffolderInput,
     schema: Env0VariableInputSchema,
     validation: (variables, validation) => {
       variables.forEach(variable => {

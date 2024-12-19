@@ -1,56 +1,33 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
-import { FormControl } from '@material-ui/core';
+import type { Variable } from '../../api/types';
 import { useVariablesDataByTemplate } from '../../hooks/use-variables-data-by-template';
+import { Env0Card } from '../common/env0-card';
 import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
-import { Env0Card } from '../common/env0-card';
-
-import { z } from 'zod';
-import type { Variable } from '../../api/types';
+import { FormControl } from '@material-ui/core';
 import { Env0VariableField } from './env0-variable-field';
-
-const variableSchema = (zImpl: typeof z) =>
-  zImpl
-    .object({
-      name: zImpl.string(),
-      value: zImpl.string().optional(),
-    })
-    .passthrough();
-
-const Env0VariableInputFieldSchema = makeFieldSchema({
-  output: zImpl => zImpl.array(variableSchema(zImpl)),
-  uiOptions: zImpl => zImpl.object({}),
-});
-
-export const Env0VariableInputSchema = Env0VariableInputFieldSchema.schema;
-
-type PassedFormContextFields = {
-  formData: {
-    env0_project_id?: string;
-    env0_template_id?: string;
-  };
-};
-
-type Env0TemplateSelectorFieldProps =
-  typeof Env0VariableInputFieldSchema.TProps;
 
 const shouldShowVariable = (variable: Variable) =>
   !(variable.isReadonly || variable.isOutput);
 
-export const Env0VariablesInput = ({
-  formData = [],
-  formContext,
-  rawErrors,
-  onChange: onVariablesChange,
-}: Env0TemplateSelectorFieldProps): React.ReactElement => {
-  const {
-    formData: { env0_project_id: projectId, env0_template_id: templateId },
-  } = formContext as PassedFormContextFields;
+export type Env0VariablesInputProps = {
+  projectId?: string;
+  templateId?: string;
+  environmentId?: string;
+  onVariablesChange: (update: Variable[]) => void;
+  rawErrors: string[];
+  initialVariables: Variable[];
+};
 
-  const [variables, setVariables] = useState<Variable[]>(
-    formData as Variable[],
-  );
+export const Env0VariablesInput = ({
+  projectId,
+  templateId,
+  environmentId,
+  onVariablesChange,
+  rawErrors,
+  initialVariables,
+}: Env0VariablesInputProps) => {
+  const [variables, setVariables] = useState<Variable[]>(initialVariables);
 
   const onVariablesChangeCallback = useCallback(
     (newVariables: Variable[]) => {
@@ -67,7 +44,7 @@ export const Env0VariablesInput = ({
     error,
     value: variablesData,
     retry,
-  } = useVariablesDataByTemplate(templateId, projectId);
+  } = useVariablesDataByTemplate(templateId, projectId, environmentId);
 
   useEffect(() => {
     if (variablesData && !isInitialized) {
