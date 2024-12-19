@@ -143,7 +143,7 @@ type ConfigurationScope =
   | 'ENVIRONMENT'
   | 'DEPLOYMENT';
 
-export type Variable = {
+type VariableFields = {
   id: string;
   name: string;
   value?: string;
@@ -158,6 +158,16 @@ export type Variable = {
   // For grouping
   scopeId?: string;
   scope: ConfigurationScope;
+};
+
+export type Variable = VariableFields & {
+  overwrites?: VariableFields;
+};
+
+export type VariableSet = {
+  id?: string;
+  name: string;
+  description?: string;
 };
 
 export type Organization = {
@@ -185,6 +195,7 @@ export type Env0Api = {
     blueprintId,
     organizationId,
   }: ListVariablesParams): Promise<Variable[]>;
+  findVariableSets(setIds: string[]): Promise<VariableSet[]>;
   getEnvironmentById(environmentId: string): Promise<Environment>;
   getTemplatesByProjectId(projectId): Promise<Template[]>;
   getTemplateById(templateId: string): Promise<Template>;

@@ -1,7 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
-import { FormControl } from '@material-ui/core';
-import { useVariablesDataByTemplate } from '../../hooks/use-variables-data-by-template';
+import {
+  Collapse,
+  FormControl,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
+import {
+  ExpandMore as ExpandMoreIcon,
+  ExpandLess as ExpandLessIcon,
+} from '@material-ui/icons';
+import { useVariablesData } from '../../hooks/use-variables-data';
 import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
 import { Env0Card } from '../common/env0-card';
@@ -38,6 +47,69 @@ type Env0TemplateSelectorFieldProps =
 const shouldShowVariable = (variable: Variable) =>
   !(variable.isReadonly || variable.isOutput);
 
+const VariableFields = ({
+  variables,
+  updateVariableValue,
+}: {
+  variables: Variable[];
+  updateVariableValue: (updatedVariable: Variable, value: string) => void;
+}) => {
+  return (
+    <>
+      {variables.map(
+        variable =>
+          shouldShowVariable(variable) && (
+            <Env0VariableField
+              key={variable.id}
+              variable={variable}
+              onVariableUpdated={updateVariableValue}
+            />
+          ),
+      )}
+    </>
+  );
+};
+
+const VariablesCollapsedGroup = ({
+  title,
+  variables,
+  updateVariableValue,
+}: {
+  title: string;
+  variables: Variable[];
+  updateVariableValue: (updatedVariable: Variable, value: string) => void;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <Typography
+        noWrap={false}
+        variant="body1"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          minWidth: '150px',
+          fontWeight: 'bold',
+        }}
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="expand"
+      >
+        {title}
+        <IconButton>
+          {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </IconButton>
+      </Typography>
+
+      <Collapse in={isOpen}>
+        <VariableFields
+          variables={variables}
+          updateVariableValue={updateVariableValue}
+        />
+      </Collapse>
+    </>
+  );
+};
+
 export const Env0VariablesInput = ({
   formData = [],
   formContext,
@@ -51,6 +123,7 @@ export const Env0VariablesInput = ({
   const [variables, setVariables] = useState<Variable[]>(
     formData as Variable[],
   );
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const onVariablesChangeCallback = useCallback(
     (newVariables: Variable[]) => {
@@ -59,22 +132,6 @@ export const Env0VariablesInput = ({
     },
     [onVariablesChange],
   );
-
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  const {
-    loading,
-    error,
-    value: variablesData,
-    retry,
-  } = useVariablesDataByTemplate(templateId, projectId);
-
-  useEffect(() => {
-    if (variablesData && !isInitialized) {
-      onVariablesChangeCallback(variablesData);
-      setIsInitialized(true);
-    }
-  }, [isInitialized, onVariablesChangeCallback, variablesData]);
 
   const updateVariableValue = (updatedVariable: Variable, value: string) => {
     const newVariables = [...variables];
@@ -87,6 +144,43 @@ export const Env0VariablesInput = ({
     };
     onVariablesChangeCallback(newVariables);
   };
+
+  const {
+    loading,
+    error,
+    value: { variables: variablesData, variablesSets: variablesSetsData } = {},
+    retry,
+  } = useVariablesData(templateId, projectId);
+
+  useEffect(() => {
+    if (variablesData && !isInitialized) {
+      onVariablesChangeCallback(variablesData);
+      setIsInitialized(true);
+    }
+  }, [isInitialized, onVariablesChangeCallback, variablesData]);
+
+  const groupedVariablesByVariableSets = useMemo(() => {
+    if (!variables || !variablesSetsData) return {};
+
+    return variables.reduce((acc, variable) => {
+      if (variable.scope === 'SET' || variable.overwrites?.scope === 'SET') {
+        const foundSet = variablesSetsData.find(
+          set =>
+            set.id === variable.scopeId ||
+            set.id === variable.overwrites?.scopeId,
+        );
+
+        if (foundSet) {
+          acc[foundSet.name] = acc[foundSet.name] || [];
+          acc[foundSet.name].push(variable);
+        }
+      } else {
+        acc.defaultGroup = acc.defaultGroup || [];
+        acc.defaultGroup.push(variable);
+      }
+      return acc;
+    }, {} as Record<string, Variable[]>);
+  }, [variables, variablesSetsData]);
 
   if (loading) {
     return (
@@ -106,13 +200,18 @@ export const Env0VariablesInput = ({
 
   return (
     <FormControl margin="normal" error={Boolean(rawErrors?.length)} fullWidth>
-      {variables.map(
-        variable =>
-          shouldShowVariable(variable) && (
-            <Env0VariableField
-              key={variable.id}
-              variable={variable}
-              onVariableUpdated={updateVariableValue}
+      <VariableFields
+        variables={groupedVariablesByVariableSets.defaultGroup || []}
+        updateVariableValue={updateVariableValue}
+      />
+      {Object.entries(groupedVariablesByVariableSets).map(
+        ([variableSetName, groupVariables]) =>
+          variableSetName !== 'defaultGroup' && (
+            <VariablesCollapsedGroup
+              key={variableSetName}
+              title={variableSetName}
+              variables={groupVariables}
+              updateVariableValue={updateVariableValue}
             />
           ),
       )}
