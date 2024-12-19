@@ -52,6 +52,15 @@ const Env0VariableInputFieldSchema = makeFieldSchema({
   uiOptions: zImpl => zImpl.object({}),
 });
 
+export const doesVariableValueMatchRegex = (variable: Variable) => {
+  if (!variable.regex) {
+    return true;
+  }
+
+  const regex = new RegExp(variable.regex);
+  return regex.test(variable.value || '');
+};
+
 export const Env0VariableInputSchema = Env0VariableInputFieldSchema.schema;
 
 type PassedFormContextFields = {
@@ -81,12 +90,7 @@ const variableInputByInputType: Record<
   }: VariableInputComponentProps) => ReactElement
 > = {
   string: ({ variable, index, updateVariableValue }) => {
-    let isRegexWrong = false;
-
-    if (!!variable.regex) {
-      const regex = new RegExp(variable.regex);
-      isRegexWrong = !regex.test(variable.value || '');
-    }
+    const isRegexWrong = !doesVariableValueMatchRegex(variable);
 
     return (
       <TextField
