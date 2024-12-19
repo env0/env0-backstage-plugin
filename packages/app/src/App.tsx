@@ -41,7 +41,7 @@ import {
   BackstagePluginEnv0Page,
   Env0TemplateSelectorExtension,
   Env0ProjectSelectorExtension,
-  Env0VariableInputExtension
+  Env0VariableInputExtension,
 } from '@env0/backstage-plugin-env0';
 
 const app = createApp({
