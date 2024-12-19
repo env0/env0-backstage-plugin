@@ -2,7 +2,11 @@ import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, env0ApiRef } from '../api';
 import { useAsyncRetry } from 'react-use';
 
-export const useVariablesData = (templateId?: string, projectId?: string) => {
+export const useVariablesDataByTemplate = (
+  templateId?: string,
+  projectId?: string,
+  environmentId?: string
+) => {
   const apiClient = useApi<Env0Api>(env0ApiRef);
 
   return useAsyncRetry(async () => {
@@ -13,7 +17,9 @@ export const useVariablesData = (templateId?: string, projectId?: string) => {
     }
 
     const template = await apiClient.getTemplateById(templateId);
-    const variables = await apiClient.listVariables({
+
+    return await apiClient.listVariables({
+      environmentId,
       projectId,
       blueprintId: templateId,
       organizationId: template.organizationId,

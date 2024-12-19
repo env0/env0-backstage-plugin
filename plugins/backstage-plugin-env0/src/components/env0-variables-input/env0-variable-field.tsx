@@ -38,21 +38,38 @@ type VariableInputComponentProps = {
   onVariableUpdated: (updatedVariable: Variable, value: string) => void;
 };
 
+export const doesVariableValueMatchRegex = (variable: Variable) => {
+  if (!variable.regex) {
+    return true;
+  }
+
+  const regex = new RegExp(variable.regex);
+  return regex.test(variable.value || '');
+};
+
 const variableInputByInputType: Record<
   VariableType,
   ({ variable, onVariableUpdated }: VariableInputComponentProps) => ReactElement
 > = {
-  string: ({ variable, onVariableUpdated }) => (
-    <TextField
-      label="Value"
-      fullWidth
-      value={variable.value}
-      required={variable.isRequired}
-      onChange={(changeEvent: React.ChangeEvent<{ value: string }>) =>
-        onVariableUpdated(variable, changeEvent.target.value)
-      }
-    />
-  ),
+  string: ({ variable, onVariableUpdated }) => {
+    const isRegexWrong = !doesVariableValueMatchRegex(variable);
+
+    return (
+      <TextField
+        label="Value"
+        fullWidth
+        value={variable.value}
+        required={variable.isRequired}
+        error={isRegexWrong}
+        helperText={
+          isRegexWrong ? `Value does not match regex: ${variable.regex}` : ''
+        }
+        onChange={(changeEvent: React.ChangeEvent<{ value: string }>) =>
+          onVariableUpdated(variable, changeEvent.target.value)
+        }
+      />
+    );
+  },
   dropdown: ({ variable, onVariableUpdated }) => (
     <FullWidthSelect
       value={variable.value}
@@ -97,7 +114,7 @@ export const Env0VariableField = ({
         }}
       >
         {variable.isSensitive && (
-          <Tooltip title="Senstive variable">
+          <Tooltip title="Sensitive variable">
             <Warning />
           </Tooltip>
         )}
