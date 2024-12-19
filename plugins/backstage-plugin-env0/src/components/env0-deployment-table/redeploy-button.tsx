@@ -13,7 +13,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Env0VariablesInput } from '../env0-variables-input';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
-import useAsync from 'react-use/lib/useAsyncRetry';
+import useAsync from 'react-use/lib/useAsync';
 import type { Variable } from '../../api/types';
 
 const StyledCard = styled(Card)({
