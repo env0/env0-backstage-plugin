@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { useEntity } from '@backstage/plugin-catalog-react';
-import {
-  ENV0_ENVIRONMENT_ANNOTATION,
-  ENV0_PROJECT_ANNOTATION,
-  ENV0_TEMPLATE_ANNOTATION,
-} from '../common/is-plugin-available';
+import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, env0ApiRef } from '../../api';
 import Button from '@material-ui/core/Button';
@@ -13,9 +9,11 @@ import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import { styled } from '@material-ui/core';
 import Snackbar, { SnackbarCloseReason } from '@mui/material/Snackbar';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Env0VariablesInput } from '../env0-variables-input';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
+import useAsync from 'react-use/lib/useAsyncRetry';
 
 const StyledCard = styled(Card)({
   padding: '0 1em',
@@ -39,12 +37,26 @@ export const RedeployButton: React.FC<{
   const { entity } = useEntity();
   const environmentId =
     entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
-  const projectId = entity.metadata.annotations?.[ENV0_PROJECT_ANNOTATION];
-  const templateId = entity.metadata.annotations?.[ENV0_TEMPLATE_ANNOTATION];
+
   const api = useApi<Env0Api>(env0ApiRef);
   const [snackbarText, setSnackbarText] = useState<string>('');
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const { value, loading, error: environmentError } = useAsync(async () => {
+    if (!environmentId) {
+      throw new Error('No environmentId found on entity');
+    }
+
+    const {
+      projectId,
+      latestDeploymentLog: { blueprintId: templateId },
+    } = await api.getEnvironmentById(environmentId);
+    return {
+      projectId,
+      templateId,
+    };
+  });
+  const { projectId, templateId } = value || {};
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -131,6 +143,29 @@ export const RedeployButton: React.FC<{
     />
   );
 
+  const getButtonText = () => {
+    if (environmentError) {
+      return (
+          <Tooltip title={environmentError.message}>
+            <span>Error</span>
+          </Tooltip>
+      );
+    }
+
+    if (loading) {
+      return (
+          <span>
+        <CircularProgress size="1em" /> Loading...
+      </span>
+      );
+    }
+
+    return 'Deploy';
+  };
+
+  const buttonText = getButtonText();
+
+
   return (
     <>
       <Tooltip
@@ -138,12 +173,12 @@ export const RedeployButton: React.FC<{
         enterDelay={1000}
       >
         <Button
-          disabled={disabled}
+          disabled={disabled || environmentError || loading}
           variant="contained"
           color="primary"
           onClick={() => setModalOpen(true)}
         >
-          Deploy
+          {buttonText}
         </Button>
       </Tooltip>
       {modal}
