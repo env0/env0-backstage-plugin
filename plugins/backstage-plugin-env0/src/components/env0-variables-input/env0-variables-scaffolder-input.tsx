@@ -2,7 +2,7 @@ import React from 'react';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
 import { z } from 'zod';
 import type { Variable } from '../../api/types';
-import {Env0VariablesInput} from "./env0-variables-input";
+import { Env0VariablesInput } from './env0-variables-input';
 
 const variableSchema = (zImpl: typeof z) =>
   zImpl
@@ -28,7 +28,6 @@ type PassedFormContextFields = {
 
 type Env0TemplateSelectorFieldProps =
   typeof Env0VariableInputFieldSchema.TProps;
-
 
 export const Env0VariablesScaffolderInput = ({
   formContext,
