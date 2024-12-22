@@ -97,22 +97,23 @@ export const RedeployButton: React.FC<{
       setSnackBarOpen(true);
       setModalOpen(false);
       setRedeployLoading(false);
-      if(afterDeploy)
-        afterDeploy();
+      if (afterDeploy) afterDeploy();
     }
   };
 
-  const deployButtonText = isRedeployLoading ? (<span>
-          <CircularProgress size="1em" /> Loading...
-        </span>) : 'Deploy';
-
+  const deployButtonText = isRedeployLoading ? (
+    <span>
+      <CircularProgress size="1em" /> Loading...
+    </span>
+  ) : (
+    'Deploy'
+  );
 
   const modal = (
     <Modal open={modalOpen} onClose={handleModalClose}>
       <StyledBox>
         <StyledCard>
           <StyledEnv0VariablesInput
-            initialVariables={variables}
             onVariablesChange={setVariables}
             rawErrors={[]}
             environmentId={environmentId}

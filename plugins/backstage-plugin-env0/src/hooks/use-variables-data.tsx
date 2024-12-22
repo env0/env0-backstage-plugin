@@ -29,9 +29,9 @@ export const useVariablesData = (
       .filter(v => v.scope === 'SET')
       .map(v => v.scopeId!);
 
-    const variablesSets = await Promise.all(
+    const variableSets = await Promise.all(
       setIds.map(setId => apiClient.findVariableSetById(setId)),
     );
-    return { variables, variablesSets };
+    return { variables, variableSets };
   }, [templateId]);
 };
