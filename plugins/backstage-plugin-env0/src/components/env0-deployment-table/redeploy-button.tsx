@@ -41,6 +41,7 @@ export const RedeployButton: React.FC<{
 
   const api = useApi<Env0Api>(env0ApiRef);
   const [snackbarText, setSnackbarText] = useState<string>('');
+  const [isRedeployLoading, setRedeployLoading] = useState<boolean>(false);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [variables, setVariables] = useState<Variable[]>([]);
@@ -87,6 +88,7 @@ export const RedeployButton: React.FC<{
     }
 
     try {
+      setRedeployLoading(true);
       await api.redeployEnvironment(environmentId, variables);
       setSnackbarText('env0 deployment initiated successfully ✅');
     } catch (error) {
@@ -94,10 +96,16 @@ export const RedeployButton: React.FC<{
     } finally {
       setSnackBarOpen(true);
       setModalOpen(false);
+      setRedeployLoading(false);
       if(fetchDeployments)
         fetchDeployments();
     }
   };
+
+  const deployButtonText = isRedeployLoading ? (<span>
+          <CircularProgress size="1em" /> Loading...
+        </span>) : 'Deploy';
+
 
   const modal = (
     <Modal open={modalOpen} onClose={handleModalClose}>
@@ -124,7 +132,7 @@ export const RedeployButton: React.FC<{
               variant="contained"
               onClick={() => handleRedeploy()}
             >
-              Deploy
+              {deployButtonText}
             </Button>
           </CardActions>
         </StyledCard>
@@ -151,7 +159,7 @@ export const RedeployButton: React.FC<{
     />
   );
 
-  const getButtonText = () => {
+  const getRedeployModalButtonText = () => {
     if (environmentError) {
       return (
         <Tooltip title={environmentError.message}>
@@ -171,7 +179,7 @@ export const RedeployButton: React.FC<{
     return 'Deploy';
   };
 
-  const buttonText = getButtonText();
+  const deployOpenModalButtonText = getRedeployModalButtonText();
 
   return (
     <>
@@ -185,7 +193,7 @@ export const RedeployButton: React.FC<{
           color="primary"
           onClick={() => setModalOpen(true)}
         >
-          {buttonText}
+          {deployOpenModalButtonText}
         </Button>
       </Tooltip>
       {modal}
