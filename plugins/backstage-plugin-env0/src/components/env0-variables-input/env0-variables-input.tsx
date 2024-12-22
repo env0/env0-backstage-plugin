@@ -40,7 +40,6 @@ export const Env0VariablesInput = ({
     loading,
     error,
     value: variablesData,
-    retry,
   } = useVariablesData(templateId, projectId, environmentId);
 
   useEffect(() => {
@@ -64,7 +63,7 @@ export const Env0VariablesInput = ({
 
   if (loading) {
     return (
-      <Env0Card title="env0" retryAction={retry}>
+      <Env0Card title="env0">
         <Progress />
       </Env0Card>
     );
@@ -72,14 +71,14 @@ export const Env0VariablesInput = ({
 
   if (error) {
     return (
-      <Env0Card title="env0" retryAction={retry}>
+      <Env0Card title="env0">
         <ErrorContainer error={error} />
       </Env0Card>
     );
   }
 
   return (
-    <Env0Card title="env0" retryAction={retry}>
+    <Env0Card title="env0">
       <FormControl margin="normal" error={Boolean(rawErrors?.length)} fullWidth>
         {initialVariables.map(
           variable =>
