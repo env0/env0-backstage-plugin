@@ -13,6 +13,7 @@ import {
   Organization,
   Variable,
   ListVariablesParams,
+  VariableSet,
 } from './types';
 
 import { DiscoveryApi, FetchApi } from '@backstage/core-plugin-api';
@@ -76,6 +77,15 @@ export class Env0Client implements Env0Api {
       nonNullVariableScopeParams,
     );
     return variables.json();
+  }
+
+  // https://docs.env0.com/reference/configuration-find-configuration-set-by-id
+  async findVariableSetById(setId: string): Promise<VariableSet> {
+    const url = `${await this.getBaseUrl()}/env0/configuration-sets/${setId}`;
+    const variableSet = await this.request(url, {
+      method: 'GET',
+    });
+    return variableSet.json();
   }
 
   // https://docs.env0.com/reference/environments-find-by-id
@@ -158,15 +168,15 @@ export class Env0Client implements Env0Api {
     return deployment.json();
   }
 
-    // https://docs.env0.com/reference/projects-find-by-id
-    async getProjectById(projectId: string): Promise<Project> {
-        const url = `${await this.getBaseUrl()}/env0/projects/${projectId}`;
+  // https://docs.env0.com/reference/projects-find-by-id
+  async getProjectById(projectId: string): Promise<Project> {
+    const url = `${await this.getBaseUrl()}/env0/projects/${projectId}`;
 
-        const project = await this.request(url, {
-            method: 'GET',
-        });
-        return project.json();
-    }
+    const project = await this.request(url, {
+      method: 'GET',
+    });
+    return project.json();
+  }
 
   private getUrlWithParams(
     url: string,
