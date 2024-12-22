@@ -33,8 +33,8 @@ const StyledBox = styled(Box)({
 
 export const RedeployButton: React.FC<{
   disabled?: boolean;
-  fetchDeployments?: () => void;
-}> = ({ disabled = false, fetchDeployments }) => {
+  afterDeploy?: () => void;
+}> = ({ disabled = false, afterDeploy }) => {
   const { entity } = useEntity();
   const environmentId =
     entity.metadata.annotations?.[ENV0_ENVIRONMENT_ANNOTATION];
@@ -97,8 +97,8 @@ export const RedeployButton: React.FC<{
       setSnackBarOpen(true);
       setModalOpen(false);
       setRedeployLoading(false);
-      if(fetchDeployments)
-        fetchDeployments();
+      if(afterDeploy)
+        afterDeploy();
     }
   };
 
