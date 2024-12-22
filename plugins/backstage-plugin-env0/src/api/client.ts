@@ -80,19 +80,12 @@ export class Env0Client implements Env0Api {
   }
 
   // https://docs.env0.com/reference/configuration-find-configuration-set-by-id
-  private async findVariableSetById(setId: string): Promise<VariableSet> {
+  async findVariableSetById(setId: string): Promise<VariableSet> {
     const url = `${await this.getBaseUrl()}/env0/configuration-sets/${setId}`;
     const variableSet = await this.request(url, {
       method: 'GET',
     });
     return variableSet.json();
-  }
-
-  async findVariableSets(setIds: string[]): Promise<VariableSet[]> {
-    const variableSets = await Promise.all(
-      setIds.map(setId => this.findVariableSetById(setId)),
-    );
-    return variableSets;
   }
 
   // https://docs.env0.com/reference/environments-find-by-id

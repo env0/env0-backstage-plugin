@@ -195,7 +195,7 @@ export type Env0Api = {
     blueprintId,
     organizationId,
   }: ListVariablesParams): Promise<Variable[]>;
-  findVariableSets(setIds: string[]): Promise<VariableSet[]>;
+  findVariableSetById(setId: string): Promise<VariableSet>;
   getEnvironmentById(environmentId: string): Promise<Environment>;
   getTemplatesByProjectId(projectId): Promise<Template[]>;
   getTemplateById(templateId: string): Promise<Template>;
