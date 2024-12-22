@@ -47,7 +47,7 @@ export const RedeployButton: React.FC<{
 
   const {
     value,
-    loading,
+    loading: isLoadingEnvironment,
     error: environmentError,
   } = useAsync(async () => {
     if (!environmentId) {
@@ -160,7 +160,7 @@ export const RedeployButton: React.FC<{
       );
     }
 
-    if (loading) {
+    if (isLoadingEnvironment) {
       return (
         <span>
           <CircularProgress size="1em" /> Loading...
@@ -180,7 +180,7 @@ export const RedeployButton: React.FC<{
         enterDelay={1000}
       >
         <Button
-          disabled={disabled || environmentError || loading}
+          disabled={disabled || environmentError || isLoadingEnvironment}
           variant="contained"
           color="primary"
           onClick={() => setModalOpen(true)}
