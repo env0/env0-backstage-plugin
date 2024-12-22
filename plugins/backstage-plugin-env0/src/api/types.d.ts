@@ -162,8 +162,6 @@ type VariableFields = {
 
 export type Variable = VariableFields & {
   overwrites?: VariableFields;
-  // Not part of the API response
-  originalVariableScope?: ConfigurationScope;
 };
 
 export type VariableSet = {

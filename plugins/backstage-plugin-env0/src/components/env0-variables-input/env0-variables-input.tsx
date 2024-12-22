@@ -14,8 +14,9 @@ import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
 import { Env0VariableField } from './env0-variable-field';
 
-const shouldShowVariable = (variable: Variable) =>
-  !(variable.isReadonly || variable.isOutput);
+type VariableWithEditScope = Variable & {
+  originalVariableScope?: string;
+};
 
 export type Env0VariablesInputProps = {
   projectId?: string;
@@ -26,12 +27,18 @@ export type Env0VariablesInputProps = {
   initialVariables: Variable[];
 };
 
+const shouldShowVariable = (variable: VariableWithEditScope) =>
+  !(variable.isReadonly || variable.isOutput);
+
 const VariableFields = ({
   variables,
   updateVariableValue,
 }: {
-  variables: Variable[];
-  updateVariableValue: (updatedVariable: Variable, value: string) => void;
+  variables: VariableWithEditScope[];
+  updateVariableValue: (
+    updatedVariable: VariableWithEditScope,
+    value: string,
+  ) => void;
 }) => {
   return (
     <>
@@ -55,8 +62,11 @@ const VariablesCollapsedGroup = ({
   updateVariableValue,
 }: {
   title: string;
-  variables: Variable[];
-  updateVariableValue: (updatedVariable: Variable, value: string) => void;
+  variables: VariableWithEditScope[];
+  updateVariableValue: (
+    updatedVariable: VariableWithEditScope,
+    value: string,
+  ) => void;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -97,19 +107,23 @@ export const Env0VariablesInput = ({
   rawErrors,
   initialVariables,
 }: Env0VariablesInputProps) => {
-  const [variables, setVariables] = useState<Variable[]>(initialVariables);
+  const [variables, setVariables] =
+    useState<VariableWithEditScope[]>(initialVariables);
 
   const [isInitialized, setIsInitialized] = useState(false);
 
   const onVariablesChangeCallback = useCallback(
-    (newVariables: Variable[]) => {
+    (newVariables: VariableWithEditScope[]) => {
       onVariablesChange(newVariables);
       setVariables(newVariables);
     },
     [onVariablesChange],
   );
 
-  const updateVariableValue = (updatedVariable: Variable, value: string) => {
+  const updateVariableValue = (
+    updatedVariable: VariableWithEditScope,
+    value: string,
+  ) => {
     const newVariables = [...variables];
     const updatedVariableIndex = newVariables.findIndex(
       variable => variable.id === updatedVariable.id,
@@ -161,10 +175,12 @@ export const Env0VariablesInput = ({
         acc.defaultGroup.push(variable);
       }
       return acc;
-    }, {} as Record<string, Variable[]>);
+    }, {} as Record<string, VariableWithEditScope[]>);
   }, [variables, variablesSetsData]);
 
-  const areThereAnyVariablesToShowInGroup = (group: Variable[]) => {
+  const areThereAnyVariablesToShowInGroup = (
+    group: VariableWithEditScope[],
+  ) => {
     return group.some(variable => shouldShowVariable(variable));
   };
 
