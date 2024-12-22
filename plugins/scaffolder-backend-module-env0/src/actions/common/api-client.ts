@@ -42,16 +42,19 @@ class ApiClient {
     return response.data;
   }
 
+  // https://docs.env0.com/reference/environments-find-by-id
   public async getEnvironment(id: string) {
     return this.get<Env0Api.GetEnvironment.Response>(`/environments/${id}`);
   }
 
+  // https://docs.env0.com/reference/environments-create
   public async createEnvironment(
     data: Env0Api.CreateEnvironment.Request,
   ): Promise<Env0Api.CreateEnvironment.Response> {
     return this.post('/environments', data);
   }
 
+  // https://docs.env0.com/reference/environments-deploy
   public async redeployEnvironment(
     id: string,
     data: Omit<Env0Api.RedeployEnvironment.Request, 'id'>,

@@ -31,10 +31,10 @@ export function createEnv0CreateEnvironmentAction() {
       const { id, organizationId } = await apiClient.createEnvironment({
         name: ctx.input.name,
         projectId: ctx.input.projectId,
+        configurationChanges: ctx.input.variables,
         deployRequest: {
           comment: ctx.input.comment,
           blueprintId: ctx.input.templateId,
-          configurationChanges: ctx.input.variables,
         },
       });
 

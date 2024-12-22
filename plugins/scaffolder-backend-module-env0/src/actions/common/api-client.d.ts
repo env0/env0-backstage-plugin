@@ -13,7 +13,7 @@ export namespace Env0Api {
       name: string;
       projectId: string;
       blueprintId: string;
-      status: string
+      status: string;
     }
   }
 
@@ -22,10 +22,10 @@ export namespace Env0Api {
     export interface Request {
       name: string;
       projectId: string;
+      configurationChanges?: ConfigurationChange[];
       deployRequest: {
         blueprintId: string;
         comment?: string;
-        configurationChanges?: ConfigurationChange[];
       };
     }
 
