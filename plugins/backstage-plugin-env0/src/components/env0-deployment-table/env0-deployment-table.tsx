@@ -79,7 +79,7 @@ export const Env0DeploymentTable: React.FunctionComponent<{
       title="env0 Deployments"
       subheader="View the history of deployments for this environment in env0."
       retryAction={retry}
-      actions={<RedeployButton />}
+      actions={<RedeployButton afterDeploy={retry} disabled={deployments?.length === 0}/>}
     >
       <Table
         options={{

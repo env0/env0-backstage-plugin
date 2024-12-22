@@ -142,7 +142,6 @@ export const Env0VariablesInput = ({
     loading,
     error,
     value: { variables: variablesData, variablesSets: variablesSetsData } = {},
-    retry,
   } = useVariablesData(templateId, projectId, environmentId);
 
   useEffect(() => {
@@ -186,7 +185,7 @@ export const Env0VariablesInput = ({
 
   if (loading) {
     return (
-      <Env0Card title="env0" retryAction={retry}>
+      <Env0Card title="env0">
         <Progress />
       </Env0Card>
     );
@@ -194,7 +193,7 @@ export const Env0VariablesInput = ({
 
   if (error) {
     return (
-      <Env0Card title="env0" retryAction={retry}>
+      <Env0Card title="env0">
         <ErrorContainer error={error} />
       </Env0Card>
     );

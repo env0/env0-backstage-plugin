@@ -153,7 +153,7 @@ export class Env0Client implements Env0Api {
   }
 
   // https://docs.env0.com/reference/environments-deploy
-  async redeployEnvironment(environmentId: string): Promise<Deployment> {
+  async redeployEnvironment(environmentId: string, variables?: Variable[]): Promise<Deployment> {
     const url = `${await this.getBaseUrl()}/env0/environments/${environmentId}/deployments`;
     const deployment = await this.request(url, {
       method: 'POST',
@@ -163,6 +163,7 @@ export class Env0Client implements Env0Api {
       body: JSON.stringify({
         deploymentType: 'deploy',
         triggerName: 'user',
+        configurationChanges: variables
       }),
     });
     return deployment.json();
