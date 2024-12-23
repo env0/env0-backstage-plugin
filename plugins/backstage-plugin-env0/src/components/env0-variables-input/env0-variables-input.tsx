@@ -151,7 +151,7 @@ export const Env0VariablesInput = ({
       setVariables(variablesData);
       setIsInitialized(true);
     }
-  }, [isInitialized, onVariablesChangeCallback, variablesData]);
+  }, [isInitialized, variablesData]);
 
   const groupedVariablesByVariableSets = useMemo(() => {
     if (!variables || !variablesSetsData) return {};
