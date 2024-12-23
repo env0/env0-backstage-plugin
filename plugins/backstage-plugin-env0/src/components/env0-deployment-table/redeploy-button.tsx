@@ -97,7 +97,7 @@ export const RedeployButton: React.FC<{
       setSnackBarOpen(true);
       setModalOpen(false);
       setRedeployLoading(false);
-      if (afterDeploy) afterDeploy();
+      afterDeploy?.();
     }
   };
 
@@ -114,7 +114,7 @@ export const RedeployButton: React.FC<{
       <StyledBox>
         <StyledCard>
           <StyledEnv0VariablesInput
-            onVariablesChange={setVariables}
+            onVariablesFormDataChange={setVariables}
             rawErrors={[]}
             environmentId={environmentId}
             projectId={projectId}
