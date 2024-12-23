@@ -7,14 +7,15 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import { useVariablesData } from '../../hooks/use-variables-data';
 import { Env0Card } from '../common/env0-card';
 import type { Variable } from '../../api/types';
 import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
 import { Env0VariableField } from './env0-variable-field';
+import { useVariablesData } from '../../hooks/use-variables-data';
 
 type VariableWithEditScope = Variable & {
+  isEdited?: boolean;
   originalVariableScope?: string;
 };
 
@@ -22,9 +23,8 @@ export type Env0VariablesInputProps = {
   projectId?: string;
   templateId?: string;
   environmentId?: string;
-  onVariablesChange: (update: Variable[]) => void;
+  onVariablesFormDataChange: (update: Variable[]) => void;
   rawErrors: string[];
-  initialVariables: Variable[];
 };
 
 const shouldShowVariable = (variable: VariableWithEditScope) =>
@@ -103,21 +103,28 @@ export const Env0VariablesInput = ({
   projectId,
   templateId,
   environmentId,
-  onVariablesChange,
+  onVariablesFormDataChange,
   rawErrors,
-  initialVariables,
 }: Env0VariablesInputProps) => {
-  const [variables, setVariables] =
-    useState<VariableWithEditScope[]>(initialVariables);
+  const [variables, setVariables] = useState<VariableWithEditScope[]>([]);
 
   const [isInitialized, setIsInitialized] = useState(false);
 
+  const {
+    loading,
+    error,
+    value: { variables: variablesData, variableSets: variablesSetsData } = {},
+  } = useVariablesData(templateId, projectId, environmentId);
+
   const onVariablesChangeCallback = useCallback(
     (newVariables: VariableWithEditScope[]) => {
-      onVariablesChange(newVariables);
+      const editedVariables = newVariables.filter(
+        variable => variable.isEdited,
+      );
+      onVariablesFormDataChange(editedVariables);
       setVariables(newVariables);
     },
-    [onVariablesChange],
+    [onVariablesFormDataChange],
   );
 
   const updateVariableValue = (
@@ -130,6 +137,7 @@ export const Env0VariablesInput = ({
     );
     newVariables[updatedVariableIndex] = {
       ...updatedVariable,
+      isEdited: true,
       originalVariableScope:
         updatedVariable.originalVariableScope || updatedVariable.scope,
       scope: 'ENVIRONMENT',
@@ -138,18 +146,12 @@ export const Env0VariablesInput = ({
     onVariablesChangeCallback(newVariables);
   };
 
-  const {
-    loading,
-    error,
-    value: { variables: variablesData, variablesSets: variablesSetsData } = {},
-  } = useVariablesData(templateId, projectId, environmentId);
-
   useEffect(() => {
     if (variablesData && !isInitialized) {
-      onVariablesChangeCallback(variablesData);
+      setVariables(variablesData);
       setIsInitialized(true);
     }
-  }, [isInitialized, onVariablesChangeCallback, variablesData]);
+  }, [isInitialized, variablesData]);
 
   const groupedVariablesByVariableSets = useMemo(() => {
     if (!variables || !variablesSetsData) return {};
