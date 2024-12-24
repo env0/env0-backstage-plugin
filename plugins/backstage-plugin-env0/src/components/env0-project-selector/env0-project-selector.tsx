@@ -106,6 +106,9 @@ export const Env0ProjectSelector = ({
           onChange={(_, newValue: Project | null) => {
             onProjectIdChange(newValue?.id);
           }}
+          renderOption={(props, option) => (
+              <li {...props} key={option.id}>{option.name}</li>
+          )}
           renderInput={params => (
             <TextField
               {...params}

@@ -68,6 +68,9 @@ export const Env0TemplateSelector = ({
           onChange={(_, newValue: Template | null) => {
             onTemplateIdChange(newValue?.id);
           }}
+          renderOption={(props, option) => (
+              <li {...props} key={option.id}>{option.name}</li>
+          )}
           renderInput={params => (
             <TextField
               {...params}
