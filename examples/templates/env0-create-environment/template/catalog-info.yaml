@@ -10,7 +10,6 @@ metadata:
   annotations:
     github.com/project-slug: env0/env0-backstage-plugin
     env0.com/environment-id: ${{ values.id }}
-    env0.com/project-id: ${{ values.projectId }}
     env0.com/organization-id: ${{ values.organizationId }}
 spec:
   type: ${{ values.type }}
