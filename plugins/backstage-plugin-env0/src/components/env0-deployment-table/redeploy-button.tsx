@@ -41,7 +41,7 @@ export const RedeployButton: React.FC<{
 
   const api = useApi<Env0Api>(env0ApiRef);
   const [snackbarText, setSnackbarText] = useState<string>('');
-  const [isRedeployLoading, setRedeployLoading] = useState<boolean>(false);
+  const [isRedeploy, setIsRedeploy] = useState<boolean>(false);
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [variables, setVariables] = useState<Variable[]>([]);
@@ -88,7 +88,7 @@ export const RedeployButton: React.FC<{
     }
 
     try {
-      setRedeployLoading(true);
+      setIsRedeploy(true);
       await api.redeployEnvironment(environmentId, variables);
       setSnackbarText('env0 deployment initiated successfully ✅');
     } catch (error) {
@@ -96,12 +96,12 @@ export const RedeployButton: React.FC<{
     } finally {
       setSnackBarOpen(true);
       setModalOpen(false);
-      setRedeployLoading(false);
+      setIsRedeploy(false);
       afterDeploy?.();
     }
   };
 
-  const deployButtonText = isRedeployLoading ? (
+  const deployButtonText = isRedeploy ? (
     <span>
       <CircularProgress size="1em" /> Loading...
     </span>
@@ -132,6 +132,7 @@ export const RedeployButton: React.FC<{
               color="primary"
               variant="contained"
               onClick={() => handleRedeploy()}
+              disabled={isRedeploy}
             >
               {deployButtonText}
             </Button>
