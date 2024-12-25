@@ -16,6 +16,22 @@ import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
 import { VcsIcon } from './vcs-icon';
 import Status from '../env0-status/status';
 import { Env0Card } from '../common/env0-card';
+import CardActions from '@mui/material/CardActions';
+import Button from '@mui/material/Button';
+
+const getEnv0AppUrl = () => {
+  return process.env.ENV0_APP_URL ?? 'https://app.env0.com';
+};
+
+export const getEnv0EnvironmentUrl = ({
+  environmentId,
+  projectId,
+}: {
+  environmentId: string;
+  projectId: string;
+}) => {
+  return `${getEnv0AppUrl()}/p/${projectId}/environments/${environmentId}`;
+};
 
 const VcsLinkContainer = styled('div')(() => ({
   display: 'flex',
@@ -89,6 +105,16 @@ export const Env0EnvironmentDetailsCard = () => {
           createdBy: environment.user.name,
         }}
       />
+      <CardActions>
+        <Button color="primary" variant="contained">
+          <Link
+            to={getEnv0EnvironmentUrl({ environmentId: environment.id, projectId: environment.projectId })}
+            color="textPrimary"
+          >
+            Open in env0
+          </Link>
+        </Button>
+      </CardActions>
     </Env0Card>
   );
 };

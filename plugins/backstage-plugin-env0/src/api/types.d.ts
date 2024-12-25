@@ -81,6 +81,7 @@ export type EnvironmentDriftStatus =
   | 'DISABLED';
 
 export type Environment = {
+  id: string;
   name: string;
   status: EnvironmentStatus;
   driftStatus: EnvironmentDriftStatus;
