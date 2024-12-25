@@ -13,11 +13,7 @@ jobs:
         with:
           node-version: '20.x'
       - run: yarn install
-      - run: |
-          cd plugins/backstage-plugin-env0
-          npm publish --access public
-      - run: |
-          cd plugins/scaffolder-backend-module-env0
-          npm publish --access public
+      - run: yarn build
+      - run: yarn workspaces foreach -A -p --no-private npm publish --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }
