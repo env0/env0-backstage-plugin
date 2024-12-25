@@ -28,7 +28,7 @@ export type Env0VariablesInputProps = {
 };
 
 const shouldShowVariable = (variable: VariableWithEditScope) =>
-  !(variable.isReadonly || variable.isOutput);
+  !(variable.isReadonly || variable.schema?.format === 'ENVIRONMENT_OUTPUT');
 
 const VariableFields = ({
   variables,
