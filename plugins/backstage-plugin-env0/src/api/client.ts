@@ -146,14 +146,20 @@ export class Env0Client implements Env0Api {
   ): Promise<Project[]> {
     const url = `${await this.getBaseUrl()}/env0/projects?organizationId=${organizationId}`;
 
-    const projects = await this.request(url, {
+    const projectsResponse = await this.request(url, {
       method: 'GET',
     });
-    return projects.json();
+    const projects: Project[] = await projectsResponse.json();
+    return projects.filter(
+      project => !project.isArchived,
+    );
   }
 
   // https://docs.env0.com/reference/environments-deploy
-  async redeployEnvironment(environmentId: string, variables?: Variable[]): Promise<Deployment> {
+  async redeployEnvironment(
+    environmentId: string,
+    variables?: Variable[],
+  ): Promise<Deployment> {
     const url = `${await this.getBaseUrl()}/env0/environments/${environmentId}/deployments`;
     const deployment = await this.request(url, {
       method: 'POST',
@@ -163,7 +169,7 @@ export class Env0Client implements Env0Api {
       body: JSON.stringify({
         deploymentType: 'deploy',
         triggerName: 'user',
-        configurationChanges: variables
+        configurationChanges: variables,
       }),
     });
     return deployment.json();
