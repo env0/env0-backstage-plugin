@@ -150,7 +150,6 @@ type VariableFields = {
   isSensitive?: boolean;
   isReadonly?: boolean;
   isRequired?: boolean;
-  isOutput?: boolean;
   regex?: string;
   schema?: PartialJSONSchema7;
   description?: string;
@@ -202,7 +201,10 @@ export type Env0Api = {
   getOrganizations(): Promise<Organization[]>;
   getProjectsByOrganizationId(organizationId: string): Promise<Project[]>;
   getProjectById(projectId: string): Promise<Project>;
-  redeployEnvironment(environmentId: string, variables?: Variable[]): Promise<Deployment>;
+  redeployEnvironment(
+    environmentId: string,
+    variables?: Variable[],
+  ): Promise<Deployment>;
 };
 
 export type DeploymentStepStatus =
