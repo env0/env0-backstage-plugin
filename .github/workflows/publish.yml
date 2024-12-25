@@ -14,6 +14,6 @@ jobs:
           node-version: '20.x'
       - run: yarn install
       - run: yarn build
-      - run: yarn workspaces foreach -A -p --no-private npm publish --access public
+      - run: yarn workspaces foreach --all --parallel --no-private npm publish --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
