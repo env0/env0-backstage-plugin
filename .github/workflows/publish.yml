@@ -1,0 +1,23 @@
+
+name: Publish Package to npmjs
+on:
+  release:
+    types: [published]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+      - run: yarn install
+      - run: |
+          cd plugins/backstage-plugin-env0
+          npm publish --access public
+      - run: |
+          cd plugins/scaffolder-backend-module-env0
+          npm publish --access public
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }
