@@ -11,6 +11,8 @@ import Status from '../env0-status/status';
 import { Env0Card } from '../common/env0-card';
 import { RedeployButton } from './redeploy-button';
 import { ResourceCount } from './resource-count';
+import { useGetEnvironmentById } from '../../hooks/use-get-environment';
+import { DeploymentErrorContainer } from './deployment-error-container';
 
 const getFormattedDeploymentDuration = (deployment: Deployment) => {
   if (!deployment.finishedAt || !deployment.startedAt) return '-';
@@ -69,6 +71,8 @@ export const Env0DeploymentTable: React.FunctionComponent<{
     error,
     retry,
   } = useGetDeployments(environmentId);
+  const { value: environment, loading: isEnvironmentLoading } =
+    useGetEnvironmentById(environmentId);
 
   if (error) {
     return <ErrorContainer error={error} />;
@@ -79,8 +83,18 @@ export const Env0DeploymentTable: React.FunctionComponent<{
       title="env0 Deployments"
       subheader="View the history of deployments for this environment in env0."
       retryAction={retry}
-      actions={<RedeployButton afterDeploy={retry} disabled={deployments?.length === 0}/>}
+      actions={
+        <RedeployButton
+          afterDeploy={retry}
+          disabled={deployments?.length === 0}
+        />
+      }
     >
+      {!isEnvironmentLoading && environment?.latestDeploymentLog.error && (
+        <DeploymentErrorContainer
+          errorMessage={environment.latestDeploymentLog.error.message}
+        />
+      )}
       <Table
         options={{
           paging: false,
