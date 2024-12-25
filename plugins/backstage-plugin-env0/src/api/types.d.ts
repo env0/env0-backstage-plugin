@@ -178,6 +178,7 @@ export type Project = {
   id: string;
   organizationId: string;
   name: string;
+  isArchived: boolean;
 };
 
 export type ListVariablesParams = {
