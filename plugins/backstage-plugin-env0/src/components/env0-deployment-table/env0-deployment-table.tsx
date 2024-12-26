@@ -86,6 +86,7 @@ export const Env0DeploymentTable: React.FunctionComponent<{
           paging: false,
           search: false,
           toolbar: false,
+          sorting: false,
         }}
         data={deployments ?? []}
         columns={deploymentHistoryColumns}
