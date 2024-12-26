@@ -153,9 +153,7 @@ export class Env0Client implements Env0Api {
       method: 'GET',
     });
     const projects: Project[] = await projectsResponse.json();
-    return projects.filter(
-      project => !project.isArchived,
-    );
+    return projects.filter(project => !project.isArchived);
   }
 
   // https://docs.env0.com/reference/environments-deploy
