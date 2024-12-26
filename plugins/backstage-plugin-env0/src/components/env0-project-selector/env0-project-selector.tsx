@@ -100,6 +100,7 @@ export const Env0ProjectSelector = ({
       >
         <Autocomplete<Project>
           loading={loading}
+          disabled={!formTemplateId}
           getOptionLabel={option => option.name}
           options={projects}
           value={projects.find(p => p.id === selectedProjectId) || null}
