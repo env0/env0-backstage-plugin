@@ -169,3 +169,7 @@ If you want to set const template id to filter by use
 ui:options:
   env0TemplateId: "uuid"
 ```
+
+> [!NOTE]
+> The project selector requires a template being selected,
+> either from `env0_template_id` or the `env0TemplateId` `ui:option`
