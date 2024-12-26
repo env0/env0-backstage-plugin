@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { apiClient } from './common/api-client';
 import { commentSchema, variablesSchema } from './common/schema';
 import { getEnv0EnvironmentUrl } from './common/get-urls';
+import { extractApiError } from './common/extract-api-error';
 
 export type CreateEnvironmentArgs = z.infer<typeof schema>;
 
@@ -28,26 +29,39 @@ export function createEnv0CreateEnvironmentAction() {
     async handler(ctx) {
       ctx.logger.info(`Creating env0 environment`);
 
-      const { id, organizationId } = await apiClient.createEnvironment({
-        name: ctx.input.name,
+      let environmentId;
+      let organizationId;
+
+      try {
+        const response = await apiClient.createEnvironment({
+          name: ctx.input.name,
+          projectId: ctx.input.projectId,
+          configurationChanges: ctx.input.variables,
+          deployRequest: {
+            comment: ctx.input.comment,
+            blueprintId: ctx.input.templateId,
+          },
+        });
+
+        environmentId = response.id;
+        organizationId = response.organizationId;
+
+        ctx.logger.info(`env0 environment creation initiated successfully`);
+      } catch (error: any) {
+        ctx.logger.error(`Failed to create env0 environment`);
+        throw extractApiError(error);
+      }
+
+      const url = getEnv0EnvironmentUrl({
+        environmentId,
         projectId: ctx.input.projectId,
-        configurationChanges: ctx.input.variables,
-        deployRequest: {
-          comment: ctx.input.comment,
-          blueprintId: ctx.input.templateId,
-        },
       });
 
-      ctx.logger.info(`env0 environment creation initiated successfully`);
-      ctx.output('environmentId', id);
+      ctx.logger.info(`Follow the creation progress at ${url}`);
+      ctx.output('environmentUrl', url);
+
+      ctx.output('environmentId', environmentId);
       ctx.output('organizationId', organizationId);
-      ctx.output(
-        'environmentUrl',
-        getEnv0EnvironmentUrl({
-          environmentId: id,
-          projectId: ctx.input.projectId,
-        }),
-      );
     },
   });
 }

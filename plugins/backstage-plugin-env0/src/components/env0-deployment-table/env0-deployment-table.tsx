@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import dayjs from '../common/dayjs.types';
 import { Table, TableColumn } from '@backstage/core-components';
 import { Deployment } from '../../api/types';
@@ -11,6 +11,8 @@ import Status from '../env0-status/status';
 import { Env0Card } from '../common/env0-card';
 import { RedeployButton } from './redeploy-button';
 import { ResourceCount } from './resource-count';
+import { useGetEnvironmentById } from '../../hooks/use-get-environment';
+import { DeploymentErrorContainer } from './deployment-error-container';
 
 const getFormattedDeploymentDuration = (deployment: Deployment) => {
   if (!deployment.finishedAt || !deployment.startedAt) return '-';
@@ -67,8 +69,18 @@ export const Env0DeploymentTable: React.FunctionComponent<{
     value: deployments,
     loading: isLoading,
     error,
-    retry,
+    retry: retryGetDeployments,
   } = useGetDeployments(environmentId);
+  const {
+    value: environment,
+    loading: isEnvironmentLoading,
+    retry: retryEnvironment,
+  } = useGetEnvironmentById(environmentId);
+
+  const retry = useCallback(() => {
+    retryGetDeployments();
+    retryEnvironment();
+  }, [retryGetDeployments, retryEnvironment]);
 
   if (error) {
     return <ErrorContainer error={error} />;
@@ -79,8 +91,18 @@ export const Env0DeploymentTable: React.FunctionComponent<{
       title="env0 Deployments"
       subheader="View the history of deployments for this environment in env0."
       retryAction={retry}
-      actions={<RedeployButton afterDeploy={retry} disabled={deployments?.length === 0}/>}
+      actions={
+        <RedeployButton
+          afterDeploy={retry}
+          disabled={deployments?.length === 0}
+        />
+      }
     >
+      {!isEnvironmentLoading && environment?.latestDeploymentLog.error && (
+        <DeploymentErrorContainer
+          errorMessage={environment.latestDeploymentLog.error.message}
+        />
+      )}
       <Table
         options={{
           paging: false,
