@@ -10,17 +10,13 @@
 
 ### Installation
 
-#### 1. Set the `ENV0_ACCESS_TOKEN` environment variable to your Env0 API key.
-
-See [README](../../README.md#authentication) for more information. 
-
-#### 2. Install the plugin into your Backstage instance:
+#### 1. Install the plugin into your Backstage instance:
 ```bash
 # From your Backstage root directory
 yarn add --cwd packages/backend @pulumi/backstage-scaffolder-backend-pulumi
 ```
 
-#### 3. Configure the plugin in your Backstage instance ([docs](https://backstage.io/docs/features/software-templates/writing-custom-actions/#registering-custom-actions)):
+#### 2. Configure the plugin in your Backstage instance ([docs](https://backstage.io/docs/features/software-templates/writing-custom-actions/#registering-custom-actions)):
 ```ts
 // In packages/backend/src/index.ts
 const backend = createBackend();
