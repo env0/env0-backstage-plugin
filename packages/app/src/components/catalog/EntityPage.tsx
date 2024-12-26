@@ -14,7 +14,6 @@ import {
   EntityDependsOnResourcesCard,
   EntityHasComponentsCard,
   EntityHasResourcesCard,
-  EntityHasSubcomponentsCard,
   EntityHasSystemsCard,
   EntityLayout,
   EntityLinksCard,
@@ -72,8 +71,6 @@ const techdocsContent = (
     </TechDocsAddons>
   </EntityTechdocsContent>
 );
-
-const env0Content = <Env0TabComponent />;
 
 const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
@@ -190,7 +187,7 @@ const serviceEntityPage = (
       path="/env0"
       title="env0"
     >
-      {env0Content}
+      <Env0TabComponent />
     </EntityLayout.Route>
   </EntityLayout>
 );
