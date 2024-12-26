@@ -27,7 +27,7 @@ export type Env0VariablesInputProps = {
   rawErrors: string[];
 };
 
-const shouldSqhowVariable = (variable: VariableWithEditScope) =>
+const shouldShowVariable = (variable: VariableWithEditScope) =>
   !(variable.isReadonly || variable.schema?.format === 'ENVIRONMENT_OUTPUT');
 
 const VariableFields = ({
