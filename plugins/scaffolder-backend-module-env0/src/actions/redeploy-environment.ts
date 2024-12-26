@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { apiClient } from './common/api-client';
 import { commentSchema, variablesSchema } from './common/schema';
 import { getEnv0DeploymentUrl } from './common/get-urls';
+import { extractApiError } from './common/extract-api-error';
 
 export type RedeployEnvironmentArgs = z.infer<typeof schema>;
 
@@ -22,31 +23,46 @@ export function createEnv0RedeployEnvironmentAction() {
     async handler(ctx) {
       ctx.logger.info(`Redeploying env0 environment`);
       const environmentId = ctx.input.id;
+      let deploymentId;
+      let projectId;
 
-      const { id: deploymentId } = await apiClient.redeployEnvironment(
-        environmentId,
-        {
-          deployRequest: {
-            comment: ctx.input.comment,
-            configurationChanges: ctx.input.variables,
+      try {
+        const redeployResponse = await apiClient.redeployEnvironment(
+          environmentId,
+          {
+            deployRequest: {
+              comment: ctx.input.comment,
+              configurationChanges: ctx.input.variables,
+            },
           },
-        },
-      );
+        );
 
-      const { projectId } = await apiClient.getEnvironment(environmentId);
+        deploymentId = redeployResponse.id;
+        ctx.logger.info(`env0 environment re-deploy initiated successfully`);
+      } catch (error: any) {
+        ctx.logger.error(`Failed to re-deploy env0 environment`);
+        throw extractApiError(error);
+      }
 
-      ctx.logger.info(`env0 environment re-deploy initiated successfully`);
+      try {
+        const getEnvResponse = await apiClient.getEnvironment(environmentId);
+        projectId = getEnvResponse.projectId;
+      } catch (error: any) {
+        ctx.logger.error(`Failed to get env0 project ID`);
+        throw extractApiError(error);
+      }
+
+      const url = getEnv0DeploymentUrl({
+        environmentId,
+        deploymentId,
+        projectId,
+      });
+
+      ctx.logger.info(`Follow the re-deploy progress at ${url}`);
+      ctx.output('deploymentUrl', url);
 
       ctx.output('environmentId', environmentId);
       ctx.output('deploymentId', deploymentId);
-      ctx.output(
-        'deploymentUrl',
-        getEnv0DeploymentUrl({
-          environmentId,
-          deploymentId,
-          projectId,
-        }),
-      );
     },
   });
 }
