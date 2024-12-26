@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import dayjs from '../common/dayjs.types';
 import { Table, TableColumn } from '@backstage/core-components';
 import { Deployment } from '../../api/types';
@@ -69,10 +69,18 @@ export const Env0DeploymentTable: React.FunctionComponent<{
     value: deployments,
     loading: isLoading,
     error,
-    retry,
+    retry: retryGetDeployments,
   } = useGetDeployments(environmentId);
-  const { value: environment, loading: isEnvironmentLoading } =
-    useGetEnvironmentById(environmentId);
+  const {
+    value: environment,
+    loading: isEnvironmentLoading,
+    retry: retryEnvironment,
+  } = useGetEnvironmentById(environmentId);
+
+  const retry = useCallback(() => {
+    retryGetDeployments();
+    retryEnvironment();
+  }, [retryGetDeployments, retryEnvironment]);
 
   if (error) {
     return <ErrorContainer error={error} />;
