@@ -80,7 +80,7 @@ export const Env0ProjectSelector = ({
 }: Env0ProjectSelectorFieldProps) => {
   const formTemplateId: string | undefined =
     formContext?.formData?.env0_template_id;
-  const rawUiSchemaTemplateId = uiSchema?.['ui:options']?.['env0TemplateId'];
+  const rawUiSchemaTemplateId = uiSchema?.['ui:options']?.env0TemplateId;
   const selectedTemplateId = formTemplateId || rawUiSchemaTemplateId;
   const { projects, error, loading } =
     useGetProjectsByTemplateId(selectedTemplateId);
@@ -100,6 +100,7 @@ export const Env0ProjectSelector = ({
       >
         <Autocomplete<Project>
           loading={loading}
+          disabled={!selectedTemplateId}
           getOptionLabel={option => option.name}
           options={projects}
           value={projects.find(p => p.id === selectedProjectId) || null}
