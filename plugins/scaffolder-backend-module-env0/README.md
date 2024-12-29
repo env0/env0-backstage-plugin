@@ -3,8 +3,8 @@
 ## Prerequisites
 
 ### env0 Access Token
-1. Create a new API key in your env0 organization ([docs](https://docs.env0.com/docs/api-keys)).
-2. Set the `ENV0_ACCESS_TOKEN` environment variable to the API key.
+
+Please refer to the root [README](../../README.md#authentication) for instructions on how to set up the env0 access token.
 
 ## Getting Started
 
