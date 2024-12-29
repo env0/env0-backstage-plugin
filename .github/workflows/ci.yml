@@ -1,0 +1,23 @@
+name: CI
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  CI:
+    name: "CI"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+      - name: Install Dependencies
+        run: yarn install
+      - name: Compile TypeScript
+        run: yarn tsc:full
+      - name: Build Packages
+        run: yarn build:all
+
