@@ -51,17 +51,30 @@ export const doesVariableValueMatchRegex = (variable: Variable) => {
   return regex.test(variable.value || '');
 };
 
+const findError = (variable: Variable): undefined | string => {
+  const isRegexWrong = !doesVariableValueMatchRegex(variable);
+  if (isRegexWrong) {
+    return `Value does not match regex: ${variable.regex}`;
+  }
+
+  const isRequiredWithNoValue = variable.isRequired && !variable.value;
+  if (isRequiredWithNoValue) {
+    return 'Variable is required, and cannot be empty';
+  }
+
+  return undefined;
+};
+
 const variableInputByInputType: Record<
   VariableType,
   ({ variable, onVariableUpdated }: VariableInputComponentProps) => ReactElement
 > = {
   string: ({ variable, onVariableUpdated }) => {
-    const isRegexWrong = !doesVariableValueMatchRegex(variable);
+    const error = findError(variable);
 
     const onlyAsterisks = /^\*+$/;
     const isVariableValueSecretMask =
       variable.isSensitive && onlyAsterisks.test(variable.value || '');
-
     variable.value = isVariableValueSecretMask ? undefined : variable.value;
 
     return (
@@ -70,10 +83,8 @@ const variableInputByInputType: Record<
         value={variable.value}
         placeholder={isVariableValueSecretMask ? '********' : ''}
         required={variable.isRequired}
-        error={isRegexWrong}
-        helperText={
-          isRegexWrong ? `Value does not match regex: ${variable.regex}` : ''
-        }
+        error={!!error}
+        helperText={error}
         onChange={(changeEvent: React.ChangeEvent<{ value: string }>) =>
           onVariableUpdated(
             variable,
