@@ -76,6 +76,12 @@ export const Env0VariableInputExtension = scaffolderPlugin.provide(
             `value for variable "${variable.name}" does not match regex: ${variable.regex}`,
           );
         }
+
+        if ((variable as Variable).isRequired && !variable.value) {
+          validation.addError(
+            `variable "${variable.name}" is required, and cannot be empty`,
+          );
+        }
       });
     },
   }),
