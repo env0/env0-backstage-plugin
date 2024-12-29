@@ -13,8 +13,6 @@ This plugin adds UI components to:
 
 ## Getting Started
 
-### Installation
-
 ### 1. Install the plugin into your Backstage instance:
 ```bash
 # From your Backstage root directory
