@@ -18,5 +18,6 @@ For more information, see:
 ## Authentication
 
 1. Create a new API key in your env0 organization ([docs](https://docs.env0.com/docs/api-keys)).
+   1. Required permission is `Run Applies`
 2. Set the `ENV0_ACCESS_TOKEN` environment variable to the API key.
 
