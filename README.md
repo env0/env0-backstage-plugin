@@ -12,8 +12,8 @@ The plugin repository consists of two complementary plugins:
    - Monitor the current status of environments.
 
 For more information, see:
-- [env0 Scaffolded Backend Module](./plugins/scaffolder-backend-module-env0/README.md)
-- [env0 Plugin](./plugins/backstage-plugin-env0/README.md)
+- [env0 Scaffolded Backend Module](https://github.com/env0/env0-backstage-plugin/tree/main/plugins/scaffolder-backend-module-env0)
+- [env0 Plugin](https://github.com/env0/env0-backstage-plugin/tree/main/plugins/backstage-plugin-env0)
 
 ## Authentication
 
@@ -26,4 +26,4 @@ For more information, see:
 
 ## Example
 
-Please check the official env0 examples in the [examples folder](./examples).
+Please check the official env0 examples in the [examples folder](https://github.com/env0/env0-backstage-plugin/tree/main/examples).
