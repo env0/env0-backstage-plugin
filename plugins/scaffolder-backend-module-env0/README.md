@@ -1,14 +1,12 @@
-# Env0 Scaffolded Backend Module
+# env0 Scaffolded Backend Module
 
 ## Prerequisites
 
-### Env0 Access Token
-1. Create a new API key in your Env0 organization ([docs](https://docs.env0.com/docs/api-keys)).
+### env0 Access Token
+1. Create a new API key in your env0 organization ([docs](https://docs.env0.com/docs/api-keys)).
 2. Set the `ENV0_ACCESS_TOKEN` environment variable to the API key.
 
 ## Getting Started
-
-### Installation
 
 #### 1. Install the plugin into your Backstage instance:
 ```bash
@@ -25,9 +23,9 @@ backend.add('@env0/backstage-scaffolder-backend-env0')
 
 ## Available Actions
 
-### Env0 Environment Create
+### env0 Environment Create
 
-Create a new Env0 environment.
+Create a new env0 environment.
 
 `env0:environment:create`
 
@@ -62,7 +60,7 @@ The `env0VariableObject` schema is defined as:
 ```yaml
 steps:
   - id: create-env0-environment
-    name: Create Env0 Environment
+    name: Create env0 Environment
     action: env0:environment:create
     input:
       name: my-env
@@ -74,9 +72,9 @@ steps:
           value: my-value
 ```
 
-### Env0 Environment Redeploy
+### env0 Environment Redeploy
 
-Redeploy an existing Env0 environment.
+Redeploy an existing env0 environment.
 
 `env0:environment:redeploy`
 
@@ -101,7 +99,7 @@ Redeploy an existing Env0 environment.
 ```yaml
 steps:
   - id: redeploy-env0-environment
-    name: Redeploy Env0 Environment
+    name: Redeploy env0 Environment
     action: env0:environment:redeploy
     input:
       id: my-env-id

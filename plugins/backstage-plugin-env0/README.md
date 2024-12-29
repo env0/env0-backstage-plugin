@@ -1,4 +1,4 @@
-# Env0 Backstage Plugin
+# env0 Backstage Plugin
 
 This plugin adds UI components to:
 - See the deployment history of env0 environments.
@@ -7,8 +7,8 @@ This plugin adds UI components to:
 
 ## Prerequisites
 
-### Env0 Access Token
-1. Create a new API key in your Env0 organization ([docs](https://docs.env0.com/docs/api-keys)).
+### env0 Access Token
+1. Create a new API key in your env0 organization ([docs](https://docs.env0.com/docs/api-keys)).
 2. Set the `ENV0_ACCESS_TOKEN` environment variable to the API key.
 
 ## Getting Started
@@ -27,9 +27,9 @@ yarn add --cwd packages/app @env0/backstage-plugin-env0
 ```tsx
 // In packages/app/src/components/catalog/EntityPage.tsx
 import {
-  Env0TabComponent,
-  isEnv0Available,
-  Env0EnvironmentDetailsCard,
+  env0TabComponent,
+  isenv0Available,
+  env0EnvironmentDetailsCard,
 } from '@env0/backstage-plugin-env0';
 ```
 
