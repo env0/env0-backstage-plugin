@@ -38,7 +38,7 @@ jobs:
           tag_version: ${{ env.tag_version }}
 
       - name: Compile TypeScript
-        run: yarn tsc:all
+        run: yarn tsc:full
 
       - name: Build Packages
         run: yarn build:all
