@@ -18,7 +18,7 @@ yarn add --cwd packages/backend @env0/backstage-scaffolder-backend-env0
 ```ts
 // In packages/backend/src/index.ts
 const backend = createBackend();
-backend.add('@env0/backstage-scaffolder-backend-env0')
+backend.add(import('@env0/backstage-scaffolder-backend-env0'))
 ```
 
 ## Available Actions
