@@ -1,0 +1,49 @@
+name: Publish Package to npmjs
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Clean Workspace
+        run: yarn clean
+
+      - name: Fetch Latest Tag
+        id: fetch_tag
+        run: |
+          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+          VERSION=${LATEST_TAG#v}
+          echo "tag_version=$VERSION" >> $GITHUB_ENV
+
+      - name: Update package.json files
+        run: |
+          # Update the version in the specified package.json files
+          jq ".version = \"$tag_version\"" plugins/backstage-plugin-env0/package.json > tmp.json && mv tmp.json plugins/backstage-plugin-env0/package.json
+          jq ".version = \"$tag_version\"" plugins/scaffolder-backend-module-env0/package.json > tmp.json && mv tmp.json plugins/scaffolder-backend-module-env0/package.json
+        env:
+          tag_version: ${{ env.tag_version }}
+
+      - name: Compile TypeScript
+        run: yarn tsc:all
+
+      - name: Build Packages
+        run: yarn build:all
+
+      - name: Publish Packages to npm
+        run: yarn workspaces foreach --all --parallel --no-private npm publish --access public
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

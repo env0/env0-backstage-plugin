@@ -14,7 +14,6 @@ import {
   EntityDependsOnResourcesCard,
   EntityHasComponentsCard,
   EntityHasResourcesCard,
-  EntityHasSubcomponentsCard,
   EntityHasSystemsCard,
   EntityLayout,
   EntityLinksCard,
