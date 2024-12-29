@@ -4,7 +4,7 @@
 
 ### env0 Access Token
 
-Please refer to the root [README](../../README.md#authentication) for instructions on how to set up the env0 access token.
+Please refer to the root [README](https://github.com/env0/env0-backstage-plugin/blob/main/README.md#authentication) for instructions on how to set up the env0 access token.
 
 ## Getting Started
 
@@ -18,7 +18,7 @@ yarn add --cwd packages/backend @env0/backstage-scaffolder-backend-env0
 ```ts
 // In packages/backend/src/index.ts
 const backend = createBackend();
-backend.add(import('@env0/backstage-scaffolder-backend-env0'))
+backend.add(import('@env0/backstage-scaffolder-backend-env0'));
 ```
 
 ## Available Actions
@@ -31,7 +31,7 @@ Create a new env0 environment.
 
 #### Inputs
 
-| Input       | Description                                     | Type                      | Required 
+| Input       | Description                                     | Type                      | Required |
 |-------------|-------------------------------------------------|---------------------------|----------|
 | name        | The name of the environment to be created.      | string                    | Yes      |
 | projectId   | The project id to create the environment in.    | string                    | Yes      |

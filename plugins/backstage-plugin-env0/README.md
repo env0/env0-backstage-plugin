@@ -9,7 +9,7 @@ This plugin adds UI components to:
 
 ### env0 Access Token
 
-Please refer to the root [README](../../README.md#authentication) for instructions on how to set up the env0 access token.
+Please refer to the root [README](https://github.com/env0/env0-backstage-plugin/blob/main/README.md#authentication) for instructions on how to set up the env0 access token.
 
 ## Getting Started
 
@@ -203,6 +203,7 @@ spec:
             env0TemplateId: "uuid"
           description: env0 project deploy to.
 ```
+
 > [!TIP]
 > To dynamically use the template ID from the property, you should name the template ID property as `env0_template_id` and the project ID property as `env0_project_id`.
 
