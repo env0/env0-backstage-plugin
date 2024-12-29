@@ -13,7 +13,7 @@
 #### 1. Install the plugin into your Backstage instance:
 ```bash
 # From your Backstage root directory
-yarn add --cwd packages/backend @pulumi/backstage-scaffolder-backend-pulumi
+yarn add --cwd packages/backend @env0/backstage-scaffolder-backend-env0
 ```
 
 #### 2. Configure the plugin in your Backstage instance ([docs](https://backstage.io/docs/features/software-templates/writing-custom-actions/#registering-custom-actions)):
