@@ -44,6 +44,8 @@ jobs:
         run: yarn build:all
 
       - name: Publish Packages to npm
-        run: yarn workspaces foreach --all --parallel --no-private npm publish --access public
+        run: |
+          echo "npmAuthToken: $NODE_AUTH_TOKEN" >> ../../.yarnrc.yml
+          yarn workspaces foreach --all --parallel --no-private npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
