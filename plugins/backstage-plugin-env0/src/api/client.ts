@@ -18,6 +18,7 @@ import {
 
 import { DiscoveryApi, FetchApi } from '@backstage/core-plugin-api';
 import { isNil, omitBy } from 'lodash';
+import { isSecretReference } from '../components/common/is-secret-reference';
 
 export type Env0ClientApiDependencies = {
   discoveryApi: DiscoveryApi;
@@ -76,7 +77,9 @@ export class Env0Client implements Env0Api {
       },
       nonNullVariableScopeParams,
     );
-    return variables.json();
+
+    const variablesData: Variable[] = await variables.json();
+    return variablesData.filter(variable => !isSecretReference(variable));
   }
 
   // https://docs.env0.com/reference/configuration-find-configuration-set-by-id
@@ -150,9 +153,7 @@ export class Env0Client implements Env0Api {
       method: 'GET',
     });
     const projects: Project[] = await projectsResponse.json();
-    return projects.filter(
-      project => !project.isArchived,
-    );
+    return projects.filter(project => !project.isArchived);
   }
 
   // https://docs.env0.com/reference/environments-deploy
