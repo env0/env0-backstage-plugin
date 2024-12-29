@@ -21,3 +21,6 @@ For more information, see:
    1. Required permission is `Run Applies`
 2. Set the `ENV0_ACCESS_TOKEN` environment variable to the API key.
 
+## Example
+
+Please check the official env0 examples in the [examples folder](./examples).
