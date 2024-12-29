@@ -38,6 +38,7 @@ const VariableFields = ({
   updateVariableValue: (
     updatedVariable: VariableWithEditScope,
     value: string,
+    isEdited?: boolean,
   ) => void;
 }) => {
   return (
@@ -130,6 +131,7 @@ export const Env0VariablesInput = ({
   const updateVariableValue = (
     updatedVariable: VariableWithEditScope,
     value: string,
+    isEdited = true,
   ) => {
     const newVariables = [...variables];
     const updatedVariableIndex = newVariables.findIndex(
@@ -137,7 +139,7 @@ export const Env0VariablesInput = ({
     );
     newVariables[updatedVariableIndex] = {
       ...updatedVariable,
-      isEdited: true,
+      isEdited,
       originalVariableScope:
         updatedVariable.originalVariableScope || updatedVariable.scope,
       scope: 'ENVIRONMENT',

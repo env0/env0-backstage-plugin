@@ -35,7 +35,11 @@ type VariableType = 'string' | 'dropdown';
 
 type VariableInputComponentProps = {
   variable: Variable;
-  onVariableUpdated: (updatedVariable: Variable, value: string) => void;
+  onVariableUpdated: (
+    updatedVariable: Variable,
+    value: string,
+    isEdited?: boolean,
+  ) => void;
 };
 
 export const doesVariableValueMatchRegex = (variable: Variable) => {
@@ -54,18 +58,28 @@ const variableInputByInputType: Record<
   string: ({ variable, onVariableUpdated }) => {
     const isRegexWrong = !doesVariableValueMatchRegex(variable);
 
+    const onlyAsterisks = /^\*+$/;
+    const isVariableValueSecretMask =
+      variable.isSensitive && onlyAsterisks.test(variable.value || '');
+
+    variable.value = isVariableValueSecretMask ? undefined : variable.value;
+
     return (
       <TextField
-        label="Value"
         fullWidth
         value={variable.value}
+        placeholder={isVariableValueSecretMask ? '********' : ''}
         required={variable.isRequired}
         error={isRegexWrong}
         helperText={
           isRegexWrong ? `Value does not match regex: ${variable.regex}` : ''
         }
         onChange={(changeEvent: React.ChangeEvent<{ value: string }>) =>
-          onVariableUpdated(variable, changeEvent.target.value)
+          onVariableUpdated(
+            variable,
+            changeEvent.target.value,
+            !(isVariableValueSecretMask && variable.value === undefined),
+          )
         }
       />
     );
