@@ -110,7 +110,11 @@ export const RedeployButton: React.FC<{
   );
 
   const modal = (
-    <Modal open={modalOpen} onClose={handleModalClose}>
+    <Modal
+      data-testid="redeploy-modal"
+      open={modalOpen}
+      onClose={handleModalClose}
+    >
       <StyledBox>
         <StyledCard>
           <StyledEnv0VariablesInput
@@ -122,6 +126,7 @@ export const RedeployButton: React.FC<{
           />
           <CardActions>
             <Button
+              data-testid="redeploy-cancel-button"
               color="secondary"
               variant="contained"
               onClick={() => setModalOpen(false)}
@@ -129,6 +134,7 @@ export const RedeployButton: React.FC<{
               Cancel
             </Button>
             <Button
+              data-testid="redeploy-run-button"
               color="primary"
               variant="contained"
               onClick={() => handleRedeploy()}
@@ -190,6 +196,7 @@ export const RedeployButton: React.FC<{
         enterDelay={1000}
       >
         <Button
+          data-testid="redeploy-button"
           disabled={disabled || environmentError || isLoadingEnvironment}
           variant="contained"
           color="primary"
