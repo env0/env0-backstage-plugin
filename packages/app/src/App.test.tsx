@@ -1,14 +1,44 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import App from './App';
 import jestPreview, { jestPreviewConfigure } from 'jest-preview';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
+import { registerMswTestHooks, TestApiProvider } from '@backstage/test-utils';
+import { identityApiRef, configApiRef } from '@backstage/core-plugin-api';
+import { ConfigReader } from '@backstage/core-app-api';
 
 jestPreviewConfigure({ autoPreview: true });
 
-const apiBaseUrl = 'http://localhost:7007/api/env0';
+const mockIdentityApi = {
+  getBackstageIdentity: jest.fn().mockResolvedValue({
+    identity: {
+      id: 'guest-user',
+      userEntityRef: 'user:default/guest',
+      name: 'Guest User',
+      metadata: {
+        verified: true,
+      },
+    },
+  }),
+  getCredentials: jest.fn(),
+  getProfile: jest.fn(),
+  signOut: jest.fn(),
+};
+
+const mockConfig = new ConfigReader({
+  auth: {
+    providers: {
+      guest: {
+        enabled: true,
+        legacyGuestToken: true,
+      },
+    },
+  },
+});
+
+const apiBaseUrl = 'http://localhost:7007/api/proxy/env0';
 type MockFunction = (req: any) => { status: string; data?: any };
 
 function mockRoute(
@@ -35,17 +65,46 @@ const mockedTemplates = [
     description: 'Description 2',
   },
 ];
+const mockedOrgs = [
+  {
+    id: 'org-1',
+    name: 'Organization 1',
+  },
+];
+
+const mockedProjects = [
+  {
+    id: 'project-1',
+    name: 'Project 1',
+    organizationId: 'org-1',
+    isArchived: false,
+  },
+];
 
 describe('App', () => {
+  const server = setupServer(
+    mockRoute('blueprints', 'get', () => ({
+      status: '200',
+      data: mockedTemplates,
+    })),
+    mockRoute('organizations', 'get', () => ({
+      status: '200',
+      data: mockedOrgs,
+    })),
+    mockRoute('projects', 'get', () => ({
+      status: '200',
+      data: mockedProjects,
+    })),
+  );
+  registerMswTestHooks(server);
+
   const navigateToEnv0CreatePage = async () => {
-    render(<App />);
     await userEvent.click(await screen.findByText('Enter'));
     await userEvent.click(await screen.findByText('Create'));
     await userEvent.click(await screen.findByText('Choose'));
   };
 
   beforeAll(async () => {
-    const server = setupServer();
     process.env = {
       NODE_ENV: 'test',
       APP_CONFIG: [
@@ -59,11 +118,15 @@ describe('App', () => {
       ] as any,
     };
 
-    server.use(
-      mockRoute('templates', 'get', () => ({
-        status: '200',
-        data: mockedTemplates,
-      })),
+    render(
+      <TestApiProvider
+        apis={[
+          [identityApiRef, mockIdentityApi],
+          [configApiRef, mockConfig],
+        ]}
+      >
+        <App />
+      </TestApiProvider>,
     );
     await navigateToEnv0CreatePage();
   });
@@ -75,9 +138,11 @@ describe('App', () => {
   });
 
   it('should show the available templates', async () => {
-    expect(
-      waitFor(() => screen.getByText('Template 1234')),
-    ).toBeInTheDocument();
+    const selector = await screen.findByTestId('env0-template-selector');
+    await userEvent.click(within(selector).queryByRole('combobox')!);
+    await waitFor(() => {
+      expect(screen.getByText('Template 1')).toBeInTheDocument();
+    });
     jestPreview.debug();
   });
 });
