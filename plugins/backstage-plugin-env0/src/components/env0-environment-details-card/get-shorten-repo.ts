@@ -3,12 +3,13 @@ import { GitProviders, Template } from '../../api/types';
 
 const getRepositoryUrl = (repository: string) => {
   let repoUrl = gitUrlParse(repository);
+  let repoString = repository;
 
   if (repository.startsWith('http') && !!repoUrl.user) {
-    repository = repository.replace(new RegExp(`${repoUrl.user}(:.*)?@`), '');
+    repoString = repository.replace(new RegExp(`${repoUrl.user}(:.*)?@`), '');
   }
 
-  repoUrl = gitUrlParse(repository);
+  repoUrl = gitUrlParse(repoString);
   repoUrl.resource = repoUrl.resource.replace(/:\d+$/, '');
 
   const url = repoUrl.toString('https');
