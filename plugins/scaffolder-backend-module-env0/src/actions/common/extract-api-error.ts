@@ -1,3 +1,7 @@
 export const extractApiError = (error: any) => {
-  return new Error(error.response?.data || error.message);
+  let errorMessage = error.response?.data || error.message;
+  if (errorMessage instanceof Object) {
+    errorMessage = JSON.stringify(errorMessage);
+  }
+  return new Error(errorMessage);
 };
