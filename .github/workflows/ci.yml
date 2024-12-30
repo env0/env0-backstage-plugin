@@ -18,6 +18,8 @@ jobs:
         run: yarn install
       - name: Compile TypeScript
         run: yarn tsc:full
+      - name: Lint
+        run: yarn lint:all
       - name: Build Packages
         run: yarn build:all
 
