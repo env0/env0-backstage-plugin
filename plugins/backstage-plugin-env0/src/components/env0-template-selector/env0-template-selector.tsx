@@ -35,7 +35,7 @@ export const Env0TemplateSelector = ({
           api.getProjectsByOrganizationId(organization.id),
         ),
       )
-    ).flatMap(project => project).filter(project => project.isArchived);
+    ).flatMap(project => project).filter(project => !project.isArchived);
     const templates = (
       await Promise.all(
         projects.map(project => api.getTemplatesByProjectId(project.id)),

@@ -29,6 +29,12 @@ const mockProjects: Project[] = [
     organizationId: 'org-2',
     isArchived: false,
   },
+  {
+    id: 'archived-proj',
+    name: 'Archived Project',
+    organizationId: 'org-1',
+    isArchived: true,
+  },
 ];
 
 const mockTemplates: Partial<Template>[] = [
@@ -163,6 +169,7 @@ describe('Env0TemplateSelector', () => {
       expect(getProjectsByOrganizationIdMock).toHaveBeenCalledWith('org-2');
       expect(getTemplatesByProjectIdMock).toHaveBeenCalledWith('proj-1');
       expect(getTemplatesByProjectIdMock).toHaveBeenCalledWith('proj-2');
+      expect(getTemplatesByProjectIdMock).not.toHaveBeenCalledWith('archived-proj');
     });
   });
 
