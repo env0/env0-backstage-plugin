@@ -7,8 +7,7 @@ import { Env0Api, env0ApiRef } from '../../api';
 import { EntityProvider } from '@backstage/plugin-catalog-react';
 import { Entity } from '@backstage/catalog-model';
 import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
-import { Organization, Template } from '../../api/types';
-import jestPreview from 'jest-preview';
+import { defaultEnv0Mocks } from '../common/test-handlers.utils';
 
 const mockEntity: Entity = {
   apiVersion: 'backstage.io/v1alpha1',
@@ -27,27 +26,14 @@ const mockEnvironmentData = {
     blueprintId: 'template-123',
   },
 };
-const mockOrganizationData: Organization[] = [
-  {
-    id: 'org-123',
-  },
-];
-const mockTemplateData: Partial<Template> = {
-  id: 'template-123',
-  name: 'test-template',
-  projectIds: ['proj-123'],
-  organizationId: 'org-123',
-};
+
 const getEnvironmentByIdMock = jest.fn();
 const redeployEnvironmentMock = jest.fn();
 const listVariablesMock = jest.fn();
-const getTemplateByIdMock = jest.fn();
-const getOrganizationsMock = jest.fn();
 
 const mockedEnv0Api: Partial<Env0Api> = {
+  ...defaultEnv0Mocks,
   getEnvironmentById: getEnvironmentByIdMock,
-  getTemplateById: getTemplateByIdMock,
-  getOrganizations: getOrganizationsMock,
   redeployEnvironment: redeployEnvironmentMock,
   listVariables: listVariablesMock,
 };
@@ -76,8 +62,6 @@ describe('RedeployButton', () => {
   beforeEach(() => {
     getEnvironmentByIdMock.mockResolvedValue(mockEnvironmentData);
     redeployEnvironmentMock.mockResolvedValue({});
-    getOrganizationsMock.mockResolvedValue(mockOrganizationData);
-    getTemplateByIdMock.mockResolvedValue(mockTemplateData);
     listVariablesMock.mockResolvedValue([]);
   });
 
@@ -221,7 +205,6 @@ describe('RedeployButton', () => {
       const redeployButton = await screen.findByTestId('redeploy-button');
       await userEvent.click(redeployButton);
       await editVariable(testVariableId, 'new-value');
-      jestPreview.debug();
       await userEvent.click(await screen.findByTestId('redeploy-run-button'));
 
       expect(redeployEnvironmentMock).toHaveBeenCalledWith(

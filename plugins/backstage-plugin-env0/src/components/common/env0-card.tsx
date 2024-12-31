@@ -28,7 +28,7 @@ export const Env0Card = ({
   children,
 }: CardProps) => {
   const retryButton = !!retryAction && (
-    <Button onClick={retryAction}>
+    <Button data-testid="retry-button" onClick={retryAction}>
       <Cached />
     </Button>
   );
