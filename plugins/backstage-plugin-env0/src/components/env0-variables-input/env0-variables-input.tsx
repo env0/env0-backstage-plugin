@@ -204,7 +204,12 @@ export const Env0VariablesInput = ({
   }
 
   return (
-    <FormControl margin="normal" error={Boolean(rawErrors?.length)} fullWidth>
+    <FormControl
+      data-testid="env0-variables-input"
+      margin="normal"
+      error={Boolean(rawErrors?.length)}
+      fullWidth
+    >
       <VariableFields
         variables={groupedVariablesByVariableSets.defaultGroup || []}
         updateVariableValue={updateVariableValue}

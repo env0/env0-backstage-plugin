@@ -117,7 +117,7 @@ export const Env0VariableField = ({
   onVariableUpdated,
 }: VariableInputComponentProps) => {
   return (
-    <VariableContainer>
+    <VariableContainer data-testid={`${variable.id}-variable-field`}>
       <Typography
         noWrap={false}
         variant="body1"

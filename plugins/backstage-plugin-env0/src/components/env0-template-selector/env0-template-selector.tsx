@@ -59,6 +59,7 @@ export const Env0TemplateSelector = ({
         margin="normal"
         required={required}
         error={Boolean(rawErrors?.length)}
+        data-testid="env0-template-selector"
       >
         <Autocomplete<Template>
           loading={loading}
@@ -69,7 +70,9 @@ export const Env0TemplateSelector = ({
             onTemplateIdChange(newValue?.id);
           }}
           renderOption={(props, option) => (
-              <li {...props} key={option.id}>{option.name}</li>
+            <li {...props} key={option.id}>
+              {option.name}
+            </li>
           )}
           renderInput={params => (
             <TextField
