@@ -12,7 +12,7 @@ import type { Variable } from '../../api/types';
 
 const VariableContainer = styled('div')(() => ({
   display: 'grid',
-  gridTemplateColumns: '1fr 5fr',
+  gridTemplateColumns: '3fr 11fr',
   gridColumnStart: 1,
   gap: '2em',
   alignItems: 'center',
@@ -29,6 +29,13 @@ const InputAndInfoIconContainer = styled('div')(() => ({
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
+}));
+
+const EllipsisTypography = styled(Typography)(() => ({
+  display: 'block',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 }));
 
 type VariableType = 'string' | 'dropdown';
@@ -118,12 +125,11 @@ export const Env0VariableField = ({
 }: VariableInputComponentProps) => {
   return (
     <VariableContainer data-testid={`${variable.id}-variable-field`}>
-      <Typography
-        noWrap={false}
+      <EllipsisTypography
+        noWrap
         variant="body1"
         style={{
-          display: 'flex',
-          minWidth: '150px',
+          maxWidth: '100%',
           fontWeight: 'bold',
         }}
       >
@@ -132,8 +138,11 @@ export const Env0VariableField = ({
             <Warning />
           </Tooltip>
         )}
-        {variable.name}:
-      </Typography>
+        <Tooltip title={variable.name} placement="top-start">
+          <span>{variable.name}</span>
+        </Tooltip>
+        :
+      </EllipsisTypography>
       <InputAndInfoIconContainer>
         {getVariableInput(variable, onVariableUpdated)}
         {variable.description && (
