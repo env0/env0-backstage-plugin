@@ -138,7 +138,10 @@ export const Env0VariableField = ({
             <Warning />
           </Tooltip>
         )}
-        {variable.name}:
+        <Tooltip title={variable.name} placement="top-start">
+          <span>{variable.name}</span>
+        </Tooltip>
+        :
       </EllipsisTypography>
       <InputAndInfoIconContainer>
         {getVariableInput(variable, onVariableUpdated)}
