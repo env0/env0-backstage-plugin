@@ -71,10 +71,12 @@ env0.com/organization-id: <organization-id>
 ### Core UI Components
 
 #### Environment Details
+The environment details card displays basic information about the environment, such as the environment name, status, and who created it.
 
 ![image](https://github.com/user-attachments/assets/27880c81-e0da-460a-bff4-ef5d2ac1d201)
 
 #### Deployment History
+The deployment history table displays the history of the environment deployments, including the deployment status, the deployment plan summary, and the time of deployment.
 
 ![image](https://github.com/user-attachments/assets/f8504070-bbf6-4fe8-8fc0-70f900926876)
 
