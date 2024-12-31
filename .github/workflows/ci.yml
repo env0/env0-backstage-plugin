@@ -1,7 +1,7 @@
 name: CI
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   CI:
@@ -20,6 +20,7 @@ jobs:
         run: yarn tsc:full
       - name: Lint
         run: yarn lint:all
+      - name: Test
+        run: CI=true yarn test
       - name: Build Packages
         run: yarn build:all
-
