@@ -68,7 +68,64 @@ env0.com/organization-id: <organization-id>
 
 ## Feature Overview
 
-### Template Selector
+### Core UI Components
+
+#### Environment Details
+
+![image](https://github.com/user-attachments/assets/27880c81-e0da-460a-bff4-ef5d2ac1d201)
+
+#### Deployment History
+
+![image](https://github.com/user-attachments/assets/f8504070-bbf6-4fe8-8fc0-70f900926876)
+
+
+### Scaffolder UI Components
+
+#### Variable Input
+This custom scaffolder field is used to input the values for the variables of the selected env0 template and project.
+It fetches the variables of the selected template and project and renders the input fields for each variable.
+
+![image](https://github.com/user-attachments/assets/2b3e479d-1f76-4ea8-b70c-d0a4333e405f)
+
+It can be installed as follows in the `App.tsx`
+```tsx
+<Route path="/create" element={<ScaffolderPage />}>
+    <ScaffolderFieldExtensions>
+        <Env0VariableInputExtension />
+    </ScaffolderFieldExtensions>
+</Route>
+```
+
+Here is an example of its use in a template:
+```yaml
+- spec:
+  type: infrastructure
+  parameters:
+    - title: Variables
+      required:
+        - env0_variables
+      properties:
+        env0_variables:
+          title: Variables
+          type: array
+          ui:field: Env0VariablesInput
+          ui:backstage:
+            review:
+              show: false
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              value:
+                type: string
+            additionalProperties: true
+          required:
+            - env0_variables
+          description: IaC / Environment Variables
+```
+
+#### Template Selector
 This custom scaffolder field, fetches all available env0 templates based on the permissions of the API key provided in the `app-config.yaml`.
 It does it by querying the available organizations for the api key, then the projects for each organization and finally the templates assigned for those projects.
 
@@ -109,51 +166,7 @@ spec:
           description: IaC template to be deployed.
 ```
 
-### Variable Input
-This custom scaffolder field is used to input the values for the variables of the selected env0 template and project.
-It fetches the variables of the selected template and project and renders the input fields for each variable.
-
-It can be installed as follows in the `App.tsx`
-```tsx
-<Route path="/create" element={<ScaffolderPage />}>
-    <ScaffolderFieldExtensions>
-        <Env0VariableInputExtension />
-    </ScaffolderFieldExtensions>
-</Route>
-```
-
-Here is an example of its use in a template:
-```yaml
-- spec:
-  type: infrastructure
-  parameters:
-    - title: Variables
-      required:
-        - env0_variables
-      properties:
-        env0_variables:
-          title: Variables
-          type: array
-          ui:field: Env0VariablesInput
-          ui:backstage:
-            review:
-              show: false
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              value:
-                type: string
-            additionalProperties: true
-          required:
-            - env0_variables
-          description: IaC / Environment Variables
-```
-
-
-### Project selector
-
+#### Project Selector
 This custom scaffolder field, fetches all available env0 projects based on the permissions of the API key provided in the `app-config.yaml` and the selected template id if given.
 It queries the available projects for the api key, then filters by the projects that are assigned to that template.
 If no template id is given, it will fetch all projects.
