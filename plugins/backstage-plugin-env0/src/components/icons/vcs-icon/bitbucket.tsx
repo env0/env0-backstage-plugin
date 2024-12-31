@@ -24,8 +24,8 @@ export const BitbucketIcon = (props: SvgIconProps) => (
         y2="29.934"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset=".18" stop-color="#0052CC" />
-        <stop offset="1" stop-color="#2684FF" />
+        <stop offset=".18" stopColor="#0052CC" />
+        <stop offset="1" stopColor="#2684FF" />
       </linearGradient>
     </defs>
   </SvgIcon>

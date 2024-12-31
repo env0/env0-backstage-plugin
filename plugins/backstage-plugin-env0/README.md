@@ -1,35 +1,85 @@
-# backstage-plugin-env0
+# env0 Backstage Plugin
 
-Welcome to the backstage-plugin-env0 plugin!
+This plugin adds UI components to:
+- See the deployment history of env0 environments.
+- Monitor the current status of env0 environments.
+- Redeploy existing env0 environments.
 
-_This plugin was created through the Backstage CLI_
+## Prerequisites
 
-## Getting started
+### env0 Access Token
 
-Your plugin has been added to the example app in this repository, meaning you'll be able to access it by running `yarn start` in the root directory, and then navigating to [/env0](http://localhost:3000/env0).
+Please refer to the root [README](https://github.com/env0/env0-backstage-plugin/blob/main/README.md#authentication) for instructions on how to set up the env0 access token.
 
-You can also serve the plugin in isolation by running `yarn start` in the plugin directory.
-This method of serving the plugin provides quicker iteration speed and a faster startup and hot reloads.
-It is only meant for local development, and the setup for it can be found inside the [/dev](./dev) directory.
+## Getting Started
 
-## Use custom env0 fields
+### 1. Install the plugin into your Backstage instance:
+```bash
+# From your Backstage root directory
+yarn add --cwd packages/app @env0/backstage-plugin-env0
+```
+
+### 2. Add the env0 tab component to `EntityPage.tsx`:
+
+#### Import the components:
+```tsx
+// In packages/app/src/components/catalog/EntityPage.tsx
+import {
+  env0TabComponent,
+  isenv0Available,
+  env0EnvironmentDetailsCard,
+} from '@env0/backstage-plugin-env0';
+```
+
+#### Add the env0 tab component to the `serviceEntityPage` constant:
+```tsx
+// In packages/app/src/components/catalog/EntityPage.tsx
+<EntityLayout.Route
+  if={entity => isEnv0Available(entity)}
+  path="/env0"
+  title="env0"
+>
+  <Env0TabComponent />
+</EntityLayout.Route>
+```
+### 3. Provide the env0 proxy configuration in `app-config.yaml`:
+```yaml
+proxy:
+  '/env0':
+  target: 'https://api.env0.com'
+  changeOrigin: true
+  headers:
+    Authorization: Basic ${ENV0_ACCESS_TOKEN}
+    Accept: application/json
+    Content-Type: application/json
+```
+
+## Required Annotations
+
+> [!NOTE]
+> The following annotations are already added by the `catalog-info.yaml` template.
+> This is just a reminder to ensure that the annotations are present.
+
+```yaml
+annotations:
+env0.com/environment-id: <environment-id>
+env0.com/organization-id: <organization-id>
+```
+
+## Feature Overview
 
 ### Template Selector
 This custom scaffolder field, fetches all available env0 templates based on the permissions of the API key provided in the `app-config.yaml`.
-
 It does it by querying the available organizations for the api key, then the projects for each organization and finally the templates assigned for those projects.
 
 It can be installed as follows in the `App.tsx`
 
 ```tsx
-...
 <Route path="/create" element={<ScaffolderPage />}>
     <ScaffolderFieldExtensions>
-        ...
         <Env0TemplateSelectorExtension />
     </ScaffolderFieldExtensions>
 </Route>
-...
 ```
 
 Here is an example of its use in a template:
@@ -60,25 +110,20 @@ spec:
 ```
 
 ### Variable Input
-This custom scaffolder field is used to input the values for the variables of the selected env0 template and project. 
-
+This custom scaffolder field is used to input the values for the variables of the selected env0 template and project.
 It fetches the variables of the selected template and project and renders the input fields for each variable.
 
 It can be installed as follows in the `App.tsx`
 ```tsx
-...
 <Route path="/create" element={<ScaffolderPage />}>
     <ScaffolderFieldExtensions>
-        ...
         <Env0VariableInputExtension />
     </ScaffolderFieldExtensions>
 </Route>
-...
 ```
 
 Here is an example of its use in a template:
 ```yaml
-...
 - spec:
   type: infrastructure
   parameters:
@@ -110,22 +155,19 @@ Here is an example of its use in a template:
 ### Project selector
 
 This custom scaffolder field, fetches all available env0 projects based on the permissions of the API key provided in the `app-config.yaml` and the selected template id if given.
-
-It do it by querying the available projects for the api key, then filters by the projects that are assigned to that template.
-
+It queries the available projects for the api key, then filters by the projects that are assigned to that template.
 If no template id is given, it will fetch all projects.
 
 It can be installed as follows in the `App.tsx`
 
 ```tsx
-...
+
 <Route path="/create" element={<ScaffolderPage />}>
     <ScaffolderFieldExtensions>
-        ...
         <Env0ProjectSelectorExtension />
     </ScaffolderFieldExtensions>
 </Route>
-...
+
 ```
 
 Here is an example of its use in a template:
@@ -162,9 +204,10 @@ spec:
           description: env0 project deploy to.
 ```
 
-If you want to dynamically use the template id from the property you should name the template id property as `env0_template_id` and the project id property as `env0_project_id`.
+> [!TIP]
+> To dynamically use the template ID from the property, you should name the template ID property as `env0_template_id` and the project ID property as `env0_project_id`.
 
-If you want to set const template id to filter by use
+To set a static template id to filter by, use:
 ```yaml
 ui:options:
   env0TemplateId: "uuid"
@@ -173,3 +216,4 @@ ui:options:
 > [!NOTE]
 > The project selector requires a template being selected,
 > either from `env0_template_id` or the `env0TemplateId` `ui:option`
+

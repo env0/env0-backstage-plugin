@@ -72,8 +72,6 @@ const techdocsContent = (
   </EntityTechdocsContent>
 );
 
-const env0Content = <Env0TabComponent />;
-
 const cicdContent = (
   // This is an example of how you can implement your company's logic in entity page.
   // You can for example enforce that all components of type 'service' should use GitHubActions
@@ -189,7 +187,7 @@ const serviceEntityPage = (
       path="/env0"
       title="env0"
     >
-      {env0Content}
+      <Env0TabComponent />
     </EntityLayout.Route>
   </EntityLayout>
 );
