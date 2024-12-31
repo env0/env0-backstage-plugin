@@ -11,8 +11,7 @@
     "build": "backstage-cli package build",
     "clean": "backstage-cli package clean",
     "test": "backstage-cli package test",
-    "lint": "backstage-cli package lint",
-    "jest-preview": "jest-preview"
+    "lint": "backstage-cli package lint"
   },
   "dependencies": {
     "@backstage/app-defaults": "^1.5.13",
@@ -42,7 +41,6 @@
     "@env0/backstage-plugin-env0": "^0.1.0",
     "@material-ui/core": "^4.12.2",
     "@material-ui/icons": "^4.9.1",
-    "jest-preview": "^0.3.1",
     "react": "^18.0.2",
     "react-dom": "^18.0.2",
     "react-router": "^6.3.0",
