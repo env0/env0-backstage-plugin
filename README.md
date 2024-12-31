@@ -17,7 +17,7 @@ For more information, see:
 
 ## Authentication
 
-1. Create a new API key in your env0 organization ([docs](https://docs.env0.com/docs/api-keys)).
+1. Create a new organization API key in your env0 organization ([docs](https://docs.env0.com/docs/api-keys)).
    1. Required permissions are:
       - `Run Applies`
       - `View Oragnization`
