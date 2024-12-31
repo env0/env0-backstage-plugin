@@ -7,14 +7,6 @@ metadata:
 spec:
   memberOf: [guests, default]
 ---
-# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-user
-apiVersion: backstage.io/v1alpha1
-kind: User
-metadata:
-  name: ItAdmin
-spec:
-  memberOf: [default]
----
 # https://backstage.io/docs/features/software-catalog/descriptor-format#kind-group
 apiVersion: backstage.io/v1alpha1
 kind: Group
