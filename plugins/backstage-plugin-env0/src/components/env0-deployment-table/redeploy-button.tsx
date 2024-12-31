@@ -15,6 +15,8 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import useAsync from 'react-use/lib/useAsync';
 import type { Variable } from '../../api/types';
+import { useVariablesValidation } from './use-variables-validation';
+import Alert from '@mui/material/Alert';
 
 const StyledCard = styled(Card)({
   padding: '0 1em',
@@ -45,6 +47,8 @@ export const RedeployButton: React.FC<{
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [variables, setVariables] = useState<Variable[]>([]);
+  const { validationErrors } = useVariablesValidation({ variables });
+  const [hasAttemptedDeploy, setHasAttemptedDeploy] = useState(false);
 
   const {
     value,
@@ -69,6 +73,7 @@ export const RedeployButton: React.FC<{
 
   const handleModalClose = () => {
     setModalOpen(false);
+    setHasAttemptedDeploy(false);
   };
 
   const handleSnackbarClose = (
@@ -84,6 +89,12 @@ export const RedeployButton: React.FC<{
 
   const handleRedeploy = async () => {
     if (!environmentId) {
+      return;
+    }
+
+    setHasAttemptedDeploy(true);
+
+    if (validationErrors.length > 0) {
       return;
     }
 
@@ -117,9 +128,16 @@ export const RedeployButton: React.FC<{
     >
       <StyledBox>
         <StyledCard>
+          {validationErrors.length > 0 && hasAttemptedDeploy && (
+            <Alert severity="error" elevation={6} variant="filled">
+              {validationErrors.map((error, index) => (
+                <div key={index}>{error}</div>
+              ))}
+            </Alert>
+          )}
           <StyledEnv0VariablesInput
             onVariablesFormDataChange={setVariables}
-            rawErrors={[]}
+            rawErrors={validationErrors}
             environmentId={environmentId}
             projectId={projectId}
             templateId={templateId}
