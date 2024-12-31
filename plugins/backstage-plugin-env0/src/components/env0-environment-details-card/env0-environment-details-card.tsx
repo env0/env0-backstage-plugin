@@ -19,10 +19,6 @@ import { Env0Card } from '../common/env0-card';
 import CardActions from '@mui/material/CardActions';
 import Button from '@mui/material/Button';
 
-const getEnv0AppUrl = () => {
-  return process.env.ENV0_APP_URL ?? 'https://app.env0.com';
-};
-
 export const getEnv0EnvironmentUrl = ({
   environmentId,
   projectId,
@@ -30,7 +26,7 @@ export const getEnv0EnvironmentUrl = ({
   environmentId: string;
   projectId: string;
 }) => {
-  return `${getEnv0AppUrl()}/p/${projectId}/environments/${environmentId}`;
+  return `https://app.env0.com/p/${projectId}/environments/${environmentId}`;
 };
 
 const VcsLinkContainer = styled('div')(() => ({
