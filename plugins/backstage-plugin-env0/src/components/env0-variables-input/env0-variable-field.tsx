@@ -31,6 +31,13 @@ const InputAndInfoIconContainer = styled('div')(() => ({
   alignItems: 'center',
 }));
 
+const EllipsisTypography = styled(Typography)(() => ({
+  display: 'block',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+}));
+
 type VariableType = 'string' | 'dropdown';
 
 type VariableInputComponentProps = {
@@ -118,12 +125,11 @@ export const Env0VariableField = ({
 }: VariableInputComponentProps) => {
   return (
     <VariableContainer data-testid={`${variable.id}-variable-field`}>
-      <Typography
-        noWrap={false}
+      <EllipsisTypography
+        noWrap
         variant="body1"
         style={{
-          display: 'flex',
-          minWidth: '150px',
+          maxWidth: '100%',
           fontWeight: 'bold',
         }}
       >
@@ -133,7 +139,7 @@ export const Env0VariableField = ({
           </Tooltip>
         )}
         {variable.name}:
-      </Typography>
+      </EllipsisTypography>
       <InputAndInfoIconContainer>
         {getVariableInput(variable, onVariableUpdated)}
         {variable.description && (
