@@ -1,5 +1,5 @@
 export const getEnv0ApiUrl = () => {
-  return `https://${process.env.ENV0_API_ENDPOINT ?? 'api.env0.com'}`;
+  return `https://api.env0.com`;
 };
 
 const getEnv0AppUrl = () => {
