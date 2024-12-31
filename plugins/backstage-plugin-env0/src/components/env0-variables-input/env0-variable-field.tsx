@@ -12,7 +12,7 @@ import type { Variable } from '../../api/types';
 
 const VariableContainer = styled('div')(() => ({
   display: 'grid',
-  gridTemplateColumns: '1fr 5fr',
+  gridTemplateColumns: '1.5fr 5.5fr',
   gridColumnStart: 1,
   gap: '2em',
   alignItems: 'center',
