@@ -1,6 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type { Env0Api } from './api-client.d';
-import { getEnv0ApiUrl } from './get-urls';
 
 export interface ApiClientConfig {
   baseURL: string;
@@ -64,5 +63,5 @@ class ApiClient {
 }
 
 export const apiClient = new ApiClient({
-  baseURL: getEnv0ApiUrl(),
+  baseURL: 'https://api.env0.com',
 });
