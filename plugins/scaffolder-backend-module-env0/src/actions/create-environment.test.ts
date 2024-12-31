@@ -13,7 +13,7 @@ jest.mock('./common/get-urls', () => ({
 }));
 
 describe('create environment action', () => {
-  const mockContext = {
+  const mockPluginContext = {
     input: {
       name: 'test-environment',
       projectId: 'project-123',
@@ -52,32 +52,32 @@ describe('create environment action', () => {
 
   it('should create an environment successfully', async () => {
     const action = createEnv0CreateEnvironmentAction();
-    await action.handler(mockContext);
+    await action.handler(mockPluginContext);
 
     expect(apiClient.createEnvironment).toHaveBeenCalledWith({
-      name: mockContext.input.name,
-      projectId: mockContext.input.projectId,
-      configurationChanges: mockContext.input.variables,
+      name: mockPluginContext.input.name,
+      projectId: mockPluginContext.input.projectId,
+      configurationChanges: mockPluginContext.input.variables,
       deployRequest: {
-        comment: mockContext.input.comment,
-        blueprintId: mockContext.input.templateId,
+        comment: mockPluginContext.input.comment,
+        blueprintId: mockPluginContext.input.templateId,
       },
     });
   });
 
-  it('should the environment values into the context output', async () => {
+  it('should add the environment values into the context output', async () => {
     const action = createEnv0CreateEnvironmentAction();
-    await action.handler(mockContext);
+    await action.handler(mockPluginContext);
 
-    expect(mockContext.output).toHaveBeenCalledWith(
+    expect(mockPluginContext.output).toHaveBeenCalledWith(
       'environmentUrl',
       mockEnvironmentUrl,
     );
-    expect(mockContext.output).toHaveBeenCalledWith(
+    expect(mockPluginContext.output).toHaveBeenCalledWith(
       'environmentId',
       mockEnvironmentResponse.id,
     );
-    expect(mockContext.output).toHaveBeenCalledWith(
+    expect(mockPluginContext.output).toHaveBeenCalledWith(
       'organizationId',
       mockEnvironmentResponse.organizationId,
     );
@@ -95,14 +95,14 @@ describe('create environment action', () => {
 
     const action = createEnv0CreateEnvironmentAction();
 
-    await expect(action.handler(mockContext)).rejects.toThrow(
+    await expect(action.handler(mockPluginContext)).rejects.toThrow(
       '{"message":"Invalid project ID"}',
     );
   });
 
   it('should handle optional fields correctly', async () => {
     const minimalContext = {
-      ...mockContext,
+      ...mockPluginContext,
       input: {
         name: 'test-environment',
         projectId: 'project-123',
@@ -130,6 +130,8 @@ describe('create environment action', () => {
 
     const action = createEnv0CreateEnvironmentAction();
 
-    await expect(action.handler(mockContext)).rejects.toThrow('Network error');
+    await expect(action.handler(mockPluginContext)).rejects.toThrow(
+      'Network error',
+    );
   });
 });

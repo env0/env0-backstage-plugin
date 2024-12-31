@@ -14,7 +14,7 @@ jest.mock('./common/get-urls', () => ({
 }));
 
 describe('redeploy environment action', () => {
-  const mockContext = {
+  const mockPluginContext = {
     input: {
       id: 'env-123',
       comment: 'Test redeployment',
@@ -57,34 +57,36 @@ describe('redeploy environment action', () => {
 
   it('should redeploy an environment successfully', async () => {
     const action = createEnv0RedeployEnvironmentAction();
-    await action.handler(mockContext);
+    await action.handler(mockPluginContext);
 
     expect(apiClient.redeployEnvironment).toHaveBeenCalledWith(
-      mockContext.input.id,
+      mockPluginContext.input.id,
       {
         deployRequest: {
-          comment: mockContext.input.comment,
-          configurationChanges: mockContext.input.variables,
+          comment: mockPluginContext.input.comment,
+          configurationChanges: mockPluginContext.input.variables,
         },
       },
     );
 
-    expect(apiClient.getEnvironment).toHaveBeenCalledWith(mockContext.input.id);
+    expect(apiClient.getEnvironment).toHaveBeenCalledWith(
+      mockPluginContext.input.id,
+    );
   });
 
   it('should set the deployment values in the context output', async () => {
     const action = createEnv0RedeployEnvironmentAction();
-    await action.handler(mockContext);
+    await action.handler(mockPluginContext);
 
-    expect(mockContext.output).toHaveBeenCalledWith(
+    expect(mockPluginContext.output).toHaveBeenCalledWith(
       'deploymentUrl',
       mockDeploymentUrl,
     );
-    expect(mockContext.output).toHaveBeenCalledWith(
+    expect(mockPluginContext.output).toHaveBeenCalledWith(
       'environmentId',
-      mockContext.input.id,
+      mockPluginContext.input.id,
     );
-    expect(mockContext.output).toHaveBeenCalledWith(
+    expect(mockPluginContext.output).toHaveBeenCalledWith(
       'deploymentId',
       mockRedeployResponse.id,
     );
@@ -102,7 +104,7 @@ describe('redeploy environment action', () => {
 
     const action = createEnv0RedeployEnvironmentAction();
 
-    await expect(action.handler(mockContext)).rejects.toThrow(
+    await expect(action.handler(mockPluginContext)).rejects.toThrow(
       '{"message":"Invalid environment ID"}',
     );
   });
@@ -119,14 +121,14 @@ describe('redeploy environment action', () => {
 
     const action = createEnv0RedeployEnvironmentAction();
 
-    await expect(action.handler(mockContext)).rejects.toThrow(
+    await expect(action.handler(mockPluginContext)).rejects.toThrow(
       '{"message":"Failed to get environment"}',
     );
   });
 
   it('should handle optional fields correctly', async () => {
     const minimalContext = {
-      ...mockContext,
+      ...mockPluginContext,
       input: {
         id: 'env-123',
       },
@@ -152,6 +154,8 @@ describe('redeploy environment action', () => {
 
     const action = createEnv0RedeployEnvironmentAction();
 
-    await expect(action.handler(mockContext)).rejects.toThrow('Network error');
+    await expect(action.handler(mockPluginContext)).rejects.toThrow(
+      'Network error',
+    );
   });
 });
