@@ -39,7 +39,8 @@ jobs:
 
       - name: Compile TypeScript
         run: yarn tsc:full
-
+      - name: Test
+        run: CI=true yarn test
       - name: Build Packages
         run: yarn build:all
 
