@@ -285,7 +285,7 @@ describe('RedeployButton', () => {
       });
 
       it('should show validation errors when regex validation fails', async () => {
-        await editVariable(regexVariableId, '25');
+        await editVariable(regexVariableId, '55');
         const deployButton = await screen.findByTestId('redeploy-run-button');
         await userEvent.click(deployButton);
 
