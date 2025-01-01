@@ -13,8 +13,9 @@ import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
 import { Env0VariableField } from './env0-variable-field';
 import { useVariablesData } from '../../hooks/use-variables-data';
+import { useVariablesValidation } from '../env0-deployment-table/use-variables-validation';
 
-type VariableWithEditScope = Variable & {
+export type VariableWithEditScope = Variable & {
   isEdited?: boolean;
   originalVariableScope?: string;
 };
@@ -24,7 +25,7 @@ export type Env0VariablesInputProps = {
   templateId?: string;
   environmentId?: string;
   onVariablesFormDataChange: (update: Variable[]) => void;
-  rawErrors: string[];
+  editRawErrors?: (errors: string[]) => void;
 };
 
 const shouldShowVariable = (variable: VariableWithEditScope) =>
@@ -105,7 +106,7 @@ export const Env0VariablesInput = ({
   templateId,
   environmentId,
   onVariablesFormDataChange,
-  rawErrors,
+  editRawErrors,
 }: Env0VariablesInputProps) => {
   const [variables, setVariables] = useState<VariableWithEditScope[]>([]);
 
@@ -116,6 +117,11 @@ export const Env0VariablesInput = ({
     error,
     value: { variables: variablesData, variableSets: variablesSetsData } = {},
   } = useVariablesData(templateId, projectId, environmentId);
+
+  const { validationErrors } = useVariablesValidation({
+    editedVariables: variables,
+    variablesData,
+  });
 
   const onVariablesChangeCallback = useCallback(
     (newVariables: VariableWithEditScope[]) => {
@@ -154,6 +160,12 @@ export const Env0VariablesInput = ({
       setIsInitialized(true);
     }
   }, [isInitialized, variablesData]);
+
+  useEffect(() => {
+    if (editRawErrors) {
+      editRawErrors(validationErrors);
+    }
+  }, [editRawErrors, validationErrors]);
 
   const groupedVariablesByVariableSets = useMemo(() => {
     if (!variables || !variablesSetsData) return {};
@@ -204,12 +216,7 @@ export const Env0VariablesInput = ({
   }
 
   return (
-    <FormControl
-      data-testid="env0-variables-input"
-      margin="normal"
-      error={Boolean(rawErrors?.length)}
-      fullWidth
-    >
+    <FormControl data-testid="env0-variables-input" margin="normal" fullWidth>
       <VariableFields
         variables={groupedVariablesByVariableSets.defaultGroup || []}
         updateVariableValue={updateVariableValue}

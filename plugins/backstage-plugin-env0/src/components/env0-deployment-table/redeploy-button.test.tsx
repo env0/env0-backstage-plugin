@@ -40,7 +40,7 @@ const mockedEnv0Api: Partial<Env0Api> = {
 
 const editVariable = async (variableId: string, value: string) => {
   const variablesInput = await screen.findByTestId('env0-variables-input');
-  const testVarField = within(variablesInput).getByTestId(
+  const testVarField = await within(variablesInput).findByTestId(
     `${variableId}-variable-field`,
   );
   const input = within(testVarField).getByRole('textbox');
@@ -60,6 +60,7 @@ describe('RedeployButton', () => {
   };
 
   beforeEach(() => {
+    jest.clearAllMocks();
     getEnvironmentByIdMock.mockResolvedValue(mockEnvironmentData);
     redeployEnvironmentMock.mockResolvedValue({});
     listVariablesMock.mockResolvedValue([]);
@@ -216,6 +217,103 @@ describe('RedeployButton', () => {
           }),
         ]),
       );
+    });
+  });
+
+  describe(`Form validations`, () => {
+    describe(`Required variable validation error`, () => {
+      const requiredVariableName = 'required-var';
+
+      beforeEach(async () => {
+        listVariablesMock.mockResolvedValue([
+          {
+            id: 'var-123',
+            name: requiredVariableName,
+            value: '',
+            isRequired: true,
+            scope: 'ENVIRONMENT',
+          },
+        ]);
+        await renderComponent();
+
+        const redeployButton = await screen.findByTestId('redeploy-button');
+        await userEvent.click(redeployButton);
+        const deployButton = await screen.findByTestId('redeploy-run-button');
+        await userEvent.click(deployButton);
+      });
+
+      it('should show validation errors when required field is empty', async () => {
+        expect(
+          screen.getByText(`Variable "${requiredVariableName}" is required`),
+        ).toBeInTheDocument();
+        expect(redeployEnvironmentMock).not.toHaveBeenCalled();
+      });
+
+      it('should clear validation errors when modal is closed and reopened', async () => {
+        expect(
+          screen.getByText(`Variable "${requiredVariableName}" is required`),
+        ).toBeInTheDocument();
+
+        await userEvent.click(
+          await screen.findByTestId('redeploy-cancel-button'),
+        );
+        await userEvent.click(await screen.findByTestId('redeploy-button'));
+
+        expect(
+          screen.queryByText(`Variable "${requiredVariableName}" is required`),
+        ).not.toBeInTheDocument();
+      });
+    });
+
+    describe(`Regex validations`, () => {
+      const regexVariableId = 'var-123';
+      const regexVariableName = 'regex-var';
+
+      beforeEach(async () => {
+        listVariablesMock.mockResolvedValue([
+          {
+            id: regexVariableId,
+            name: regexVariableName,
+            value: '',
+            regex: '^[0-3][0-9]$',
+            scope: 'ENVIRONMENT',
+          },
+        ]);
+        await renderComponent();
+        const redeployButton = await screen.findByTestId('redeploy-button');
+        await userEvent.click(redeployButton);
+      });
+
+      it('should show validation errors when regex validation fails', async () => {
+        await editVariable(regexVariableId, '25');
+        const deployButton = await screen.findByTestId('redeploy-run-button');
+        await userEvent.click(deployButton);
+
+        const validationErrors = await screen.findByTestId(
+          'redeploy-validation-errors',
+        );
+        expect(validationErrors).toHaveTextContent(
+          `Value for variable "${regexVariableName}" does not match regex: ^[0-3][0-9]$`,
+        );
+        expect(redeployEnvironmentMock).not.toHaveBeenCalled();
+      });
+
+      it('should allow deployment when all validation passes', async () => {
+        jestPreview.debug();
+        await editVariable(regexVariableId, '25');
+        const deployButton = await screen.findByTestId('redeploy-run-button');
+        await userEvent.click(deployButton);
+
+        expect(redeployEnvironmentMock).toHaveBeenCalledWith(
+          'env-123',
+          expect.arrayContaining([
+            expect.objectContaining({
+              id: regexVariableId,
+              value: '25',
+            }),
+          ]),
+        );
+      });
     });
   });
 });
