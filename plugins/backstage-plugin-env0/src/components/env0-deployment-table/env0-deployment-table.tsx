@@ -13,6 +13,8 @@ import { RedeployButton } from './redeploy-button';
 import { ResourceCount } from './resource-count';
 import { useGetEnvironmentById } from '../../hooks/use-get-environment';
 import { DeploymentErrorContainer } from './deployment-error-container';
+import { styled, Typography } from '@material-ui/core';
+import Tooltip from '@mui/material/Tooltip';
 
 const getFormattedDeploymentDuration = (deployment: Deployment) => {
   if (!deployment.finishedAt || !deployment.startedAt) return '-';
@@ -21,6 +23,14 @@ const getFormattedDeploymentDuration = (deployment: Deployment) => {
     .asSeconds();
   return parseTimerElapsedTime(durationInSeconds);
 };
+
+const EllipsisTypography = styled(Typography)(() => ({
+  display: 'block',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  width: '20em',
+}));
 
 const deploymentHistoryColumns: TableColumn<Deployment>[] = [
   {
@@ -60,6 +70,14 @@ const deploymentHistoryColumns: TableColumn<Deployment>[] = [
       <div>{getFormattedDeploymentDuration(deployment)}</div>
     ),
   },
+  {
+    title: 'Comment',
+    render: (deployment: Deployment) => (
+      <Tooltip title={deployment.comment}>
+        <EllipsisTypography>{deployment.comment}</EllipsisTypography>
+      </Tooltip>
+    ),
+  },
 ];
 
 export const Env0DeploymentTable: React.FunctionComponent<{
@@ -85,7 +103,7 @@ export const Env0DeploymentTable: React.FunctionComponent<{
   if (error) {
     return <ErrorContainer error={error} />;
   }
-
+  if (deployments) console.log('comment: ', deployments[0]?.comment);
   return (
     <Env0Card
       title="env0 Deployments"
