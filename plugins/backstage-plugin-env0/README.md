@@ -16,7 +16,7 @@ Please refer to the root [README](https://github.com/env0/env0-backstage-plugin/
 ### 1. Install the plugin in your Backstage instance:
 ```bash
 # From your Backstage root directory
-yarn add --cwd packages/app @env0/backstage-plugin-env0
+yarn --cwd packages/app add @env0/backstage-plugin-env0
 ```
 
 ### 2. Add the env0 tab component to `EntityPage.tsx`:
