@@ -13,7 +13,7 @@ import { Progress } from '@backstage/core-components';
 import { ErrorContainer } from '../common/error-container';
 import { Env0VariableField } from './env0-variable-field';
 import { useVariablesData } from '../../hooks/use-variables-data';
-import { useVariablesValidation } from '../env0-deployment-table/use-variables-validation';
+import { useVariablesValidation } from '../../hooks/use-variables-validation';
 
 export type VariableWithEditScope = Variable & {
   isEdited?: boolean;

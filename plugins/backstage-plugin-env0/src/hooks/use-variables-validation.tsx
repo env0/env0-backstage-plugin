@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Variable } from '../../api/types';
-import { doesVariableValueMatchRegex } from '../env0-variables-input/env0-variable-field';
-import { VariableWithEditScope } from '../env0-variables-input';
+import { Variable } from '../api/types';
+import { doesVariableValueMatchRegex } from '../components/env0-variables-input/env0-variable-field';
+import { VariableWithEditScope } from '../components/env0-variables-input';
 import uniqBy from 'lodash/uniqBy';
 
 const validateVariables = (variables: Variable[]): string[] => {
