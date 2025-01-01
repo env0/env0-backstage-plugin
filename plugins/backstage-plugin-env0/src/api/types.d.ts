@@ -127,6 +127,7 @@ export interface Deployment {
   blueprintRevision: string;
   blueprintRepository: string;
   blueprintId: string;
+  comment?: string;
 }
 
 type PartialJSONSchema7 = {
