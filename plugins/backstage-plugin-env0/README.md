@@ -1,6 +1,6 @@
 # env0 Backstage Plugin
 
-This plugin adds UI components to:
+This plugin adds UI components that allows you to:
 - See the deployment history of env0 environments.
 - Monitor the current status of env0 environments.
 - Redeploy existing env0 environments.
@@ -13,7 +13,7 @@ Please refer to the root [README](https://github.com/env0/env0-backstage-plugin/
 
 ## Getting Started
 
-### 1. Install the plugin into your Backstage instance:
+### 1. Install the plugin in your Backstage instance:
 ```bash
 # From your Backstage root directory
 yarn add --cwd packages/app @env0/backstage-plugin-env0
@@ -71,12 +71,12 @@ env0.com/organization-id: <organization-id>
 ### Core UI Components
 
 #### Environment Details
-The environment details card displays basic information about the environment, such as the environment name, status, and who created it.
+The Environment Details card displays basic information about the environment, such as environment name, status, and who created it.
 
 ![image](https://github.com/user-attachments/assets/27880c81-e0da-460a-bff4-ef5d2ac1d201)
 
 #### Deployment History
-The deployment history table displays the history of the environment deployments, including the deployment status, the deployment plan summary, and the time of deployment.
+The Deployment History table displays the history of the environment’s deployments, including deployment status, deployment plan summary, and time of deployment.
 
 ![image](https://github.com/user-attachments/assets/f8504070-bbf6-4fe8-8fc0-70f900926876)
 
@@ -128,8 +128,8 @@ Here is an example of its use in a template:
 ```
 
 #### Template Selector
-This custom scaffolder field, fetches all available env0 templates based on the permissions of the API key provided in the `app-config.yaml`.
-It does it by querying the available organizations for the api key, then the projects for each organization and finally the templates assigned for those projects.
+This custom scaffolder field fetches all available env0 templates based on the permissions of the API key provided in the `app-config.yaml`.
+It does that by querying the available organizations for the API key, then the projects for each organization and finally the templates assigned for those projects.
 
 It can be installed as follows in the `App.tsx`
 
@@ -169,9 +169,9 @@ spec:
 ```
 
 #### Project Selector
-This custom scaffolder field, fetches all available env0 projects based on the permissions of the API key provided in the `app-config.yaml` and the selected template id if given.
-It queries the available projects for the api key, then filters by the projects that are assigned to that template.
-If no template id is given, it will fetch all projects.
+This custom scaffolder field fetches all available env0 projects based on the permissions of the API key provided in the `app-config.yaml` and the selected template ID (if provided).
+It queries the available projects for the API key and then filters the projects that are assigned to that template. 
+If no template ID is provided, it will fetch all projects.
 
 It can be installed as follows in the `App.tsx`
 

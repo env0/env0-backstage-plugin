@@ -31,13 +31,13 @@ Create a new env0 environment.
 
 #### Inputs
 
-| Input       | Description                                     | Type                      | Required |
-|-------------|-------------------------------------------------|---------------------------|----------|
-| name        | The name of the environment to be created.      | string                    | Yes      |
-| projectId   | The project id to create the environment in.    | string                    | Yes      |
-| templateId  | The template id to create the environment from. | string                    | Yes      |
-| comment     | A comment to the initial deployment.            | string                    | No       |
-| variables   | A list of variables to add to the environment.  | array(env0VariableObject) | No       |
+| Input       | Description                                            | Type                      | Required |
+|-------------|--------------------------------------------------------|---------------------------|----------|
+| name        | The name of the environment to be created.             | string                    | Yes      |
+| projectId   | The Project ID in which to create the environment.     | string                    | Yes      |
+| templateId  | The Template ID from which to create the environment.  | string                    | Yes      |
+| comment     | A comment to the initial deployment.                   | string                    | No       |
+| variables   | A list of variables to add to the environment.         | array(env0VariableObject) | No       |
 
 The `env0VariableObject` schema is defined as:
 ```ts
@@ -49,11 +49,11 @@ The `env0VariableObject` schema is defined as:
 ```
 
 #### Outputs
-| Output         | Description                                                 | 
-|----------------|-------------------------------------------------------------|
-| environmentId  | The environment id.                                         | 
-| organizationId | The id of the organization that the environment belongs to. | 
-| environmentUrl | The URL of to the environment.                              | 
+| Output         | Description                                                  | 
+|----------------|--------------------------------------------------------------|
+| environmentId  | The environment's ID.                                        | 
+| organizationId | The ID of the organization to which the environment belongs. | 
+| environmentUrl | The environment's URL.                                       | 
 
 #### Example
     
@@ -82,7 +82,7 @@ Redeploy an existing env0 environment.
 
 | Input     | Description                                           | Type                      | Required |
 |-----------|-------------------------------------------------------|---------------------------|----------|
-| id        | The environment id to redeploy.                       | string                    | Yes      |
+| id        | The environment's ID to redeploy.                     | string                    | Yes      |
 | comment   | A comment to the new deployment.                      | string                    | No       |
 | variables | A list of variables to add/modify to the environment. | array(env0VariableObject) | No       |
 
@@ -90,9 +90,9 @@ Redeploy an existing env0 environment.
 
 | Output         | Description                      |
 |----------------|----------------------------------|
-| environmentId  | The environment id.              |
-| deploymentId   | The newly created deployment id. |
-| deploymentUrl  | The URL of the deployment.       |
+| environmentId  | The environment's ID.            |
+| deploymentId   | The newly created deployment ID. |
+| deploymentUrl  | The deployment's URL.            |
 
 #### Example
     
