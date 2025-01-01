@@ -11,7 +11,7 @@ Please refer to the root [README](https://github.com/env0/env0-backstage-plugin/
 #### 1. Install the plugin into your Backstage instance:
 ```bash
 # From your Backstage root directory
-yarn add --cwd packages/backend @env0/backstage-scaffolder-backend-env0
+yarn --cwd packages/backend add @env0/backstage-scaffolder-backend-env0
 ```
 
 #### 2. Configure the plugin in your Backstage instance ([docs](https://backstage.io/docs/features/software-templates/writing-custom-actions/#registering-custom-actions)):
