@@ -34,6 +34,7 @@ const mockDeployments: Deployment[] = [
     blueprintId: 'template-1',
     blueprintRepository: 'https://github.com/org/repo',
     blueprintRevision: 'main',
+    comment: 'deployment comment',
   },
 ];
 
@@ -130,13 +131,14 @@ describe('Env0DeploymentTable', () => {
     expect(await screen.findByText(/Test error/i)).toBeInTheDocument();
   });
 
-  it('displays deployment history in table', async () => {
+  it('displays deployment history in table with columns data', async () => {
     await renderComponent();
 
     expect(screen.getByText('Success')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
     expect(screen.getByText('Jan 1, 2024, 10:00 AM')).toBeInTheDocument();
     expect(screen.getByText('00:30:00')).toBeInTheDocument();
+    expect(screen.getByText('deployment comment')).toBeInTheDocument();
   });
 
   it('shows deployment error when present', async () => {
