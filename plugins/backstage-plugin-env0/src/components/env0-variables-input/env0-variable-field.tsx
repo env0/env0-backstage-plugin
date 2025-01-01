@@ -85,14 +85,14 @@ const variableInputByInputType: Record<
     const isVariableValueSecretMask =
       variable.isSensitive && onlyAsterisks.test(variable.value || '');
 
-    variable.value = isVariableValueSecretMask ? undefined : variable.value;
+    const displayValue = isVariableValueSecretMask ? undefined : variable.value;
 
     return (
       <TextField
         fullWidth
-        value={variable.value}
+        value={displayValue}
         placeholder={isVariableValueSecretMask ? '********' : ''}
-        required={variable.isRequired}
+        required={variable.isRequired && !isVariableValueSecretMask}
         error={isRegexWrong || isRequiredValueMissing}
         helperText={getVariableHelperText(
           isRegexWrong,
@@ -103,7 +103,7 @@ const variableInputByInputType: Record<
           onVariableUpdated(
             variable,
             changeEvent.target.value,
-            !(isVariableValueSecretMask && variable.value === undefined),
+            !!changeEvent.target.value,
           )
         }
       />
