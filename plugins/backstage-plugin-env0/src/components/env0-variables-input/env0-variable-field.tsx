@@ -61,9 +61,7 @@ export const doesVariableValueMatchRegex = (variable: Variable) => {
 const getVariableHelperText = (
   isRegexWrong: boolean,
   isRequiredValueMissing: undefined | boolean,
-  variable: VariableFields & {
-    overwrites?: VariableFields;
-  },
+  variable: VariableFields,
 ) => {
   if (isRegexWrong) {
     return `Value does not match regex: ${variable.regex}`;
