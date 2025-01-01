@@ -103,7 +103,7 @@ export const Env0DeploymentTable: React.FunctionComponent<{
   if (error) {
     return <ErrorContainer error={error} />;
   }
-  if (deployments) console.log('comment: ', deployments[0]?.comment);
+
   return (
     <Env0Card
       title="env0 Deployments"
