@@ -299,7 +299,6 @@ describe('RedeployButton', () => {
       });
 
       it('should allow deployment when all validation passes', async () => {
-        jestPreview.debug();
         await editVariable(regexVariableId, '25');
         const deployButton = await screen.findByTestId('redeploy-run-button');
         await userEvent.click(deployButton);
