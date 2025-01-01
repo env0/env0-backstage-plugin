@@ -72,11 +72,12 @@ const deploymentHistoryColumns: TableColumn<Deployment>[] = [
   },
   {
     title: 'Comment',
-    render: (deployment: Deployment) => (
-      <Tooltip title={deployment.comment}>
-        <EllipsisTypography>{deployment.comment}</EllipsisTypography>
-      </Tooltip>
-    ),
+    render: (deployment: Deployment) =>
+      deployment.comment && (
+        <Tooltip title={deployment.comment}>
+          <EllipsisTypography>{deployment.comment}</EllipsisTypography>
+        </Tooltip>
+      ),
   },
 ];
 
