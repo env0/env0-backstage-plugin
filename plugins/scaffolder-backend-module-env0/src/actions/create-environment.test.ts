@@ -26,6 +26,10 @@ describe('create environment action', () => {
           value: 'test-value',
         },
       ],
+      requiresApproval: false,
+      continuousDeployment: true,
+      pullRequestPlanDeployments: false,
+      ttl: { type: 'HOURS', value: '6' },
     },
     output: jest.fn(),
     logger: {
@@ -58,6 +62,11 @@ describe('create environment action', () => {
       name: mockPluginContext.input.name,
       projectId: mockPluginContext.input.projectId,
       configurationChanges: mockPluginContext.input.variables,
+      continuousDeployment: mockPluginContext.input.continuousDeployment,
+      requiresApproval: mockPluginContext.input.requiresApproval,
+      pullRequestPlanDeployments:
+        mockPluginContext.input.pullRequestPlanDeployments,
+      ttl: mockPluginContext.input.ttl,
       deployRequest: {
         comment: mockPluginContext.input.comment,
         blueprintId: mockPluginContext.input.templateId,

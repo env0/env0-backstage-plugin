@@ -25,6 +25,8 @@ describe('redeploy environment action', () => {
           value: 'test-value',
         },
       ],
+      requiresApproval: true,
+      ttl: { type: 'INFINITE' },
     },
     output: jest.fn(),
     logger: {
@@ -65,6 +67,8 @@ describe('redeploy environment action', () => {
         deployRequest: {
           comment: mockPluginContext.input.comment,
           configurationChanges: mockPluginContext.input.variables,
+          userRequiresApproval: mockPluginContext.input.requiresApproval,
+          ttl: mockPluginContext.input.ttl
         },
       },
     );

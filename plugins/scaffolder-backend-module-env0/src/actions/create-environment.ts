@@ -48,12 +48,12 @@ export function createEnv0CreateEnvironmentAction() {
           projectId: ctx.input.projectId,
           configurationChanges: ctx.input.variables,
           ttl: ctx.input.ttl,
+          requiresApproval: ctx.input.requiresApproval,
+          continuousDeployment: ctx.input.continuousDeployment,
+          pullRequestPlanDeployments: ctx.input.pullRequestPlanDeployments,
           deployRequest: {
             comment: ctx.input.comment,
             blueprintId: ctx.input.templateId,
-            requiresApproval: ctx.input.requiresApproval,
-            continuousDeployment: ctx.input.continuousDeployment,
-            pullRequestPlanDeployments: ctx.input.pullRequestPlanDeployments,
           },
         });
 

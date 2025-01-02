@@ -3,6 +3,7 @@ export namespace Env0Api {
     id: string;
     name: string;
     value?: string;
+
     [key: string]: any;
   }
 
@@ -29,12 +30,12 @@ export namespace Env0Api {
       projectId: string;
       configurationChanges?: ConfigurationChange[];
       ttl?: TTLRequest;
+      requiresApproval?: boolean;
+      continuousDeployment?: boolean;
+      pullRequestPlanDeployments?: boolean;
       deployRequest: {
-        blueprintId: string;
         comment?: string;
-        requiresApproval?: boolean;
-        continuousDeployment?: boolean;
-        pullRequestPlanDeployments?: boolean;
+        blueprintId: string;
       };
     }
 
