@@ -15,6 +15,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import useAsync from 'react-use/lib/useAsync';
 import type { Variable } from '../../api/types';
+import Alert from '@mui/material/Alert';
 
 const StyledCard = styled(Card)({
   padding: '0 1em',
@@ -45,6 +46,8 @@ export const RedeployButton: React.FC<{
   const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [variables, setVariables] = useState<Variable[]>([]);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [hasAttemptedDeploy, setHasAttemptedDeploy] = useState(false);
 
   const {
     value,
@@ -69,6 +72,7 @@ export const RedeployButton: React.FC<{
 
   const handleModalClose = () => {
     setModalOpen(false);
+    setHasAttemptedDeploy(false);
   };
 
   const handleSnackbarClose = (
@@ -87,6 +91,12 @@ export const RedeployButton: React.FC<{
       return;
     }
 
+    setHasAttemptedDeploy(true);
+
+    if (validationErrors.length > 0) {
+      return;
+    }
+
     try {
       setIsRedeploying(true);
       await api.redeployEnvironment(environmentId, variables);
@@ -95,7 +105,7 @@ export const RedeployButton: React.FC<{
       setSnackbarText('Failed to trigger env0 deployment ❌');
     } finally {
       setSnackBarOpen(true);
-      setModalOpen(false);
+      handleModalClose();
       setIsRedeploying(false);
       afterDeploy?.();
     }
@@ -117,9 +127,21 @@ export const RedeployButton: React.FC<{
     >
       <StyledBox>
         <StyledCard>
+          {validationErrors.length > 0 && hasAttemptedDeploy && (
+            <Alert
+              data-testid="redeploy-validation-errors"
+              severity="error"
+              elevation={6}
+              variant="filled"
+            >
+              {validationErrors.map((error, index) => (
+                <div key={index}>{error}</div>
+              ))}
+            </Alert>
+          )}
           <StyledEnv0VariablesInput
             onVariablesFormDataChange={setVariables}
-            rawErrors={[]}
+            editRawErrors={setValidationErrors}
             environmentId={environmentId}
             projectId={projectId}
             templateId={templateId}
@@ -129,7 +151,7 @@ export const RedeployButton: React.FC<{
               data-testid="redeploy-cancel-button"
               color="secondary"
               variant="contained"
-              onClick={() => setModalOpen(false)}
+              onClick={() => handleModalClose()}
             >
               Cancel
             </Button>

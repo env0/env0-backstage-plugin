@@ -30,7 +30,6 @@ type Env0TemplateSelectorFieldProps =
 
 export const Env0VariablesScaffolderInput = ({
   formContext,
-  rawErrors,
   onChange: onVariablesFormChange,
 }: Env0TemplateSelectorFieldProps): React.ReactElement => {
   const {
@@ -39,7 +38,6 @@ export const Env0VariablesScaffolderInput = ({
   return (
     <Env0VariablesInput
       onVariablesFormDataChange={onVariablesFormChange}
-      rawErrors={rawErrors}
       projectId={projectId}
       templateId={templateId}
     />

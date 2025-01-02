@@ -8,7 +8,7 @@ import {
 import Warning from '@material-ui/icons/Warning';
 import InfoRounded from '@material-ui/icons/InfoRounded';
 import React, { ReactElement } from 'react';
-import type { Variable } from '../../api/types';
+import type { Variable, VariableFields } from '../../api/types';
 
 const VariableContainer = styled('div')(() => ({
   display: 'grid',
@@ -58,12 +58,28 @@ export const doesVariableValueMatchRegex = (variable: Variable) => {
   return regex.test(variable.value || '');
 };
 
+const getVariableHelperText = (
+  isRegexWrong: boolean,
+  isRequiredValueMissing: undefined | boolean,
+  variable: VariableFields,
+) => {
+  if (isRegexWrong) {
+    return `Value does not match regex: ${variable.regex}`;
+  }
+  if (isRequiredValueMissing) {
+    return 'Value is required';
+  }
+  return '';
+};
+
 const variableInputByInputType: Record<
   VariableType,
   ({ variable, onVariableUpdated }: VariableInputComponentProps) => ReactElement
 > = {
   string: ({ variable, onVariableUpdated }) => {
     const isRegexWrong = !doesVariableValueMatchRegex(variable);
+    const isRequiredValueMissing =
+      variable.isRequired && !variable.value && !variable.isSensitive;
 
     const onlyAsterisks = /^\*+$/;
     const isVariableValueSecretMask =
@@ -77,10 +93,12 @@ const variableInputByInputType: Record<
         value={variable.value}
         placeholder={isVariableValueSecretMask ? '********' : ''}
         required={variable.isRequired}
-        error={isRegexWrong}
-        helperText={
-          isRegexWrong ? `Value does not match regex: ${variable.regex}` : ''
-        }
+        error={isRegexWrong || isRequiredValueMissing}
+        helperText={getVariableHelperText(
+          isRegexWrong,
+          isRequiredValueMissing,
+          variable,
+        )}
         onChange={(changeEvent: React.ChangeEvent<{ value: string }>) =>
           onVariableUpdated(
             variable,

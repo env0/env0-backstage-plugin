@@ -104,8 +104,11 @@ export const Env0EnvironmentDetailsCard = () => {
       <CardActions>
         <Button color="primary" variant="contained">
           <Link
-            to={getEnv0EnvironmentUrl({ environmentId: environment.id, projectId: environment.projectId })}
-            color="textPrimary"
+            to={getEnv0EnvironmentUrl({
+              environmentId: environment.id,
+              projectId: environment.projectId,
+            })}
+            color="inherit"
           >
             Open in env0
           </Link>
