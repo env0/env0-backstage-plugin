@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Env0VariableField } from './env0-variable-field';
 import type { Variable } from '../../api/types';
-import jestPreview from 'jest-preview';
 
 describe('Env0VariableField', () => {
   beforeEach(() => {
@@ -77,7 +76,6 @@ describe('Env0VariableField', () => {
 
     const select = screen.getByRole('button');
     await userEvent.click(select);
-    jestPreview.debug();
     expect(select).toBeInTheDocument();
     expect(screen.getAllByRole('option')).toHaveLength(3);
   });
