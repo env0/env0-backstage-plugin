@@ -3,7 +3,6 @@ export namespace Env0Api {
     id: string;
     name: string;
     value?: string;
-
     [key: string]: any;
   }
 
