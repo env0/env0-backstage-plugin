@@ -16,7 +16,7 @@ export const commentSchema = z.string({
 });
 
 export const requiresApprovalSchema = z.boolean({
-  description: 'Is this deployment requires approval',
+  description: 'Whether the deployment requires approval',
 });
 
 export const continuousDeploymentSchema = z.boolean({
