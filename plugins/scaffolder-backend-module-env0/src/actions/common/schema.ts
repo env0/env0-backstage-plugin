@@ -16,7 +16,7 @@ export const commentSchema = z.string({
 });
 
 export const requiresApprovalSchema = z.boolean({
-  description: 'Is this deployment requires approval'
+  description: 'Whether the deployment requires approval'
 });
 
 export const continuousDeploymentSchema = z.boolean({
@@ -31,8 +31,7 @@ export const ttlSchema = z.object({
   type: z.enum(['INFINITE', 'HOURS', 'DATE']),
   value: z
     .string({
-      description:
-        'If type is INFINITE leave empty, If the type is HOURS enter stringified number, If the type is DATE the format is yyyy-mm-ddThh:MM:ss.000Z (For example 2023-06-04T20:05:00.000Z)',
+      description: `Required when the type is not INFINITE. When it's HOURS - attach a stringified number. When it's DATE - format is yyyy-mm-ddThh:MM:ss.000Z (For example 2023-06-04T20:05:00.000Z)`,
     })
     .optional()
 });
