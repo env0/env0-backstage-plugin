@@ -32,7 +32,7 @@ export const ttlSchema = z.object({
   value: z
     .string({
       description:
-        'If type is INFINITE leave empty, If the type is HOURS enter stringified number, If the type is DATE the format is yyyy-mm-ddThh:MM:ss.000Z (For example 2023-06-04T20:05:00.000Z)',
+        'Required when the type is not INFINITE. When it's HOURS - attach a stringified number. When it's DATE - format is yyyy-mm-ddThh:MM:ss.000Z (For example 2023-06-04T20:05:00.000Z)',
     })
     .optional(),
 });
