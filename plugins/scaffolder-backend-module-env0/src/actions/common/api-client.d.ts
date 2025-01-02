@@ -6,6 +6,11 @@ export namespace Env0Api {
     [key: string]: any;
   }
 
+  interface TTLRequest {
+    type: 'INFINITE' | 'HOURS' | 'DATE';
+    value?: string | Date;
+  }
+
   export namespace GetEnvironment {
     // https://docs.env0.com/reference/environments-find-by-id
     export interface Response {
@@ -23,6 +28,7 @@ export namespace Env0Api {
       name: string;
       projectId: string;
       configurationChanges?: ConfigurationChange[];
+      ttl?: TTLRequest;
       deployRequest: {
         blueprintId: string;
         comment?: string;
@@ -48,6 +54,7 @@ export namespace Env0Api {
         comment?: string;
         configurationChanges?: ConfigurationChange[];
         userRequiresApproval?: boolean;
+        ttl?: TTLRequest;
       };
     }
 

@@ -5,7 +5,7 @@ import {
   commentSchema,
   continuousDeploymentSchema,
   pullRequestPlanDeploymentsSchema,
-  requiresApprovalSchema,
+  requiresApprovalSchema, ttlSchema,
   variablesSchema,
 } from './common/schema';
 import { getEnv0EnvironmentUrl } from './common/get-urls';
@@ -26,6 +26,7 @@ const schema = z.object({
   requiresApproval: requiresApprovalSchema.optional(),
   continuousDeployment: continuousDeploymentSchema.optional(),
   pullRequestPlanDeployments: pullRequestPlanDeploymentsSchema.optional(),
+  ttl: ttlSchema.optional()
 });
 
 export function createEnv0CreateEnvironmentAction() {
@@ -46,6 +47,7 @@ export function createEnv0CreateEnvironmentAction() {
           name: ctx.input.name,
           projectId: ctx.input.projectId,
           configurationChanges: ctx.input.variables,
+          ttl: ctx.input.ttl,
           deployRequest: {
             comment: ctx.input.comment,
             blueprintId: ctx.input.templateId,

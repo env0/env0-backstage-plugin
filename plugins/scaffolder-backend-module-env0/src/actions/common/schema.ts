@@ -26,3 +26,13 @@ export const continuousDeploymentSchema = z.boolean({
 export const pullRequestPlanDeploymentsSchema = z.boolean({
   description: 'Enable plan deployments on pull requests',
 });
+
+export const ttlSchema = z.object({
+  type: z.enum(['INFINITE', 'HOURS', 'DATE']),
+  value: z
+    .string({
+      description:
+        'If type is INFINITE leave empty, If the type is HOURS enter stringified number, If the type is DATE the format is yyyy-mm-ddThh:MM:ss.000Z (For example 2023-06-04T20:05:00.000Z)',
+    })
+    .optional(),
+});
