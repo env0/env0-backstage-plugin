@@ -16,5 +16,13 @@ export const commentSchema = z.string({
 });
 
 export const requiresApprovalSchema = z.boolean({
-    description: 'Is this deployment requires approval',
+  description: 'Is this deployment requires approval',
+});
+
+export const continuousDeploymentSchema = z.boolean({
+  description: 'Enable deploys on merges to target branch',
+});
+
+export const pullRequestPlanDeploymentsSchema = z.boolean({
+  description: 'Enable plan deployments on pull requests',
 });

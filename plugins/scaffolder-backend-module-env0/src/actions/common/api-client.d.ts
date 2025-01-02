@@ -27,6 +27,8 @@ export namespace Env0Api {
         blueprintId: string;
         comment?: string;
         requiresApproval?: boolean;
+        continuousDeployment?: boolean;
+        pullRequestPlanDeployments?: boolean;
       };
     }
 
