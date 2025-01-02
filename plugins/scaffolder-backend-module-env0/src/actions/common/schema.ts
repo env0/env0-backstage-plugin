@@ -12,19 +12,19 @@ export const variablesSchema = z
   .array();
 
 export const commentSchema = z.string({
-  description: 'The comment for the deployment',
+  description: 'The comment for the deployment'
 });
 
 export const requiresApprovalSchema = z.boolean({
-  description: 'Is this deployment requires approval',
+  description: 'Is this deployment requires approval'
 });
 
 export const continuousDeploymentSchema = z.boolean({
-  description: 'Enable deploys on merges to target branch',
+  description: 'Enable deploys on merges to target branch'
 });
 
 export const pullRequestPlanDeploymentsSchema = z.boolean({
-  description: 'Enable plan deployments on pull requests',
+  description: 'Enable plan deployments on pull requests'
 });
 
 export const ttlSchema = z.object({
@@ -34,5 +34,5 @@ export const ttlSchema = z.object({
       description:
         'If type is INFINITE leave empty, If the type is HOURS enter stringified number, If the type is DATE the format is yyyy-mm-ddThh:MM:ss.000Z (For example 2023-06-04T20:05:00.000Z)',
     })
-    .optional(),
+    .optional()
 });
