@@ -1,7 +1,7 @@
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
 import { apiClient } from './common/api-client';
-import { commentSchema, variablesSchema } from './common/schema';
+import {commentSchema, requiresApprovalSchema, variablesSchema} from './common/schema';
 import { getEnv0EnvironmentUrl } from './common/get-urls';
 import { extractApiError } from './common/extract-api-error';
 
@@ -17,6 +17,7 @@ const schema = z.object({
     description: 'The ID of the project to place the new environment on',
   }),
   variables: variablesSchema.optional(),
+  requiresApproval: requiresApprovalSchema.optional()
 });
 
 export function createEnv0CreateEnvironmentAction() {
@@ -40,6 +41,7 @@ export function createEnv0CreateEnvironmentAction() {
           deployRequest: {
             comment: ctx.input.comment,
             blueprintId: ctx.input.templateId,
+            requiresApproval: ctx.input.requiresApproval
           },
         });
 

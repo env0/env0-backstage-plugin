@@ -14,3 +14,7 @@ export const variablesSchema = z
 export const commentSchema = z.string({
   description: 'The comment for the deployment',
 });
+
+export const requiresApprovalSchema = z.boolean({
+    description: 'Is this deployment requires approval',
+});

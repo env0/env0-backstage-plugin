@@ -26,6 +26,7 @@ export namespace Env0Api {
       deployRequest: {
         blueprintId: string;
         comment?: string;
+        requiresApproval?: boolean;
       };
     }
 
@@ -44,6 +45,7 @@ export namespace Env0Api {
       deployRequest: {
         comment?: string;
         configurationChanges?: ConfigurationChange[];
+        userRequiresApproval?: boolean;
       };
     }
 

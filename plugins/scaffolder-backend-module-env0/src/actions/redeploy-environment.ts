@@ -1,7 +1,7 @@
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
 import { z } from 'zod';
 import { apiClient } from './common/api-client';
-import { commentSchema, variablesSchema } from './common/schema';
+import {commentSchema, requiresApprovalSchema, variablesSchema} from './common/schema';
 import { getEnv0DeploymentUrl } from './common/get-urls';
 import { extractApiError } from './common/extract-api-error';
 
@@ -11,6 +11,7 @@ const schema = z.object({
   id: z.string({ description: 'The ID of the environment to redeploy' }),
   comment: commentSchema.optional(),
   variables: variablesSchema.optional(),
+  requiresApproval: requiresApprovalSchema.optional()
 });
 
 export function createEnv0RedeployEnvironmentAction() {
@@ -33,6 +34,7 @@ export function createEnv0RedeployEnvironmentAction() {
             deployRequest: {
               comment: ctx.input.comment,
               configurationChanges: ctx.input.variables,
+              userRequiresApproval: ctx.input.requiresApproval
             },
           },
         );
