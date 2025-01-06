@@ -1,11 +1,6 @@
 name: Build and Push Backstage Docker Image
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to tag the image with'
-        required: true
   repository_dispatch:
     types: [backstage_release]
 
