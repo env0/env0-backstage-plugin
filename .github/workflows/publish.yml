@@ -1,7 +1,6 @@
 name: Publish Package to npmjs
 
 on:
-  workflow_dispatch: {}
   release:
     types: [published]
 
@@ -45,12 +44,12 @@ jobs:
       - name: Build Packages
         run: yarn build:all
 
-#      - name: Publish Packages to npm
-#        run: |
-#          echo "npmAuthToken: $NODE_AUTH_TOKEN" >> ../../.yarnrc.yml
-#          yarn workspaces foreach --all --parallel --no-private npm publish --access public
-#        env:
-#          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish Packages to npm
+        run: |
+          echo "npmAuthToken: $NODE_AUTH_TOKEN" >> ../../.yarnrc.yml
+          yarn workspaces foreach --all --parallel --no-private npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Trigger Docker Build
         if: success()
         uses: peter-evans/repository-dispatch@v3
