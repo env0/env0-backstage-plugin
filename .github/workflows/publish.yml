@@ -50,3 +50,12 @@ jobs:
           yarn workspaces foreach --all --parallel --no-private npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Trigger Docker Build
+        if: success()
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/dispatches \
+            -f event_type='backstage_release' \
+            -f client_payload="{\"version\":\"${{ env.tag_version }}\"}"

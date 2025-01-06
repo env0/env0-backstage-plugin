@@ -1,0 +1,39 @@
+name: Build and Push Backstage Docker Image
+
+on:
+  repository_dispatch:
+    types: [backstage_release]
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Build Backend
+        run: |
+          yarn tsc
+          yarn build:backend
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ vars.GHCR_URL }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build and Push Image
+        working-directory: packages/backend
+        run: |
+          IMAGE_NAME="${{ vars.GHCR_URL }}/${{ github.repository }}/backstage:${{ github.event.client_payload.version }}"
+          yarn build-image-amd64 --tag $IMAGE_NAME
+          docker push $IMAGE_NAME
