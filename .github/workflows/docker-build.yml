@@ -1,6 +1,12 @@
 name: Build and Push Backstage Docker Image
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: The version to build and push
+        required: true
+        type: string
   repository_dispatch:
     types: [backstage_release]
 
@@ -42,5 +48,5 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            https://ghcr.io/env0/backstage:${{ github.event.client_payload.version }}
+            https://ghcr.io/env0/backstage:${{ github.event.client_payload.version || github.event.inputs.version }}
             https://ghcr.io/env0/backstage:latest
