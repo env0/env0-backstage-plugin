@@ -44,5 +44,5 @@ jobs:
           file: ./packages/backend/Dockerfile
           push: true
           tags: |
-            https://ghcr.io/env0/backstage:${{ github.event.client_payload.version || github.event.inputs.version }}
-            https://ghcr.io/env0/backstage:latest
+            ghcr.io/env0/backstage:${{ github.event.client_payload.version || github.event.inputs.version }}
+            ghcr.io/env0/backstage:latest
