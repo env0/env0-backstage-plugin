@@ -134,7 +134,11 @@ const entityWarningContent = (
 const overviewContent = (
   <>
     {entityWarningContent}
-    <Env0EnvironmentDetailsCard />
+    <EntitySwitch>
+      <EntitySwitch.Case if={entity => isEnv0Available(entity)}>
+        <Env0EnvironmentDetailsCard />
+      </EntitySwitch.Case>
+    </EntitySwitch>
   </>
 );
 

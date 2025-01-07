@@ -25,9 +25,9 @@ yarn --cwd packages/app add @env0/backstage-plugin-env0
 ```tsx
 // In packages/app/src/components/catalog/EntityPage.tsx
 import {
-  env0TabComponent,
-  isenv0Available,
-  env0EnvironmentDetailsCard,
+  Env0TabComponent,
+  isEnv0Available,
+  Env0EnvironmentDetailsCard,
 } from '@env0/backstage-plugin-env0';
 ```
 
@@ -42,7 +42,18 @@ import {
   <Env0TabComponent />
 </EntityLayout.Route>
 ```
-### 3. Provide the env0 proxy configuration in `app-config.yaml`:
+
+### 3. Add the env0 details component to `EntityPage.tsx`:
+#### Add the env0 details component to the `overviewPage` constant:
+```tsx
+// In packages/app/src/components/catalog/EntityPage.tsx
+<EntitySwitch>
+  <EntitySwitch.Case if={entity => isEnv0Available(entity)}>
+    <Env0EnvironmentDetailsCard />
+  </EntitySwitch.Case>
+</EntitySwitch>
+```
+### 4. Provide the env0 proxy configuration in `app-config.yaml`:
 ```yaml
 proxy:
   '/env0':
