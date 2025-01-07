@@ -1,0 +1,48 @@
+name: Build and Push Backstage Docker Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: The version to build and push
+        required: true
+        type: string
+  repository_dispatch:
+    types: [backstage_release]
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Build Backend
+        run: |
+          yarn tsc:full
+          yarn build:all
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: bot-env0
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build and Push Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ../../
+          file: ./packages/backend/Dockerfile
+          push: true
+          tags: |
+            https://ghcr.io/env0/backstage:${{ github.event.client_payload.version || github.event.inputs.version }}
+            https://ghcr.io/env0/backstage:latest

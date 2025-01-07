@@ -50,3 +50,9 @@ jobs:
           yarn workspaces foreach --all --parallel --no-private npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Trigger Docker Build
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          event-type: backstage_release
+          client-payload: '{"version": "${{ env.tag_version }}"}'
