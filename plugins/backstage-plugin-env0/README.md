@@ -35,7 +35,7 @@ import {
 ```tsx
 // In packages/app/src/components/catalog/EntityPage.tsx
 <EntityLayout.Route
-  if={entity => isEnv0Available(entity)}
+  if={isEnv0Available}
   path="/env0"
   title="env0"
 >
@@ -53,7 +53,7 @@ import {
 ```tsx
 // In packages/app/src/components/catalog/EntityPage.tsx
 <EntitySwitch>
-  <EntitySwitch.Case if={entity => isEnv0Available(entity)}>
+  <EntitySwitch.Case if={isEnv0Available}>
     <Env0EnvironmentDetailsCard />
   </EntitySwitch.Case>
 </EntitySwitch>
