@@ -2,6 +2,7 @@ import {
   createApiFactory,
   createPlugin,
   createRoutableExtension,
+  createComponentExtension,
   discoveryApiRef,
   fetchApiRef,
 } from '@backstage/core-plugin-api';
@@ -45,6 +46,28 @@ export const BackstagePluginEnv0Page = backstagePluginEnv0Plugin.provide(
         m => m.Env0EnvironmentDetailsCard,
       ),
     mountPoint: rootRouteRef,
+  }),
+);
+
+export const Env0EnvironmentDetailsCard = backstagePluginEnv0Plugin.provide(
+  createComponentExtension({
+    name: 'Env0EnvironmentDetailsCard',
+    component: {
+      lazy: () =>
+        import('./components/env0-environment-details-card').then(
+          m => m.Env0EnvironmentDetailsCard,
+        ),
+    },
+  }),
+);
+
+export const Env0TabComponent = backstagePluginEnv0Plugin.provide(
+  createComponentExtension({
+    name: 'Env0TabComponent',
+    component: {
+      lazy: () =>
+        import('./components/env0-tab-component').then(m => m.Env0TabComponent),
+    },
   }),
 );
 
