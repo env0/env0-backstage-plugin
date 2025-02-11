@@ -1,11 +1,11 @@
 import React from 'react';
 import { createDevApp } from '@backstage/dev-utils';
-import { backstagePluginEnv0Plugin, BackstagePluginEnv0Page } from '../src/plugin';
+import { env0Plugin, Env0TabComponent } from '../src';
 
 createDevApp()
-  .registerPlugin(backstagePluginEnv0Plugin)
+  .registerPlugin(env0Plugin)
   .addPage({
-    element: <BackstagePluginEnv0Page />,
+    element: <Env0TabComponent />,
     title: 'Root Page',
     path: '/env0',
   })

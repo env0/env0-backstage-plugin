@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-import dayjs from '../common/dayjs.types';
 import { Table, TableColumn } from '@backstage/core-components';
 import { Deployment } from '../../api/types';
 import { useGetDeployments } from '../../hooks/use-deployments-history';
@@ -18,9 +17,10 @@ import Tooltip from '@mui/material/Tooltip';
 
 const getFormattedDeploymentDuration = (deployment: Deployment) => {
   if (!deployment.finishedAt || !deployment.startedAt) return '-';
-  const durationInSeconds = dayjs
-    .duration(dayjs(deployment.finishedAt).diff(deployment.startedAt))
-    .asSeconds();
+  const startedAt = new Date(deployment.startedAt);
+  const finishedAt = new Date(deployment.finishedAt);
+
+  const durationInSeconds = (finishedAt.getTime() - startedAt.getTime()) / 1000;
   return parseTimerElapsedTime(durationInSeconds);
 };
 
