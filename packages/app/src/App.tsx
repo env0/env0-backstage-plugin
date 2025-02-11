@@ -38,10 +38,10 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 import {
-  BackstagePluginEnv0Page,
   Env0TemplateSelectorExtension,
   Env0ProjectSelectorExtension,
   Env0VariableInputExtension,
+  Env0TabComponent,
 } from '@env0/backstage-plugin-env0';
 
 const app = createApp({
@@ -108,7 +108,7 @@ const routes = (
     </Route>
     <Route path="/settings" element={<UserSettingsPage />} />
     <Route path="/catalog-graph" element={<CatalogGraphPage />} />
-    <Route path="/env0" element={<BackstagePluginEnv0Page />} />
+    <Route path="/env0" element={<Env0TabComponent />} />
   </FlatRoutes>
 );
 
