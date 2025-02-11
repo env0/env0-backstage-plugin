@@ -35,7 +35,7 @@ import {
 ```tsx
 // In packages/app/src/components/catalog/EntityPage.tsx
 <EntityLayout.Route
-  if={entity => isEnv0Available(entity)}
+  if={isEnv0Available}
   path="/env0"
   title="env0"
 >
@@ -44,11 +44,16 @@ import {
 ```
 
 ### 3. Add the env0 details component to `EntityPage.tsx`:
-#### Add the env0 details component to the `overviewPage` constant:
+#### Add the env0 details component to the `ovreviewContent` constant:
+
+> [!NOTE]
+> The `overviewContent` is a `Grid` component that contains the overview tab content of the entity page.
+> Please make sure to add the following `EntitySwitch` component inside the outermost `Grid` defined there, just before the closing `</Grid>` tag
+
 ```tsx
 // In packages/app/src/components/catalog/EntityPage.tsx
 <EntitySwitch>
-  <EntitySwitch.Case if={entity => isEnv0Available(entity)}>
+  <EntitySwitch.Case if={isEnv0Available}>
     <Env0EnvironmentDetailsCard />
   </EntitySwitch.Case>
 </EntitySwitch>
@@ -68,8 +73,8 @@ proxy:
 ## Required Annotations
 
 > [!NOTE]
-> The following annotations are already added by the `catalog-info.yaml` template.
-> This is just a reminder to ensure that the annotations are present.
+> The following annotations are automatically added by the `catalog-info.yaml` template, so there’s no need to add them manually.
+> This is just a reminder to ensure these annotations are present and that you’re using the correct `catalog-info.yaml` file, located in this repository.
 
 ```yaml
 annotations:
