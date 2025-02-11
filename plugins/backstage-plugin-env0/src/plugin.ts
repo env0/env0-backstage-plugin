@@ -26,7 +26,7 @@ import {
 import { Variable } from './api/types';
 import { doesVariableValueMatchRegex } from './components/env0-variables-input/env0-variable-field';
 
-export const backstagePluginEnv0Plugin = createPlugin({
+export const env0Plugin = createPlugin({
   id: 'env0',
   apis: [
     createApiFactory({
@@ -38,18 +38,7 @@ export const backstagePluginEnv0Plugin = createPlugin({
   ],
 });
 
-export const BackstagePluginEnv0Page = backstagePluginEnv0Plugin.provide(
-  createRoutableExtension({
-    name: 'BackstagePluginEnv0Page',
-    component: () =>
-      import('./components/env0-environment-details-card').then(
-        m => m.Env0EnvironmentDetailsCard,
-      ),
-    mountPoint: rootRouteRef,
-  }),
-);
-
-export const Env0EnvironmentDetailsCard = backstagePluginEnv0Plugin.provide(
+export const Env0EnvironmentDetailsCard = env0Plugin.provide(
   createComponentExtension({
     name: 'Env0EnvironmentDetailsCard',
     component: {
@@ -61,13 +50,12 @@ export const Env0EnvironmentDetailsCard = backstagePluginEnv0Plugin.provide(
   }),
 );
 
-export const Env0TabComponent = backstagePluginEnv0Plugin.provide(
-  createComponentExtension({
+export const Env0TabComponent = env0Plugin.provide(
+  createRoutableExtension({
     name: 'Env0TabComponent',
-    component: {
-      lazy: () =>
-        import('./components/env0-tab-component').then(m => m.Env0TabComponent),
-    },
+    mountPoint: rootRouteRef,
+    component: () =>
+      import('./components/env0-tab-component').then(m => m.Env0TabComponent),
   }),
 );
 
