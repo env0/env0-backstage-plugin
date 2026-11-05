@@ -1,0 +1,28 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "minimumReleaseAge": "3 days",
+  "timezone": "Asia/Jerusalem",
+  "schedule": ["before 6am on sunday"],
+  "rebaseWhen": "conflicted",
+  "labels": ["renovate 🎨"],
+  "commitMessagePrefix": "Chore:",
+  "vulnerabilityAlerts": {
+    "schedule": ["at any time"],
+    "minimumReleaseAge": null,
+    "groupName": null,
+    "labels": ["renovate 🎨", "security"]
+  },
+  "osvVulnerabilityAlerts": true,
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "non-major"
+    }
+  ]
+}
