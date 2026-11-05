@@ -1,6 +1,58 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "helpers:pinGitHubActionDigests",
+    "docker:pinDigests"
+  ],
+  "minimumReleaseAge": "3 days",
+  "timezone": "Asia/Jerusalem",
+  "schedule": ["before 6am on sunday"],
+  "rebaseWhen": "conflicted",
+  "prCreation": "immediate",
+  "prHourlyLimit": 5,
+  "prConcurrentLimit": 200,
+  "semanticCommits": "disabled",
+  "commitMessagePrefix": "Chore:",
+  "labels": ["renovate 🎨"],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "vulnerabilityAlerts": {
+    "schedule": ["at any time"],
+    "minimumReleaseAge": null,
+    "groupName": null,
+    "labels": ["renovate 🎨", "security"]
+  },
+  "osvVulnerabilityAlerts": true,
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "non-major"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["@backstage/**"],
+      "groupName": "Backstage"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchFileNames": ["package.json", "packages/**"],
+      "rangeStrategy": "pin"
+    },
+    {
+      "matchDepTypes": ["peerDependencies"],
+      "rangeStrategy": "widen"
+    },
+    {
+      "matchDepTypes": ["engines", "engine"],
+      "matchUpdateTypes": ["major", "pin"],
+      "enabled": false
+    }
   ]
 }
