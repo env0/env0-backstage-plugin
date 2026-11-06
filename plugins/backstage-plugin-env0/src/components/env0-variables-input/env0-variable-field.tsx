@@ -112,8 +112,8 @@ const variableInputByInputType: Record<
   dropdown: ({ variable, onVariableUpdated }) => (
     <FullWidthSelect
       value={variable.value}
-      onChange={(changeEvent: ChangeEvent<{ value: string }>) =>
-        onVariableUpdated(variable, changeEvent.target.value)
+      onChange={(changeEvent: ChangeEvent<{ value: unknown }>) =>
+        onVariableUpdated(variable, String(changeEvent.target.value))
       }
     >
       {variable.schema?.enum?.map((option, optionIndex) => (
