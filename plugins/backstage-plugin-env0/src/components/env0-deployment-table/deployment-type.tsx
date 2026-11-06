@@ -1,9 +1,9 @@
-import { CSSProperties, FunctionComponent } from 'react';
+import { CSSProperties, ElementType, FunctionComponent } from 'react';
 import { Deployment } from '../../api/types';
 import { Avatar, styled, SvgIcon } from '@material-ui/core';
 import { DeployIcon, DestroyIcon, DiffIcon } from '../icons';
-import CodeOutlined from '@material-ui/icons/CodeOutlined';
-import FindInPage from '@material-ui/icons/FindInPage';
+import CodeOutlined from '@mui/icons-material/CodeOutlined';
+import FindInPage from '@mui/icons-material/FindInPage';
 
 const Container = styled('span')({
   display: 'flex',
@@ -22,7 +22,7 @@ const defaultIconStyle = {
 
 const iconPropsMap: Record<
   Deployment['type'],
-  { icon: typeof SvgIcon; style?: CSSProperties }
+  { icon: ElementType; style?: CSSProperties }
 > = {
   destroy: {
     icon: DestroyIcon,

@@ -1,6 +1,6 @@
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import Snackbar from '@mui/material/Snackbar';
 import { useState } from 'react';
 
