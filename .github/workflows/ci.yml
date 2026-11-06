@@ -1,14 +1,14 @@
 name: CI
 on:
   pull_request:
-    types: [ opened, synchronize, reopened ]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
 
 jobs:
   CI:
-    name: "CI"
+    name: 'CI'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -23,6 +23,8 @@ jobs:
         run: yarn tsc:full
       - name: Lint
         run: yarn lint:all
+      - name: Check Formatting
+        run: yarn format:check
       - name: Test
         run: CI=true yarn test
       - name: Build Packages
