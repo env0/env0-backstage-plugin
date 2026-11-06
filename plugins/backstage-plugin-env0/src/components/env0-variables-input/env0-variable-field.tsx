@@ -5,8 +5,8 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import Warning from '@material-ui/icons/Warning';
-import InfoRounded from '@material-ui/icons/InfoRounded';
+import Warning from '@mui/icons-material/Warning';
+import InfoRounded from '@mui/icons-material/InfoRounded';
 import { ReactElement, ChangeEvent } from 'react';
 import type { Variable, VariableFields } from '../../api/types';
 

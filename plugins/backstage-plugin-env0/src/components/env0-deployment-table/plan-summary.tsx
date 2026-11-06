@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 import { styled } from '@material-ui/core';
-import EditOutlined from '@material-ui/icons/EditOutlined';
-import AddOutlined from '@material-ui/icons/AddOutlined';
-import RemoveOutlined from '@material-ui/icons/RemoveOutlined';
+import EditOutlined from '@mui/icons-material/EditOutlined';
+import AddOutlined from '@mui/icons-material/AddOutlined';
+import RemoveOutlined from '@mui/icons-material/RemoveOutlined';
 
 const addedColor = '#00bb00';
 const changedColor = '#bbbb00';

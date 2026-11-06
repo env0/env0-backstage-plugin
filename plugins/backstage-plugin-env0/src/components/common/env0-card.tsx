@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import Button from '@material-ui/core/Button';
-import Cached from '@material-ui/icons/Cached';
+import Cached from '@mui/icons-material/Cached';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import { Env0Icon } from '../icons';

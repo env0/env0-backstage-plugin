@@ -5,8 +5,8 @@ import {
   IconButton,
   Typography,
 } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Env0Card } from '../common/env0-card';
 import type { Variable } from '../../api/types';
 import { Progress } from '@backstage/core-components';
