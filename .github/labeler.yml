@@ -8,10 +8,10 @@ chore:
 # Folder-based labels
 backstage-plugin-env0:
   - changed-files:
-      - any-glob-to-any-file: ["backstage-plugin-env0/**/*"]
+      - any-glob-to-any-file: ['backstage-plugin-env0/**/*']
 backstage-scaffolder-backend-env0:
   - changed-files:
-      - any-glob-to-any-file: ["backstage-scaffolder-backend-env0/**/*"]
+      - any-glob-to-any-file: ['backstage-scaffolder-backend-env0/**/*']
 github-actions:
   - changed-files:
-      - any-glob-to-any-file: [".github/**/*"]
+      - any-glob-to-any-file: ['.github/**/*']

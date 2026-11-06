@@ -219,7 +219,9 @@ export const RedeployButton: FC<{
       >
         <Button
           data-testid="redeploy-button"
-          disabled={disabled || Boolean(environmentError) || isLoadingEnvironment}
+          disabled={
+            disabled || Boolean(environmentError) || isLoadingEnvironment
+          }
           variant="contained"
           color="primary"
           onClick={() => setModalOpen(true)}

@@ -2,16 +2,16 @@ name: PR Validation
 on:
   pull_request:
     types:
-      - "opened"
-      - "edited"
-      - "reopened"
-      - "synchronize"
+      - 'opened'
+      - 'edited'
+      - 'reopened'
+      - 'synchronize'
 permissions:
   pull-requests: read
 
 jobs:
   check-title:
-    name: "PR Title"
+    name: 'PR Title'
     runs-on: ubuntu-latest
     timeout-minutes: 1
     steps:
