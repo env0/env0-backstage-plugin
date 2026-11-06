@@ -68,7 +68,7 @@ describe('redeploy environment action', () => {
           comment: mockPluginContext.input.comment,
           configurationChanges: mockPluginContext.input.variables,
           userRequiresApproval: mockPluginContext.input.requiresApproval,
-          ttl: mockPluginContext.input.ttl
+          ttl: mockPluginContext.input.ttl,
         },
       },
     );

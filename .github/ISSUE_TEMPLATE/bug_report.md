@@ -4,7 +4,6 @@ about: Report on errors and other unexpected behaviors
 title: ''
 labels: bug
 assignees: ''
-
 ---
 
 **Describe the bug**

@@ -73,10 +73,10 @@ spec:
             allowedHosts:
               - github.com
         branch:
-            title: Branch
-            type: string
-            description: The branch to push the template to
-            default: main
+          title: Branch
+          type: string
+          description: The branch to push the template to
+          default: main
   steps:
     - id: create-env0-environment
       name: Create Env0 Environment
@@ -107,7 +107,7 @@ spec:
       name: Publish to GitHub
       action: github:repo:push
       input:
-        allowedHosts: ["github.com"]
+        allowedHosts: ['github.com']
         token: ${{ secrets.USER_OAUTH_TOKEN or false }}
         description: Publish the template of ${{ parameters.env0_environment_name }} to GitHub
         repoUrl: ${{ parameters.repoUrl }}

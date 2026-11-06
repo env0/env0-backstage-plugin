@@ -170,27 +170,30 @@ export const Env0VariablesInput = ({
   const groupedVariablesByVariableSets = useMemo(() => {
     if (!variables || !variablesSetsData) return {};
 
-    return variables.reduce((acc, variable) => {
-      const wasEditedFromSetScope =
-        variable.overwrites?.scope === 'SET' ||
-        variable.originalVariableScope === 'SET';
-      if (variable.scope === 'SET' || wasEditedFromSetScope) {
-        const foundSet = variablesSetsData.find(
-          set =>
-            set.id === variable.scopeId ||
-            set.id === variable.overwrites?.scopeId,
-        );
+    return variables.reduce(
+      (acc, variable) => {
+        const wasEditedFromSetScope =
+          variable.overwrites?.scope === 'SET' ||
+          variable.originalVariableScope === 'SET';
+        if (variable.scope === 'SET' || wasEditedFromSetScope) {
+          const foundSet = variablesSetsData.find(
+            set =>
+              set.id === variable.scopeId ||
+              set.id === variable.overwrites?.scopeId,
+          );
 
-        if (foundSet) {
-          acc[foundSet.name] = acc[foundSet.name] || [];
-          acc[foundSet.name].push(variable);
+          if (foundSet) {
+            acc[foundSet.name] = acc[foundSet.name] || [];
+            acc[foundSet.name].push(variable);
+          }
+        } else {
+          acc.defaultGroup = acc.defaultGroup || [];
+          acc.defaultGroup.push(variable);
         }
-      } else {
-        acc.defaultGroup = acc.defaultGroup || [];
-        acc.defaultGroup.push(variable);
-      }
-      return acc;
-    }, {} as Record<string, VariableWithEditScope[]>);
+        return acc;
+      },
+      {} as Record<string, VariableWithEditScope[]>,
+    );
   }, [variables, variablesSetsData]);
 
   const areThereAnyVariablesToShowInGroup = (

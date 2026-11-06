@@ -19,10 +19,11 @@
     "test:all": "backstage-cli repo test --coverage",
     "test:e2e": "playwright test",
     "fix": "backstage-cli repo fix",
-    "lint": "backstage-cli repo lint --since origin/main",
-    "lint:all": "backstage-cli repo lint",
-    "prettier:check": "prettier --check .",
-    "new": "backstage-cli new --scope internal"
+    "lint": "oxlint",
+    "lint:all": "oxlint",
+    "new": "backstage-cli new --scope internal",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check"
   },
   "workspaces": {
     "packages": [
@@ -33,14 +34,16 @@
   "devDependencies": {
     "@backstage/cli": "0.36.7",
     "@backstage/e2e-test-utils": "0.1.2",
+    "@backstage/eslint-plugin": "0.3.3",
     "@playwright/test": "1.64.1",
-    "@spotify/prettier-config": "15.0.0",
     "@types/jest": "30.0.0",
+    "@typescript/typescript6": "6.0.2",
     "jest": "30.5.2",
     "jest-environment-jsdom": "30.5.2",
     "node-gyp": "13.1.0",
-    "prettier": "3.9.10",
-    "typescript": "5.4.5"
+    "oxfmt": "0.77.0",
+    "oxlint": "1.92.0",
+    "typescript": "7.0.2"
   },
   "resolutions": {
     "@types/react": "18.3.31",
@@ -49,14 +52,13 @@
     "undici@npm:7.29.0": "7.30.2",
     "adm-zip@npm:0.6.0": "0.6.1"
   },
-  "prettier": "@spotify/prettier-config",
   "lint-staged": {
     "*.{js,jsx,ts,tsx,mjs,cjs}": [
-      "eslint --fix",
-      "prettier --write"
+      "oxlint --fix",
+      "oxfmt"
     ],
-    "*.{json,md}": [
-      "prettier --write"
+    "*.{json,md,yml,yaml}": [
+      "oxfmt"
     ]
   },
   "packageManager": "yarn@4.18.1"
