@@ -53,6 +53,18 @@
       "matchDepTypes": ["engines", "engine"],
       "matchUpdateTypes": ["major", "pin"],
       "enabled": false
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchFileNames": ["packages/app/package.json"],
+      "matchPackageNames": ["@mui/**"],
+      "allowedVersions": "<6"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchFileNames": ["plugins/backstage-plugin-env0/package.json"],
+      "matchPackageNames": ["@mui/**"],
+      "allowedVersions": "<7"
     }
   ]
 }
