@@ -4460,7 +4460,7 @@ __metadata:
     "@testing-library/jest-dom": "npm:7.0.1"
     "@testing-library/react": "npm:16.3.3"
     "@testing-library/user-event": "npm:14.0.0"
-    "@types/git-url-parse": "npm:9.0.1"
+    "@types/git-url-parse": "npm:16.0.2"
     "@types/lodash": "npm:4.17.13"
     ansi-to-react: "npm:6.1.6"
     git-url-parse: "npm:16.0.0"
@@ -11141,10 +11141,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/git-url-parse@npm:9.0.1":
-  version: 9.0.1
-  resolution: "@types/git-url-parse@npm:9.0.1"
-  checksum: 10c0/435481c7777650e82382ae5b25e50812703c3d49c6b64d5f1b0d4d930a32e30c289efe91d644c9350253ccfae0885a6b4fb4f06f0df63842cfd77381d412962f
+"@types/git-url-parse@npm:16.0.2":
+  version: 16.0.2
+  resolution: "@types/git-url-parse@npm:16.0.2"
+  dependencies:
+    git-url-parse: "npm:*"
+  checksum: 10c0/72f97e08e637f5df1342f7bf7ca5cb504128003fea5bfb6f24be53934844701ced5cd75ced1dea0c90e9bd3dc51a790190914b4be7b327c76b5ed24820ab6542
   languageName: node
   linkType: hard
 
@@ -18241,13 +18243,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"git-up@npm:^8.0.0":
+"git-up@npm:^8.0.0, git-up@npm:^8.1.0":
   version: 8.1.1
   resolution: "git-up@npm:8.1.1"
   dependencies:
     is-ssh: "npm:^1.4.0"
     parse-url: "npm:^9.2.0"
   checksum: 10c0/2cc4461d8565a3f7a1ecd3d262a58ddb8df0a67f7f7d4915df2913c460b2e88ae570a6ea810700a6d22fb3b9e4bea8dd10a8eb469900ddc12e35c62208608c03
+  languageName: node
+  linkType: hard
+
+"git-url-parse@npm:*":
+  version: 16.1.0
+  resolution: "git-url-parse@npm:16.1.0"
+  dependencies:
+    git-up: "npm:^8.1.0"
+  checksum: 10c0/b8f5ebcbd5b2baf9f1bb77a217376f0247c47fe1d42811ccaac3015768eebb0759a59051f758e50e70adf5c67ae059d1975bf6b750164f36bfd39138d11b940b
   languageName: node
   linkType: hard
 
