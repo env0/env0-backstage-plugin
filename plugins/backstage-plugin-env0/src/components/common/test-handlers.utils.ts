@@ -1,23 +1,5 @@
-// eslint-disable-next-line @backstage/no-undeclared-imports
-import { rest, RestRequest } from 'msw';
 import { Env0Api } from '../../api';
 import { Organization, Template } from '../../api/types';
-
-type MockFunction = (req: RestRequest) => { status: string; data?: any };
-
-export const baseApiUrl = '/api/proxy/env0';
-
-export const mockRoute = (
-  path: string,
-  method: keyof typeof rest,
-  mockFunction: MockFunction,
-) => {
-  return rest[method](`${baseApiUrl}/${path}`, (req, res, ctx: any) => {
-    const result = mockFunction(req);
-
-    return res(ctx.status(result?.status), ctx.body(result?.data));
-  });
-};
 
 const mockOrganizationData: Organization[] = [
   {
