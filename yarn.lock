@@ -25396,12 +25396,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.3.2":
-  version: 2.3.2
-  resolution: "prettier@npm:2.3.2"
+"prettier@npm:3.9.10":
+  version: 3.9.10
+  resolution: "prettier@npm:3.9.10"
   bin:
-    prettier: bin-prettier.js
-  checksum: 10c0/40f159f05808966ff4c57e147651cf038adb7f5af3fbca8d999b87ccbaeff7d73cf9038a45f667a8c18cbb049c1a980a752fa8987dfd3dcdd66e932e366f40be
+    prettier: bin/prettier.cjs
+  checksum: 10c0/0b3531593aa6fb36ac6baf629cb058bda472c59a6938774f931fe55283a07c62e6f56e621b043a82d8a3e21fc284c08c34f9e539fc70072635f79b7bae1a1067
   languageName: node
   linkType: hard
 
@@ -27323,7 +27323,7 @@ __metadata:
     jest: "npm:^30.0.0"
     jest-environment-jsdom: "npm:^30.0.0"
     node-gyp: "npm:11.5.0"
-    prettier: "npm:2.3.2"
+    prettier: "npm:3.9.10"
     typescript: "npm:~5.4.0"
   languageName: unknown
   linkType: soft
