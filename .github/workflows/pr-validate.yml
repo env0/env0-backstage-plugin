@@ -6,6 +6,9 @@ on:
       - "edited"
       - "reopened"
       - "synchronize"
+permissions:
+  pull-requests: read
+
 jobs:
   check-title:
     name: "PR Title"
