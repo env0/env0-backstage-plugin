@@ -1,4 +1,4 @@
-import Alert from '@material-ui/lab/Alert';
+import Alert from '@mui/material/Alert';
 import Ansi from 'ansi-to-react';
 
 export const DeploymentErrorContainer = ({

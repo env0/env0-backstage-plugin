@@ -3,7 +3,7 @@ import {
   NotAllowedError,
   ServiceUnavailableError,
 } from '@backstage/errors';
-import Alert from '@material-ui/lab/Alert';
+import Alert from '@mui/material/Alert';
 
 export const ErrorContainer = ({ error }: { error: Error }) => {
   if (error.constructor === NotAllowedError) {

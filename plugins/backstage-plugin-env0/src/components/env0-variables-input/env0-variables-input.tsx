@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  Collapse,
-  FormControl,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import Collapse from '@mui/material/Collapse';
+import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { Env0Card } from '../common/env0-card';

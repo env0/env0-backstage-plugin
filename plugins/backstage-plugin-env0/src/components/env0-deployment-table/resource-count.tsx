@@ -1,6 +1,7 @@
 import { useMemo, FC } from 'react';
 import isNumber from 'lodash/isNumber';
-import { styled, Tooltip } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
+import Tooltip from '@mui/material/Tooltip';
 
 const ResourceCountText = styled('span')({
   cursor: 'default',
