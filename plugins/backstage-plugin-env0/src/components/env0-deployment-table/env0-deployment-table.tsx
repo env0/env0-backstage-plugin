@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback, FunctionComponent } from 'react';
 import { Table, TableColumn } from '@backstage/core-components';
 import { Deployment } from '../../api/types';
 import { useGetDeployments } from '../../hooks/use-deployments-history';
@@ -81,7 +81,7 @@ const deploymentHistoryColumns: TableColumn<Deployment>[] = [
   },
 ];
 
-export const Env0DeploymentTable: React.FunctionComponent<{
+export const Env0DeploymentTable: FunctionComponent<{
   environmentId: string;
 }> = ({ environmentId }) => {
   const {

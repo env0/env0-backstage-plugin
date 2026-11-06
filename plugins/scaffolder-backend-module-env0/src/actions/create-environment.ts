@@ -1,11 +1,12 @@
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import { apiClient } from './common/api-client';
 import {
   commentSchema,
   continuousDeploymentSchema,
   pullRequestPlanDeploymentsSchema,
-  requiresApprovalSchema, ttlSchema,
+  requiresApprovalSchema,
+  ttlSchema,
   variablesSchema,
 } from './common/schema';
 import { getEnv0EnvironmentUrl } from './common/get-urls';
@@ -26,7 +27,7 @@ const schema = z.object({
   requiresApproval: requiresApprovalSchema.optional(),
   continuousDeployment: continuousDeploymentSchema.optional(),
   pullRequestPlanDeployments: pullRequestPlanDeploymentsSchema.optional(),
-  ttl: ttlSchema.optional()
+  ttl: ttlSchema.optional(),
 });
 
 export function createEnv0CreateEnvironmentAction() {

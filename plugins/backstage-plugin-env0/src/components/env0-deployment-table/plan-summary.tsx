@@ -1,4 +1,4 @@
-import React from 'react';
+import { FunctionComponent } from 'react';
 import { styled } from '@material-ui/core';
 import EditOutlined from '@material-ui/icons/EditOutlined';
 import AddOutlined from '@material-ui/icons/AddOutlined';
@@ -20,7 +20,7 @@ const SummaryItemContainer = styled('span')(({ color }: { color: string }) => ({
   },
 }));
 
-export const PlanSummary: React.FunctionComponent<PlanSummaryProps> = ({
+export const PlanSummary: FunctionComponent<PlanSummaryProps> = ({
   summary: { added, changed, destroyed },
 }) => {
   return (

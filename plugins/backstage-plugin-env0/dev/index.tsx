@@ -1,4 +1,3 @@
-import React from 'react';
 import { createDevApp } from '@backstage/dev-utils';
 import { env0Plugin, Env0TabComponent } from '../src';
 

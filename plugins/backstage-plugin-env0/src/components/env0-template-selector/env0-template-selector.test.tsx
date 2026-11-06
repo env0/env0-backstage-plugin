@@ -1,4 +1,3 @@
-import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderInTestApp, TestApiProvider } from '@backstage/test-utils';
@@ -169,7 +168,9 @@ describe('Env0TemplateSelector', () => {
       expect(getProjectsByOrganizationIdMock).toHaveBeenCalledWith('org-2');
       expect(getTemplatesByProjectIdMock).toHaveBeenCalledWith('proj-1');
       expect(getTemplatesByProjectIdMock).toHaveBeenCalledWith('proj-2');
-      expect(getTemplatesByProjectIdMock).not.toHaveBeenCalledWith('archived-proj');
+      expect(getTemplatesByProjectIdMock).not.toHaveBeenCalledWith(
+        'archived-proj',
+      );
     });
   });
 

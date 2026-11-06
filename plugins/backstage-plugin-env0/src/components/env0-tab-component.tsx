@@ -1,4 +1,3 @@
-import React from 'react';
 import { Content, Page } from '@backstage/core-components';
 import { Env0DeploymentTable } from './env0-deployment-table';
 import { useEntity } from '@backstage/plugin-catalog-react';

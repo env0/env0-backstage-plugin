@@ -1,6 +1,6 @@
-import React from 'react';
+import { ReactElement } from 'react';
 import { makeFieldSchema } from '@backstage/plugin-scaffolder-react';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import { Env0VariablesInput } from './env0-variables-input';
 
 const variableSchema = (zImpl: typeof z) =>
@@ -31,7 +31,7 @@ type Env0TemplateSelectorFieldProps =
 export const Env0VariablesScaffolderInput = ({
   formContext,
   onChange: onVariablesFormChange,
-}: Env0TemplateSelectorFieldProps): React.ReactElement => {
+}: Env0TemplateSelectorFieldProps): ReactElement => {
   const {
     formData: { env0_project_id: projectId, env0_template_id: templateId },
   } = formContext as PassedFormContextFields;

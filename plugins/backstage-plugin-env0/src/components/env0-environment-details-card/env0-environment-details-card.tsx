@@ -1,4 +1,3 @@
-import React from 'react';
 import { useApi } from '@backstage/core-plugin-api';
 import useAsync from 'react-use/lib/useAsyncRetry';
 import { ErrorContainer } from '../common/error-container';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { GitProviders } from '../../api/types';
 import {
   GitIcon,

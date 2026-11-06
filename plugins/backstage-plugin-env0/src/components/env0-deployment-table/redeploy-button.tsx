@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, FC, SyntheticEvent } from 'react';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';
 import { useApi } from '@backstage/core-plugin-api';
@@ -32,7 +32,7 @@ const StyledBox = styled(Box)({
   width: '80%',
 });
 
-export const RedeployButton: React.FC<{
+export const RedeployButton: FC<{
   disabled?: boolean;
   afterDeploy?: () => void;
 }> = ({ disabled = false, afterDeploy }) => {
@@ -76,7 +76,7 @@ export const RedeployButton: React.FC<{
   };
 
   const handleSnackbarClose = (
-    _event: React.SyntheticEvent | Event,
+    _event: SyntheticEvent | Event,
     reason?: SnackbarCloseReason,
   ) => {
     if (reason === 'clickaway') {
