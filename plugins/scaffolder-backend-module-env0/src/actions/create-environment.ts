@@ -30,11 +30,11 @@ const schema = z.object({
 });
 
 export function createEnv0CreateEnvironmentAction() {
-  return createTemplateAction<CreateEnvironmentArgs>({
+  return createTemplateAction({
     id: 'env0:environment:create',
     description: 'Creates a new env0 environment',
     schema: {
-      input: schema,
+      input: () => schema,
     },
     async handler(ctx) {
       ctx.logger.info(`Creating env0 environment`);
