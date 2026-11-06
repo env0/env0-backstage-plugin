@@ -31,8 +31,8 @@
     ]
   },
   "devDependencies": {
-    "@backstage/cli": "^0.36.7",
-    "@backstage/e2e-test-utils": "^0.1.2",
+    "@backstage/cli": "0.36.7",
+    "@backstage/e2e-test-utils": "0.1.2",
     "@playwright/test": "1.32.3",
     "@spotify/prettier-config": "12.0.0",
     "@types/jest": "^30.0.0",
