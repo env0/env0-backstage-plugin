@@ -1,4 +1,3 @@
-import React from 'react';
 import { FormControl, FormHelperText, TextField } from '@material-ui/core';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, Template } from '../../api/types';
@@ -35,7 +34,9 @@ export const Env0TemplateSelector = ({
           api.getProjectsByOrganizationId(organization.id),
         ),
       )
-    ).flatMap(project => project).filter(project => !project.isArchived);
+    )
+      .flatMap(project => project)
+      .filter(project => !project.isArchived);
     const templates = (
       await Promise.all(
         projects.map(project => api.getTemplatesByProjectId(project.id)),

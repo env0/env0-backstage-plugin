@@ -1,7 +1,12 @@
 import { createTemplateAction } from '@backstage/plugin-scaffolder-node';
-import { z } from 'zod';
+import { z } from 'zod/v3';
 import { apiClient } from './common/api-client';
-import {commentSchema, requiresApprovalSchema, ttlSchema, variablesSchema} from './common/schema';
+import {
+  commentSchema,
+  requiresApprovalSchema,
+  ttlSchema,
+  variablesSchema,
+} from './common/schema';
 import { getEnv0DeploymentUrl } from './common/get-urls';
 import { extractApiError } from './common/extract-api-error';
 
@@ -12,7 +17,7 @@ const schema = z.object({
   comment: commentSchema.optional(),
   variables: variablesSchema.optional(),
   requiresApproval: requiresApprovalSchema.optional(),
-  ttl: ttlSchema.optional()
+  ttl: ttlSchema.optional(),
 });
 
 export function createEnv0RedeployEnvironmentAction() {
@@ -36,7 +41,7 @@ export function createEnv0RedeployEnvironmentAction() {
               ttl: ctx.input.ttl,
               comment: ctx.input.comment,
               configurationChanges: ctx.input.variables,
-              userRequiresApproval: ctx.input.requiresApproval
+              userRequiresApproval: ctx.input.requiresApproval,
             },
           },
         );

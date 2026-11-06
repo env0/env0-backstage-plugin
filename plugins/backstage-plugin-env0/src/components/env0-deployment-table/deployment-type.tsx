@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import { CSSProperties, FunctionComponent } from 'react';
 import { Deployment } from '../../api/types';
 import { Avatar, styled, SvgIcon } from '@material-ui/core';
 import { DeployIcon, DestroyIcon, DiffIcon } from '../icons';
@@ -56,7 +56,7 @@ const deploymentTypeTextMap: Record<Deployment['type'], string> = {
   task: 'Task',
 };
 
-export const DeploymentType: React.FunctionComponent<{
+export const DeploymentType: FunctionComponent<{
   type: Deployment['type'];
 }> = ({ type }) => {
   const { icon, style = defaultIconStyle } = iconPropsMap[type] ?? {};

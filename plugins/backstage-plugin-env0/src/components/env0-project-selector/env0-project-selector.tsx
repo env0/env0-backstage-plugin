@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { FormControl, FormHelperText, TextField } from '@material-ui/core';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, Project } from '../../api/types';
@@ -108,7 +108,9 @@ export const Env0ProjectSelector = ({
             onProjectIdChange(newValue?.id);
           }}
           renderOption={(props, option) => (
-              <li {...props} key={option.id}>{option.name}</li>
+            <li {...props} key={option.id}>
+              {option.name}
+            </li>
           )}
           renderInput={params => (
             <TextField

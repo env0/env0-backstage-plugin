@@ -1,5 +1,4 @@
 import { SvgIcon, SvgIconProps } from '@material-ui/core';
-import React from 'react';
 
 export const BitbucketIcon = (props: SvgIconProps) => (
   <SvgIcon

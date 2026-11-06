@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo, FC } from 'react';
 import isNumber from 'lodash/isNumber';
 import { styled, Tooltip } from '@material-ui/core';
 
@@ -6,7 +6,7 @@ const ResourceCountText = styled('span')({
   cursor: 'default',
 });
 
-export const ResourceCount: React.FC<{ resourceCount?: number }> = ({
+export const ResourceCount: FC<{ resourceCount?: number }> = ({
   resourceCount,
 }) => {
   const [text, tooltipText] = useMemo(() => {

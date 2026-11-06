@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import Warning from '@material-ui/icons/Warning';
 import InfoRounded from '@material-ui/icons/InfoRounded';
-import React, { ReactElement } from 'react';
+import { ReactElement, ChangeEvent } from 'react';
 import type { Variable, VariableFields } from '../../api/types';
 
 const VariableContainer = styled('div')(() => ({
@@ -99,7 +99,7 @@ const variableInputByInputType: Record<
           isRequiredValueMissing,
           variable,
         )}
-        onChange={(changeEvent: React.ChangeEvent<{ value: string }>) =>
+        onChange={(changeEvent: ChangeEvent<{ value: string }>) =>
           onVariableUpdated(
             variable,
             changeEvent.target.value,
@@ -112,7 +112,7 @@ const variableInputByInputType: Record<
   dropdown: ({ variable, onVariableUpdated }) => (
     <FullWidthSelect
       value={variable.value}
-      onChange={(changeEvent: React.ChangeEvent<{ value: string }>) =>
+      onChange={(changeEvent: ChangeEvent<{ value: string }>) =>
         onVariableUpdated(variable, changeEvent.target.value)
       }
     >

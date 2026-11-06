@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import Button from '@material-ui/core/Button';
 import Cached from '@material-ui/icons/Cached';
 import Card from '@mui/material/Card';
@@ -10,8 +10,8 @@ type CardProps = {
   title: string;
   subheader?: string;
   retryAction?: () => void;
-  children: React.ReactNode;
-  actions?: React.ReactNode;
+  children: ReactNode;
+  actions?: ReactNode;
 };
 
 const Env0Title = styled('div')({

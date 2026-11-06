@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { Chip, ChipProps, styled } from '@material-ui/core';
 import { statusToTextAndColor } from './status-map';
 
@@ -21,7 +21,7 @@ const StyledChip = styled(Chip)(
   }),
 );
 
-const Status: React.FC<StatusProps> = ({ status, ...props }) => {
+const Status: FC<StatusProps> = ({ status, ...props }) => {
   return (
     <StyledChip
       status={status}
