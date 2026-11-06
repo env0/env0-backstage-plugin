@@ -13032,7 +13032,6 @@ __metadata:
     "@backstage/test-utils": "npm:1.7.23"
     "@backstage/theme": "npm:0.7.3"
     "@env0/backstage-plugin-env0": "npm:^0.1.0"
-    "@material-ui/core": "npm:4.12.4"
     "@mui/icons-material": "npm:5.18.0"
     "@mui/material": "npm:5.18.0"
     "@playwright/test": "npm:1.65.0"

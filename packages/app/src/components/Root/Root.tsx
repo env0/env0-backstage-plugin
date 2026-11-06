@@ -1,5 +1,4 @@
 import { PropsWithChildren } from 'react';
-import { makeStyles } from '@material-ui/core';
 import HomeIcon from '@mui/icons-material/Home';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import LibraryBooks from '@mui/icons-material/LibraryBooks';
@@ -28,28 +27,31 @@ import SearchIcon from '@mui/icons-material/Search';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
 import GroupIcon from '@mui/icons-material/People';
 
-const useSidebarLogoStyles = makeStyles({
-  root: {
-    width: sidebarConfig.drawerWidthClosed,
-    height: 3 * sidebarConfig.logoHeight,
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    alignItems: 'center',
-    marginBottom: -14,
-  },
-  link: {
-    width: sidebarConfig.drawerWidthClosed,
-    marginLeft: 24,
-  },
-});
+const sidebarLogoStyle = {
+  width: sidebarConfig.drawerWidthClosed,
+  height: 3 * sidebarConfig.logoHeight,
+  display: 'flex',
+  flexFlow: 'row nowrap',
+  alignItems: 'center',
+  marginBottom: -14,
+} as const;
+
+const sidebarLogoLinkStyle = {
+  width: sidebarConfig.drawerWidthClosed,
+  marginLeft: 24,
+};
 
 const SidebarLogo = () => {
-  const classes = useSidebarLogoStyles();
   const { isOpen } = useSidebarOpenState();
 
   return (
-    <div className={classes.root}>
-      <Link to="/" underline="none" className={classes.link} aria-label="Home">
+    <div style={sidebarLogoStyle}>
+      <Link
+        to="/"
+        underline="none"
+        style={sidebarLogoLinkStyle}
+        aria-label="Home"
+      >
         {isOpen ? <LogoFull /> : <LogoIcon />}
       </Link>
     </div>
