@@ -16,11 +16,11 @@ const schema = z.object({
 });
 
 export function createEnv0RedeployEnvironmentAction() {
-  return createTemplateAction<RedeployEnvironmentArgs>({
+  return createTemplateAction({
     id: 'env0:environment:redeploy',
     description: 'Redeploys an existing env0 environment',
     schema: {
-      input: schema,
+      input: () => schema,
     },
     async handler(ctx) {
       ctx.logger.info(`Redeploying env0 environment`);
