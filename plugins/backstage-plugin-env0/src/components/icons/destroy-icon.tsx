@@ -1,4 +1,4 @@
-import { SvgIcon } from '@material-ui/core';
+import SvgIcon from '@mui/material/SvgIcon';
 
 export const DestroyIcon = () => (
   <SvgIcon style={{ transform: 'translate(-1px, -1px) scale(1.6)' }}>

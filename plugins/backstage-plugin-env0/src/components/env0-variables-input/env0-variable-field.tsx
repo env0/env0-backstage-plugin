@@ -1,10 +1,9 @@
-import {
-  Select,
-  styled,
-  TextField,
-  Tooltip,
-  Typography,
-} from '@material-ui/core';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { styled } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import Warning from '@mui/icons-material/Warning';
 import InfoRounded from '@mui/icons-material/InfoRounded';
 import { ReactElement, ChangeEvent } from 'react';
@@ -89,6 +88,7 @@ const variableInputByInputType: Record<
 
     return (
       <TextField
+        variant="standard"
         fullWidth
         value={displayValue}
         placeholder={isVariableValueSecretMask ? '********' : ''}
@@ -111,15 +111,16 @@ const variableInputByInputType: Record<
   },
   dropdown: ({ variable, onVariableUpdated }) => (
     <FullWidthSelect
+      variant="standard"
       value={variable.value}
-      onChange={(changeEvent: ChangeEvent<{ value: unknown }>) =>
+      onChange={(changeEvent: SelectChangeEvent<unknown>) =>
         onVariableUpdated(variable, String(changeEvent.target.value))
       }
     >
       {variable.schema?.enum?.map((option, optionIndex) => (
-        <option key={optionIndex} value={option}>
+        <MenuItem key={optionIndex} value={option}>
           {option}
-        </option>
+        </MenuItem>
       ))}
     </FullWidthSelect>
   ),

@@ -1,6 +1,8 @@
 import { CSSProperties, ElementType, FunctionComponent } from 'react';
 import { Deployment } from '../../api/types';
-import { Avatar, styled, SvgIcon } from '@material-ui/core';
+import Avatar from '@mui/material/Avatar';
+import { styled } from '@mui/material/styles';
+import SvgIcon from '@mui/material/SvgIcon';
 import { DeployIcon, DestroyIcon, DiffIcon } from '../icons';
 import CodeOutlined from '@mui/icons-material/CodeOutlined';
 import FindInPage from '@mui/icons-material/FindInPage';

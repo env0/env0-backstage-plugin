@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import { styled } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
 import EditOutlined from '@mui/icons-material/EditOutlined';
 import AddOutlined from '@mui/icons-material/AddOutlined';
 import RemoveOutlined from '@mui/icons-material/RemoveOutlined';

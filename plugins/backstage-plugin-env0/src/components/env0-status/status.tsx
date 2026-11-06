@@ -1,5 +1,6 @@
 import { FC } from 'react';
-import { Chip, ChipProps, styled } from '@material-ui/core';
+import Chip, { ChipProps } from '@mui/material/Chip';
+import { styled } from '@mui/material/styles';
 import { statusToTextAndColor } from './status-map';
 
 interface StatusProps extends ChipProps {

@@ -8,7 +8,7 @@ import {
 } from '@backstage/core-components';
 import isEmpty from 'lodash/isEmpty';
 import { getGitProvider, getShortenRepo } from './get-shorten-repo';
-import { styled } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
 import { Env0Api, env0ApiRef } from '../../api';
 import { useEntity } from '@backstage/plugin-catalog-react';
 import { ENV0_ENVIRONMENT_ANNOTATION } from '../common/is-plugin-available';

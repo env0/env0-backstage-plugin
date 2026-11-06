@@ -64,7 +64,7 @@
       "matchManagers": ["npm"],
       "matchFileNames": ["plugins/backstage-plugin-env0/package.json"],
       "matchPackageNames": ["@mui/**"],
-      "allowedVersions": "<7"
+      "allowedVersions": "<6"
     }
   ]
 }
