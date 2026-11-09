@@ -35,7 +35,7 @@
     "@backstage/cli": "0.36.7",
     "@backstage/e2e-test-utils": "0.1.2",
     "@backstage/eslint-plugin": "0.3.3",
-    "@playwright/test": "1.64.1",
+    "@playwright/test": "1.65.0",
     "@types/jest": "30.0.0",
     "@typescript/typescript6": "6.0.2",
     "jest": "30.5.2",
