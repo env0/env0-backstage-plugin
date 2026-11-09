@@ -65,6 +65,11 @@
       "matchFileNames": ["plugins/backstage-plugin-env0/package.json"],
       "matchPackageNames": ["@mui/**"],
       "allowedVersions": "<6"
+    },
+    {
+      "matchManagers": ["npm"],
+      "matchPackageNames": ["linkify-it"],
+      "allowedVersions": "<6"
     }
   ]
 }
