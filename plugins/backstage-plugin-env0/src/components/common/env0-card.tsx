@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import Cached from '@mui/icons-material/Cached';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import { Env0Icon } from '../icons';
-import { styled } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
 
 type CardProps = {
   title: string;
@@ -28,7 +28,7 @@ export const Env0Card = ({
   children,
 }: CardProps) => {
   const retryButton = !!retryAction && (
-    <Button data-testid="retry-button" onClick={retryAction}>
+    <Button data-testid="retry-button" color="inherit" onClick={retryAction}>
       <Cached />
     </Button>
   );

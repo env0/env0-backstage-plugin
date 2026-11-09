@@ -1,4 +1,6 @@
-import { FormControl, FormHelperText, TextField } from '@material-ui/core';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import TextField from '@mui/material/TextField';
 import { useApi } from '@backstage/core-plugin-api';
 import { Env0Api, Template } from '../../api/types';
 import { env0ApiRef } from '../../api';
@@ -77,6 +79,7 @@ export const Env0TemplateSelector = ({
           )}
           renderInput={params => (
             <TextField
+              variant="standard"
               {...params}
               required={required}
               label={schema.title}
@@ -84,7 +87,7 @@ export const Env0TemplateSelector = ({
             />
           )}
         />
-        <FormHelperText>
+        <FormHelperText variant="standard">
           Select from the list of available env0 templates
         </FormHelperText>
       </FormControl>

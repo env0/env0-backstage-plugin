@@ -73,7 +73,7 @@ describe('Env0VariableField', () => {
       value: 'option1',
     });
 
-    const select = screen.getByRole('button');
+    const select = screen.getByRole('combobox');
     await userEvent.click(select);
     expect(select).toBeInTheDocument();
     expect(screen.getAllByRole('option')).toHaveLength(3);

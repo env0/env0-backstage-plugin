@@ -12,7 +12,8 @@ import { RedeployButton } from './redeploy-button';
 import { ResourceCount } from './resource-count';
 import { useGetEnvironmentById } from '../../hooks/use-get-environment';
 import { DeploymentErrorContainer } from './deployment-error-container';
-import { styled, Typography } from '@material-ui/core';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 
 const getFormattedDeploymentDuration = (deployment: Deployment) => {

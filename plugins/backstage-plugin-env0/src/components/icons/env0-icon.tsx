@@ -1,4 +1,4 @@
-import { SvgIcon, SvgIconProps } from '@material-ui/core';
+import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 
 export const Env0Icon = (props: SvgIconProps) => (
   <SvgIcon
