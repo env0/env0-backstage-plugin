@@ -46,7 +46,7 @@
     "zod": "^4.6.6"
   },
   "peerDependencies": {
-    "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@backstage/catalog-model": "^1.10.2",
@@ -58,7 +58,7 @@
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.8",
     "@types/lodash": "4.17.27",
-    "react": "^16.13.1 || ^17.0.0 || ^18.0.0"
+    "react": "^16.13.1 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "files": [
     "dist"
