@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@backstage/backend-plugin-api": "^1.11.0",
-    "@backstage/plugin-scaffolder-node": "^0.13.8",
+    "@backstage/plugin-scaffolder-node": "^1.0.0",
     "axios": "1.21.0",
     "zod": "^4.6.6"
   },
