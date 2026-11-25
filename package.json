@@ -32,9 +32,9 @@
     ]
   },
   "devDependencies": {
-    "@backstage/cli": "0.36.7",
+    "@backstage/cli": "0.36.8",
     "@backstage/e2e-test-utils": "0.1.2",
-    "@backstage/eslint-plugin": "0.3.3",
+    "@backstage/eslint-plugin": "0.3.4",
     "@playwright/test": "1.64.1",
     "@types/jest": "30.0.0",
     "@typescript/typescript6": "6.0.2",
